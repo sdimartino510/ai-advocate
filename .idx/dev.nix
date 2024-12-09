@@ -39,10 +39,8 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        # Setup fnm
-        fnm-setup = "just idx-fnm";
         # Initialize workspace
-        Initialize = "just initialize";
+        initialize = "just idx-fnm && just initialize";
       };
       # Runs when the workspace is (re)started
       onStart = {

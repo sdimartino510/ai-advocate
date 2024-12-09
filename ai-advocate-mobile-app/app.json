@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ai-advocate-mobile-app",
-    "slug": "ai-advocate-mobile-app",
+    "name": "AI Advocate",
+    "slug": "ai-advocate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

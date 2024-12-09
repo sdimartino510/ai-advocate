@@ -28,8 +28,8 @@
 ## Technology Stack
 
 - **Mobile App Framework**: React Native
-- **Backend**: Azore Cosmos DB
-- **AI Services**: OpenAI API (for bill summaries), specifically GPT 4o Mini
+- **Backend**: Azure Cosmos DB
+- **AI Services**: Azure OpenAI API (for bill summaries), specifically GPT 4o Mini
 - **Other APIS**: LegiScan (to retrieve bills)
 ---
 
@@ -39,8 +39,8 @@
 
 Before running the app, make sure you have the following installed on your machine:
 
-1. **NixOS**
-2. **Node.js**
+1. **Fnm**
+2. **Just**
 3. **Android Studio / Xcode**
 
 ### Running the App

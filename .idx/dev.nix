@@ -40,7 +40,7 @@
       # Runs when a workspace is first created
       onCreate = {
         # Initialize workspace
-        initialize = "just idx-fnm && just initialize";
+        initialize = "just initialize-idx";
       };
       # Runs when the workspace is (re)started
       onStart = {

@@ -18,3 +18,5 @@ install-nodejs:
 
 # Command to initialize the environment
 initialize: install-nodejs
+
+initialize-idx: idx-fnm initialize

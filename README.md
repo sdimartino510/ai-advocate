@@ -1,6 +1,7 @@
 # Love Never Fails - AI Advocate
 
 ## Table of Contents
+
 1. [Project Overview](#project-overview)
 2. [Team Directory](#team-directory)
 3. [Technology Stack](#technology-stack)
@@ -31,6 +32,7 @@
 - **Backend**: Azure Cosmos DB
 - **AI Services**: Azure OpenAI API (for bill summaries), specifically GPT 4o Mini
 - **Other APIS**: LegiScan (to retrieve bills)
+
 ---
 
 ## How to Run the Application
@@ -51,5 +53,7 @@ Before running the app, make sure you have the following installed on your machi
     git clone https://github.com/developforgood/love-never-fails.git
     cd love-never-fails
     ```
+
 2. To-do -> I'll update this as we make more progress :)
+
 ---

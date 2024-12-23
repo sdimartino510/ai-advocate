@@ -41,9 +41,11 @@
 
 Before running the app, make sure you have the following installed on your machine:
 
-1. **Fnm**
-2. **Just**
-3. **Android Studio / Xcode**
+1. **Node.js**
+2. **Fnm**
+3. **Just**
+4. **Expo**
+5. **Android Studio / Xcode**
 
 ### Running the App
 
@@ -54,6 +56,17 @@ Before running the app, make sure you have the following installed on your machi
     cd love-never-fails
     ```
 
-2. To-do -> I'll update this as we make more progress :)
+2. Navigate to the ai-advocate-mobile-app directory
+
+    ```bash
+    cd ai-advocate-mobile-app
+    ```
+
+   
+3. Run the following command in the Terminal:
+
+    ```bash
+    npx expo start
+    ```
 
 ---

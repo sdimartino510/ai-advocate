@@ -43,25 +43,23 @@ Before running the app, make sure you have the following installed on your machi
 
 1. **Node.js**
 2. **Fnm**  
-
-For Windows:
-```bash
-choco install fnm
-```
-For MacOS:
-```bash
-brew install fnm
-```
-3. **Just**
-
-For Windows:  
-```bash
-choco install just
-```
-For MacOS:  
-```bash
-brew install just
-```
+    For Windows:
+    ```bash
+    choco install fnm
+    ```
+    For MacOS:
+    ```bash
+    brew install fnm
+    ```
+3. **Just**  
+    For Windows:  
+    ```bash
+    choco install just
+    ```
+    For MacOS:  
+    ```bash
+    brew install just
+    ```
 4. **Expo**
 5. **Android Studio / Xcode**
 

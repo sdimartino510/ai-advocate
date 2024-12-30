@@ -18,6 +18,9 @@ const globalStyles = {
         purple: "#E3D9FE",
         red: "#FF0000",
         yellow: "FFAF37",
+        // Other
+        navActive: "#007AFF",
+        navTextInactive: "#7D7676",
     },
     fonts: {
         heading: {

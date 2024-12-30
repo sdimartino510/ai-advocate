@@ -45,11 +45,3 @@ export function Button2({content} : FontProp) {
         </Text>
     )
 }
-
-export function Navigation({content} : FontProp) {
-    return (
-        <Text style={globalStyles.fonts.navigation}>
-            {content}
-        </Text>
-    )
-}

@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import { Image } from 'expo-image';
 import Feather from '@expo/vector-icons/Feather';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function TabLayout() {
   return (
@@ -50,7 +51,7 @@ export default function TabLayout() {
         options={{
           title: 'Settings',
           tabBarIcon: ({ focused }) => (
-            <Feather name="settings" size={24} color={focused ? "blue" : "black"} />
+            <Ionicons name="settings-outline" size={24} color={focused ? "blue" : "black"} />
           ),
         }}
       />

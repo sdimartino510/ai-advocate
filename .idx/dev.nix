@@ -2,12 +2,11 @@
 # see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
-  channel = "stable-24.05"; # or "unstable"
+  channel = "stable-24.11"; # or "unstable"
 
   # Use https://search.nixos.org/packages to find packages
   packages = [
-    pkgs.fnm
-    pkgs.just
+    pkgs.mise
   ];
 
   # Sets environment variables in the workspace
@@ -40,7 +39,7 @@
       # Runs when a workspace is first created
       onCreate = {
         # Initialize workspace
-        initialize = "just initialize-idx";
+        initialize = "mise trust && mise install";
       };
       # Runs when the workspace is (re)started
       onStart = {

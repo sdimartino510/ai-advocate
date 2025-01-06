@@ -1,0 +1,10 @@
+[project]
+name = "ai-advocate-backend"
+version = "0.1.0"
+description = "Backend for AI Advocate mobile app"
+readme = "README.md"
+requires-python = ">=3.11.11"
+dependencies = [
+    "azure-functions>=1.21.3",
+    "fastapi>=0.115.6",
+]

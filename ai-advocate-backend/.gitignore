@@ -3,6 +3,8 @@
 # dependencies
 node_modules/
 
+bun.lockb
+
 # Native
 *.orig.*
 *.jks

@@ -39,50 +39,92 @@
 
 ### Prerequisites
 
-Before running the app, make sure you have the following installed on your machine:
+Before running the app, make sure you to follow these steps on your machine:
 
-1. **Node.js**
-2. **Fnm**  
-    For Windows:
-    ```bash
-    choco install fnm
-    ```
-    For MacOS:
-    ```bash
-    brew install fnm
-    ```
-3. **Just**  
-    For Windows:  
-    ```bash
-    choco install just
-    ```
-    For MacOS:  
-    ```bash
-    brew install just
-    ```
-4. **Expo**
-5. **Android Studio / Xcode**
 
-### Running the App
-
-1. Clone the repository:
+1. **Clone the repository**:
 
     ```bash
     git clone https://github.com/developforgood/love-never-fails.git
     cd love-never-fails
     ```
 
-2. Navigate to the ai-advocate-mobile-app directory
+2. **Install Mise**
+   
+    For Windows:
+    ```bash
+    winget install jdx.mise
+    ```
+    
+    For MacOS/Linux:
+    ```bash
+    curl https://mise.run | sh
+    ```
+    
+3. **Activate Mise**
+   
+    For Windows Powershell:  
+    ```bash
+    $shimPath = "$env:USERPROFILE\AppData\Local\mise\shims"
+    $currentPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+    $newPath = $currentPath + ";" + $shimPath
+    [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+    ```
+    
+    For MacOS Terminal:  
+    ```bash
+    echo 'eval "$(~/.local/bin/mise activate zsh)"' >> ~/.zshrc
+    ```
+    
+    For Linux Bash/Windows Git Bash:
+    ```bash
+    echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+    ```
+    
+4. **Initialize Project**
+   
+   ```bash
+   mise run init
+   ```
+   
+5. **Expo Go (on your mobile phone)**
+   
+   For Android:
+   ```bash
+   https://play.google.com/store/apps/details?id=host.exp.exponent&referrer=www
+   ```
+   
+   For iOS:
+   ```bash
+   https://itunes.apple.com/app/apple-store/id982107779
+   ```
+   
+6. **Android Studio/Xcode**
+
+   Android Studio:
+   ```bash
+   https://developer.android.com/studio
+   ```
+
+   Xcode:
+   ```bash
+   https://apps.apple.com/us/app/xcode/id497799835
+   ```
+
+### Running the App
+
+
+1. Run the following command in the Terminal to run the backend:
 
     ```bash
-    cd ai-advocate-mobile-app
+    mise run backend
     ```
 
    
-3. Run the following command in the Terminal:
+3. Run the following command in the Terminal to run the mobile app:
 
     ```bash
-    npx expo start
+    mise run mobile_app
     ```
 
 ---

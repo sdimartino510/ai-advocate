@@ -1,0 +1,10 @@
+[tools]
+node = "22"
+bun = "latest"
+python = "3.11"
+uv = "latest"
+
+[tasks.mobile_app]
+description = "Run the mobile app"
+dir = "{{cwd}}/ai-advocate-mobile-app"
+run = "npx expo start"

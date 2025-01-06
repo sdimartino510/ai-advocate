@@ -21,20 +21,42 @@ type BillProps = {
 // TODO: Status definition pop ups.
 function StatusBadge({status}: {status: Status}) {
     let color = globalStyles.colors.lightGreen
+    let statusDefinition = ''
+    
     if (status === 'Passed') {
         color = globalStyles.colors.lightGreen
+        statusDefinition = 'In legal terms, “passed” is a bill approved by a majority in one chamber, moving to the next for consideration.'
     } else if (status === 'Engrossed') {
         color = globalStyles.colors.purple
+        statusDefinition = 'In legal terms, "engrossed" refers to the preparation of a final, official copy of a legal document.'
     } else if (status === 'Introduced') {
         color = globalStyles.colors.pink
+        statusDefinition = 'In legal terms, the "introduction" of a bill is the formal process of presenting a proposed law to a legislative body for consideration.'
     } else if (status === 'Enrolled') {
         color = globalStyles.colors.orange
+        statusDefinition = 'undefined' // TODO: Define "enrolled" status.
+    }
+    
+    const [showStatusDefinition, setShowStatusDefinition] = useState(false)
+    const onStatusPress = () => {
+        setShowStatusDefinition(!showStatusDefinition)
     }
 
     return (
-        <Text style={[styles.status, {backgroundColor: color}]}>
-            {status}
-        </Text>
+        <View>
+            <Text
+                style={[styles.status, {backgroundColor: color}]}
+                onPress={onStatusPress}    
+            >
+                {status}
+            </Text>
+
+            {showStatusDefinition &&
+                <View style={styles.statusDefinitionWrapper}>
+                    <Text style={styles.statusDefinition}>{statusDefinition}</Text>
+                </View>
+            }
+        </View>
     )
 }
 

@@ -45,6 +45,24 @@ const styles = StyleSheet.create({
         lineHeight: 15,
         color: globalStyles.colors.black,
     },
+    statusDefinitionWrapper: {
+        position: 'absolute',
+        zIndex: 1,
+        top: 32,
+        padding: 4,
+        width: '175%',      // TODO: Fix the size to half the screen width, not dependent on status text width.
+
+        borderWidth: 1,
+        borderRadius: 7,
+        borderColor: globalStyles.colors.lightGrey,
+        backgroundColor: globalStyles.colors.white,
+    },
+    statusDefinition: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 8,
+        lineHeight: 12,
+        color: globalStyles.colors.black,
+    },
     description: {
         paddingBottom: 12,
 

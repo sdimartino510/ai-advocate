@@ -11,16 +11,20 @@ const globalStyles = {
         // Supporting
         black: "#000000",
         green: "#C5F5C7",
-        grey: "#ECEEF0",
+        grey: "#7D7676",
+        lightGreen: "#DAFED9",
         lightRed: "#FED9D9",
         orange: "#FEEAD3",
-        pink: "#DAFED9",
+        pink: "#FADEFF",
         purple: "#E3D9FE",
         red: "#FF0000",
         yellow: "FFAF37",
         // Other
         navActive: "#007AFF",
         navTextInactive: "#7D7676",
+        blue3: "#007AFF",
+        lightGrey: "#00000033",
+        white: "#FFFFFF",
     },
     fonts: {
         heading: {

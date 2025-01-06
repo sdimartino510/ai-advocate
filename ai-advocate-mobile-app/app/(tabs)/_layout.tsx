@@ -1,29 +1,35 @@
+import React from 'react';
 import { Tabs } from 'expo-router';
 import { Image } from 'expo-image';
 import Feather from '@expo/vector-icons/Feather';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import globalStyles from '../../assets/styles/global_styles';
 
 export default function TabLayout() {
   return (
     <Tabs
+      /** Text below navigation icons. */
       screenOptions={{
-        tabBarActiveTintColor: 'blue',
+        tabBarActiveTintColor: globalStyles.colors.navActive,
+        tabBarInactiveTintColor: globalStyles.colors.navTextInactive,
+        tabBarLabelStyle: globalStyles.fonts.navigation,
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: 'HOME',
           tabBarIcon: ({ focused }) => (
-            <Feather name="home" size={24} color={focused ? "blue" : "black"} />
+            <Feather name="home" size={24} color={focused ? globalStyles.colors.navActive : globalStyles.colors.black} />
           ),
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
-          title: 'Search',
+          title: 'SEARCH',
           tabBarIcon: ({ focused }) => (
-            <Feather name="search" size={24} color={focused ? "blue" : "black"} />
+            <Feather name="search" size={24} color={focused ? globalStyles.colors.navActive : globalStyles.colors.black} />
           ),
         }}
       />
@@ -32,25 +38,28 @@ export default function TabLayout() {
         options={{
           title: 'LNF',
           tabBarIcon: ({ focused }) => (
-            <Image source={require('../../assets/images/tab-lnf-icon.png')} style={{ width: 24, height: 24 }} />
+            focused ? 
+              <Image source={require('../../assets/images/tab_lnf_icon_active.png')} style={{ width: 24, height: 24 }} />
+              :
+              <Image source={require('../../assets/images/tab_lnf_icon_inactive.png')} style={{ width: 24, height: 24 }} />            
           ),
         }}
       />
       <Tabs.Screen
         name="saved"
         options={{
-          title: 'Saved',
+          title: 'SAVED',
           tabBarIcon: ({ focused }) => (
-            <Feather name="bookmark" size={24} color={focused ? "blue" : "black"} />
+            <Feather name="bookmark" size={24} color={focused ? globalStyles.colors.navActive : globalStyles.colors.black} />
           ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
-          title: 'Settings',
+          title: 'SETTINGS',
           tabBarIcon: ({ focused }) => (
-            <Feather name="settings" size={24} color={focused ? "blue" : "black"} />
+            <Ionicons name="settings-outline" size={24} color={focused ? globalStyles.colors.navActive : globalStyles.colors.black} />
           ),
         }}
       />

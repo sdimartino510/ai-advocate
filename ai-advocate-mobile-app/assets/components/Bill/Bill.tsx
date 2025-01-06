@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { View, Text } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
@@ -39,6 +39,47 @@ function StatusBadge({status}: {status: Status}) {
 }
 
 function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0}:BillProps) {
+    const [upvotes, setUpvotes] = useState(numUpvotes)
+    const [downvotes, setDownvotes] = useState(numDownvotes)
+    
+    // TODO: Get the existing status of whether or not user upvoted or downvoted.
+    const [isUpvoted, setIsUpvoted] = useState(false)
+    const [isDownvoted, setIsDownvoted] = useState(false)
+
+    const handleUpvote = () => {
+        // undo upvote
+        if (isUpvoted) {
+            setUpvotes(upvotes - 1)
+            setIsUpvoted(false)
+        }
+        // undo downvote, then upvote
+        else{
+            if (isDownvoted) {
+                setDownvotes(downvotes - 1)
+                setIsDownvoted(false)
+            }
+            setUpvotes(upvotes + 1)
+            setIsUpvoted(true)
+        }
+    }
+
+    const handleDownvote = () => {
+        // undo downvote
+        if (isDownvoted) {
+            setDownvotes(downvotes - 1)
+            setIsDownvoted(false)
+        }
+        // undo upvote, then downvote
+        else{
+            if (isUpvoted) {
+                setUpvotes(upvotes - 1)
+                setIsUpvoted(false)
+            }
+            setDownvotes(downvotes + 1)
+            setIsDownvoted(true)
+        }
+    }
+
     return (
         <View style={styles.billContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -63,16 +104,16 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                 ))}
             </View>
 
-            {/* TODO: Reaction and bookmark icons. All icon functionality. */}
+            {/* TODO: Reaction and bookmark icons. All icon functionality. Sync with backend. */}
             <View style={styles.interactionContainer}>
                 <View style={styles.interactionPairWrapper}>
-                    <AntDesign name="arrowup" size={24} color={globalStyles.colors.grey} />
-                    <Text style={styles.interactionValues}>{numUpvotes}</Text>
+                    <AntDesign name="arrowup" size={24} color={globalStyles.colors.grey} onPress={handleUpvote}/>
+                    <Text style={styles.interactionValues}>{upvotes}</Text>
                 </View>
 
                 <View style={styles.interactionPairWrapper}>
-                    <AntDesign name="arrowdown" size={24} color={globalStyles.colors.grey} />
-                    <Text style={styles.interactionValues}>{numDownvotes}</Text>
+                    <AntDesign name="arrowdown" size={24} color={globalStyles.colors.grey} onPress={handleDownvote}/>
+                    <Text style={styles.interactionValues}>{downvotes}</Text>
                 </View>
 
                 <View style={styles.interactionPairWrapper}>

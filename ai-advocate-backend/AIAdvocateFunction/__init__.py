@@ -1,12 +1,24 @@
+import os
 import azure.functions as func
 
 import fastapi
 import logging
 
-from .utils import read_json
+from .summarizer import run_llm
+
+from .utils import parse_link, read_json
 
 app = fastapi.FastAPI()
 
+@app.get("/summarize")
+async def summarize_bill(bill_link: str):
+    if os.environ.get("AZURE_OPENAI_BASE_URL") is None:
+        raise fastapi.HTTPException(status_code=500, detail="Azure OpenAI base URL is not set.")
+    elif os.environ.get("AZURE_OPENAI_API_KEY") is None:
+        raise fastapi.HTTPException(status_code=500, detail="Azure OpenAI API key is not set.")
+    else:
+        text_content = parse_link(bill_link)
+        return run_llm(text_content)
 
 @app.get("/bill/{bill_id}")
 async def get_bill(bill_id: int):

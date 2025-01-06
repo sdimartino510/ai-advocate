@@ -4,7 +4,51 @@ bun = "latest"
 python = "3.11"
 uv = "latest"
 
+[settings]
+experimental = true
+python.uv_venv_auto = true
+
+[env]
+_.python.venv = { path = "ai-advocate-backend/.venv", create = true }
+
+[tasks.initialize]
+description = "Install tools and all necessary dependencies"
+dir = "{{cwd}}"
+run = ["mise install -y", "mise run initialize_mobile_app", "mise run initialize_backend" ]
+alias = "init"
+
+[tasks.initialize_mobile_app]
+description = "Install all necessary dependencies for mobile app"
+dir = "{{cwd}}/ai-advocate-mobile-app"
+run = "bun install"
+hide = true
+
+[tasks.initialize_backend]
+description = "Install all necessary dependencies for backend"
+dir = "{{cwd}}/ai-advocate-backend"
+run = [
+	"bun install",
+	"uv sync"
+]
+hide = true
+
+[tasks.initialize_idx]
+description = "Initialize whole project and then activate mise for idx"
+run = """
+#!/usr/bin/env bash
+eval "$(~/.local/bin/mise activate bash)"
+mise run init
+echo 'eval "$(~/.local/bin/mise activate bash)"' >> ~/.bashrc
+"""
+hide = true
+
 [tasks.mobile_app]
 description = "Run the mobile app"
 dir = "{{cwd}}/ai-advocate-mobile-app"
 run = "npx expo start"
+
+[tasks.backend]
+description = "Run the backend"
+dir = "{{cwd}}/ai-advocate-backend"
+env = { MISE_PYTHON_UV_VENV_AUTO = "TRUE" }
+run = ["npx func start"]

@@ -6,7 +6,6 @@
 
   # Use https://search.nixos.org/packages to find packages
   packages = [
-    pkgs.mise
   ];
 
   # Sets environment variables in the workspace
@@ -39,12 +38,12 @@
       # Runs when a workspace is first created
       onCreate = {
         # Initialize workspace
-        initialize = "mise trust && mise install";
+        initialize = "curl https://mise.run | sh && mise trust && mise run initialize_idx";
       };
       # Runs when the workspace is (re)started
       onStart = {
         # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        backend = "mise run backend";
       };
     };
   };

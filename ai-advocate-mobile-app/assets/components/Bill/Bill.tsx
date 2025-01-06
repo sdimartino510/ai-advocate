@@ -129,12 +129,22 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
             {/* TODO: Reaction and bookmark icons. All icon functionality. Sync with backend. */}
             <View style={styles.interactionContainer}>
                 <View style={styles.interactionPairWrapper}>
-                    <AntDesign name="arrowup" size={24} color={globalStyles.colors.grey} onPress={handleUpvote}/>
+                    <AntDesign
+                        name="arrowup"
+                        size={24}
+                        color={isUpvoted ? globalStyles.colors.black : globalStyles.colors.grey}
+                        onPress={handleUpvote}
+                    />
                     <Text style={styles.interactionValues}>{upvotes}</Text>
                 </View>
 
                 <View style={styles.interactionPairWrapper}>
-                    <AntDesign name="arrowdown" size={24} color={globalStyles.colors.grey} onPress={handleDownvote}/>
+                    <AntDesign
+                        name="arrowdown"
+                        size={24}
+                        color={isDownvoted ? globalStyles.colors.black : globalStyles.colors.grey}
+                        onPress={handleDownvote}
+                    />
                     <Text style={styles.interactionValues}>{downvotes}</Text>
                 </View>
 

@@ -6,10 +6,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Octicons from '@expo/vector-icons/Octicons';
+import Entypo from '@expo/vector-icons/Entypo';
+import globalStyles from '../../assets/styles/global_styles';
 
 const Stack = createNativeStackNavigator();
 
-// Sample activity data
+// Sample activity data, CHECK SORTING
 const activities = [
   { id: 1, emoji: '👍', billNumber: '1234', date: '01/09/2025' },
   { id: 2, emoji: '❤️', billNumber: '1235', date: '01/08/2025' },
@@ -18,34 +20,82 @@ const activities = [
   { id: 5, emoji: '🎉', billNumber: '1238', date: '01/05/2025' },
 ].sort((a, b) => new Date(b.date) - new Date(a.date));
 
-// Activity Log Screen
+// Activity Log Screen Component
 function ActivityLogScreen({ navigation }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [activityList, setActivityList] = useState(activities);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleDone = () => {
+    setIsEditing(false);
+  };
+
+  const handleDelete = (id) => {
+    setActivityList(prevList => prevList.filter(activity => activity.id !== id));
+  };
+
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.navBar}>
+      <View style={styles.navBarActivityLog}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Icon name="arrow-back" size={24} />
         </TouchableOpacity>
         <Text style={styles.navTitle}>Settings</Text>
       </View>
-    <TouchableOpacity style={styles.helpButton} onPress={() => navigation.navigate('TermsAndConditions')}>
-      <Text style={styles.helpText}>Activity Log</Text>
-      <Octicons name="pencil" size={24} color="black" />
-    </TouchableOpacity>
 
-      <View style={styles.contentContainer}>
-        {activities.map((activity) => (
-          <View key={activity.id} style={styles.activityItem}>
-            <Text style={styles.activityText}>
-              You reacted {activity.emoji} to bill {activity.billNumber}
+      <TouchableOpacity
+        style={styles.activityLogScreenButton}
+        disabled={true} // Always disabled
+      >
+        <Text style={styles.helpText}>Activity Log</Text>
+
+        {!isEditing && (
+          <TouchableOpacity onPress={handleEdit} disabled={isEditing}>
+            <Text>
+              <Octicons name="pencil" size={24} color="black" />
             </Text>
-            <Text style={styles.activityDate}>{activity.date}</Text>
+          </TouchableOpacity>
+        )}
+      </TouchableOpacity>
+
+      <View style={styles.contentContainerActivityLog}>
+        {activityList.map((activity) => (
+          <View key={activity.id} style={styles.activityWrapper}>
+            <View style={styles.activityItemBordered}>
+              <Text style={styles.activityText}>
+                You reacted {activity.emoji} to bill {activity.billNumber}
+              </Text>
+              <Text style={styles.activityDate}>{activity.date}</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.deleteButton}
+              disabled={!isEditing}
+              onPress={() => handleDelete(activity.id)}
+            >
+              <Entypo
+                name="cross"
+                size={24}
+                color={isEditing ? "#FF0000" : "#FFFFFF"}
+              />
+            </TouchableOpacity>
           </View>
         ))}
       </View>
+
+      {isEditing && (
+        <TouchableOpacity style={styles.doneButton} onPress={handleDone}>
+          <Text style={styles.doneText}>Done</Text>
+        </TouchableOpacity>
+      )}
     </ScrollView>
   );
 }
+
+
 
 // Main Settings Screen Component
 function SettingsMainScreen({ navigation }) {
@@ -84,6 +134,7 @@ function SettingsMainScreen({ navigation }) {
           onValueChange={setIsEnabled}
           trackColor={{ false: "#f4f3f4", true: "#344E63" }}
           thumbColor={isEnabled ? "#ffffff" : "#344E63"}
+          style={styles.switchStyle}
         />
       </View>
 
@@ -97,9 +148,9 @@ function SettingsMainScreen({ navigation }) {
             step={1}
             value={fontSize}
             onValueChange={setFontSize}
-            minimumTrackTintColor="#007AFF"
-            maximumTrackTintColor="#d3d3d3"
-            thumbTintColor="#d3d3d3"
+            minimumTrackTintColor={globalStyles.colors.darkBlue}
+            maximumTrackTintColor={globalStyles.colors.grey}
+            thumbTintColor =  {globalStyles.colors.grey}
           />
         </View>
       </View>
@@ -254,6 +305,12 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     paddingHorizontal: 5,
   },
+    navBarActivityLog: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 0,
+      paddingHorizontal: 5,
+    },
   backButton: {
     padding: 5,
   },
@@ -263,11 +320,14 @@ const styles = StyleSheet.create({
     color: '#000000',
     flex: 1,
     textAlign: 'center',
-    marginRight: 30,
   },
   contentContainer: {
     paddingHorizontal: 15,
   },
+    contentContainerActivityLog: {
+      marginRight: 16,
+      marginTop: 8,
+    },
   policyText: {
     fontSize: 16,
     fontFamily: 'Montserrat_400Regular',
@@ -284,6 +344,9 @@ const styles = StyleSheet.create({
   fontLabel: {
     fontSize: 16,
     fontWeight: '600',
+  },
+  switchStyle: {
+    transform: [{ scale: 1.3 }],
   },
   sliderContainer: {
     flexDirection: 'row',
@@ -313,6 +376,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: 40,
   },
+  activityLogScreenButton: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  backgroundColor: '#E0F2FF',
+  paddingHorizontal: 10,
+  borderRadius: 7,
+  marginTop: 10,
+  height: 40,
+  },
+
   helpText: {
     fontSize: 16,
     fontWeight: '600',
@@ -386,14 +460,30 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0,
     borderBottomColor: '#D1E9FF',
   },
-    activityItemBordered: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      paddingVertical: 4,
-      borderBottomWidth: 0,
-      borderBottomColor: '#D1E9FF',
-    },
+  activityItemBordered: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderColor: '#8080808C',
+    borderRadius: 1,
+    paddingHorizontal: 15,
+    marginRight: 5,
+  },
+  contentContainerActivityLog: {
+    marginTop: 8,
+    paddingRight: 0,
+  },
+  activityWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+
+
+
   activityText: {
     fontSize: 14,
     color: '#333333',
@@ -422,6 +512,40 @@ seeMoreText: {
   fontSize: 14,
   fontWeight: '600',
   textAlign: 'center',
-}
+},
+  deleteButton: {
+    width: 25,
+    height: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff'
+  },
+
+doneButton: {
+  alignSelf: 'flex-end',
+  paddingVertical: 5,
+  paddingHorizontal: 10,
+  backgroundColor: '#E0F2FF',
+  borderRadius: 7,
+  marginTop: 20,
+  height: 30,
+  width: 90,
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'row',
+  marginBottom: 50,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 5 },
+  shadowOpacity: 0.1,
+  shadowRadius: 5,
+  elevation: 5,
+},
+
+doneText: {
+  color: '#000000',
+  fontSize: 14,
+  fontWeight: '600',
+  textAlign: 'center',
+},
 
 });

@@ -1,11 +1,12 @@
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, TouchableWithoutFeedback, Share} from "react-native";
 import { useState} from 'react';
-import { useRouter } from "expo-router";
+import { useRouter, useSegments } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const { width, height} = Dimensions.get("window");
 
 export default function Details() {
+    const [modalVisible, setModalVisible] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
 
     const [openDropdown, setOpenDropdown] = useState(null);
@@ -18,62 +19,119 @@ export default function Details() {
         setIsBookmarked(!isBookmarked);
     };
     const router = useRouter();
+    const segments = useSegments();
+
+
+    const handleShare = async () => {
+        try {
+            const result = await Share.share({
+                message: `BILL TITLE. Summary of bill- download AI advocate`,
+            });
+
+            if (result.action === Share.sharedAction) {
+                if(result.activityType){
+                    console.log(`Shared with activity: ${result.activityType}`);
+                } else {
+                    console.log('Shared successfully!');
+                }
+            } else if (result.action == Share.dismissedAction){
+                console.log('Share dialog dismissed');
+            }
+        } catch (error){
+            Alert.alert('Error', `Failed to share: ${error.message}`);
+        }
+    };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
+            //back button
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <Text style={styles.backButtonText}> &larr;</Text>
                 </TouchableOpacity>
             </View>
+            //bill title & live button
             <View style={styles.titleContainer}>
                  <Text style= {styles.title}> BILL TITLE</Text>
                  <TouchableOpacity onPress={() => router.back()} style={styles.liveButton}>
                         <Text style={styles.liveButtonText}>Live</Text>
                  </TouchableOpacity>
             </View>
+            //bill ID
             <View style={styles.billIdAndStatus}>
                 <Text style= {styles.id}> Bill ID: 418641279 </Text>
                 <View style={styles.statusBox}>
                     <Text style={styles.status}> Enrolled </Text>
                 </View>
             </View>
+            //description box
             <View style={styles.roundedBox}>
+                //bookmark
                 <TouchableOpacity onPress={handleBookmarkPress} style={styles.bookmarkContainer}>
                 <View style={styles.bookmarkOutline}>
                     <Icon name = "bookmark" size={30} color={isBookmarked ?  '#C0DAEC': '#FFAF37'} style={styles.bookmarkIcon}/>
                 </View>
                 </TouchableOpacity>
                 <View style={styles.circleContainer}>
-                    <TouchableOpacity onPress={() => router.back()} style={styles.bookmarkContainer}>
+                    <TouchableOpacity onPress={() => router.replace('/'+segments.join('/'))} style={styles.bookmarkContainer}>
+                        //description circle (on the right)
                       <View style={styles.circle1}>
                         <Icon name="align-left" size={20} color="black"/>
                       </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => router.back()} style={styles.bookmarkContainer}>
+                    <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.bookmarkContainer}>
+                        //sponsor, history, and status bubble
                       <View style={styles.circle2}>
                         <Icon name="info" size={20} color="black" />
                       </View>
                     </TouchableOpacity>
+                    <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+                        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                            <View style={styles.modalOverlay}>
+                                <TouchableWithoutFeedback>
+                                    <View style={styles.modalContainer}>
+                                        <TouchableOpacity onPress={()=> router.back()}>
+                                            <Text style= {styles.item}> Sponsors</Text>
+                                        </TouchableOpacity>
+                                        <View style={styles.divider}/>
+                                        <TouchableOpacity onPress={()=> router.back()}>
+                                            <Text style= {styles.item}> History</Text>
+                                        </TouchableOpacity>
+                                        <View style={styles.divider}/>
+                                        <TouchableOpacity onPress={()=> router.back()}>
+                                        <Text style= {styles.item}> Status</Text>
+                                        </TouchableOpacity>
+                                        <View style={styles.divider}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </Modal>
                     <TouchableOpacity onPress={() => router.back()} style={styles.bookmarkContainer}>
+                        //pdf circle
                       <View style={styles.circle3}>
                         <Icon name="file-pdf-o" size={20} color="black" />
                       </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => router.back()} style={styles.bookmarkContainer}>
+                    <TouchableOpacity onPress={handleShare} style={styles.bookmarkContainer}>
+                        //share circle
                       <View style={styles.circle4}>
                         <Icon name="share-alt" size={20} color="black" />
                       </View>
                     </TouchableOpacity>
                 </View>
+                // summary in description box
                 <Text style={styles.boxText}>A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do. </Text>
+                //simplify button
                 <TouchableOpacity onPress={() => router.back()} style={styles.simplifyButton}>
                       <Text style={styles.simplifyButtonText}>Simplify &gt;</Text>
                 </TouchableOpacity>
             </View>
         </View>
-
+        //expert thoughts on bottom
         <Text style= {styles.expertTitleText}>Expert's Thoughts </Text>
+        //pro box
         <TouchableOpacity onPress={() => toggleDropdown("dropdown1")} style={styles.dropDown}>
             <Text style={styles.dropDownHeaderText}>
                 {openDropdown === "dropdown1" ? "Pros" : "Pros"}
@@ -84,7 +142,7 @@ export default function Details() {
                 <Text style={styles.infoText}> Pro text </Text>
             </View>
         )}
-
+        //Cons box
         <TouchableOpacity onPress={() => toggleDropdown("dropdown2")} style={styles.dropDown}>
            <Text style={styles.dropDownHeaderText}>
               {openDropdown === "dropdown2" ? "Cons" : "Cons"}
@@ -266,7 +324,7 @@ const styles = StyleSheet.create({
     },
     simplifyButton: {
         marginTop: height/5,
-        marginLeft: width/3 + 50,
+        marginLeft: width/2.5,
         paddingTop: 10,
         paddingBottom: 10,
         paddingHorizontal: 15,
@@ -302,5 +360,30 @@ const styles = StyleSheet.create({
         borderColor: "#ddd",
         backgroundColor: "#ffffff",
         padding: 10,
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    modalContainer: {
+        marginTop: height/8,
+        marginLeft: -width/10,
+        width: '65%',
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        alignItems: 'stretch',
+    },
+    item: {
+        fontSize: 18,
+        padding: 10,
+        textAlign: 'left',
+    },
+    divider: {
+        height: 1,
+        backgroundColor: '#dcdcdc',
+        marginHorizontal: 20,
     },
 })

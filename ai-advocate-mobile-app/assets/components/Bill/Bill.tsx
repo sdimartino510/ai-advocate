@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -46,12 +46,13 @@ function StatusBadge({status}: {status: Status}) {
 
     return (
         <View>
-            <Text
-                style={[styles.status, {backgroundColor: color}]}
-                onPress={onStatusPress}    // TODO: Expand to work for the entire status badge, not just text.
-            >
-                {status}
-            </Text>
+            <TouchableOpacity onPress={onStatusPress}>
+                <Text
+                    style={[styles.status, {backgroundColor: color}]}
+                >
+                    {status}
+                </Text>
+            </TouchableOpacity>
 
             {showStatusDefinition &&
                 <View style={styles.statusDefinitionWrapper}>
@@ -117,7 +118,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         }
         
         // TODO: Expand topics definition list. Refer to client.
-        
+
         // show definition for selected topic (case insensitive)
         // use local variable because topicDefinition may be stale for later if-else statement
         let definition : String | null = ''
@@ -157,12 +158,13 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                 <Text style={styles.topicLabel}>Topics: </Text>
                 {topics.map((topic, index) => (
                     <View key={index}>
-                        <Text
-                            style={{color: globalStyles.colors.blue3}}
-                            onPress={() => onTopicPress(topic)}
-                        >
-                            {topic}{' '}
-                        </Text>
+                        <TouchableOpacity onPress={() => onTopicPress(topic)}>
+                            <Text
+                                style={{color: globalStyles.colors.blue3}}
+                            >
+                                {topic}{' '}
+                            </Text>
+                        </TouchableOpacity>
                         {topicDefinition && topicSelected === topic &&
                             <View style={styles.topicDefinitionWrapper}>
                                 <Text style={styles.topicDefinition}>{topicDefinition}</Text>

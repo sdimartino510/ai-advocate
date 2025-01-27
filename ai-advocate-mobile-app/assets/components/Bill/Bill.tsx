@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { View, Text } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import globalStyles from '../../styles/global_styles'
 import styles from './bill_styles'
 
@@ -16,6 +17,7 @@ type BillProps = {
     numUpvotes?: number,
     numDownvotes?: number,
     numReactions?: number,
+    saved?: boolean,
 }
 
 // TODO: Status definition pop ups.
@@ -46,7 +48,7 @@ function StatusBadge({status}: {status: Status}) {
         <View>
             <Text
                 style={[styles.status, {backgroundColor: color}]}
-                onPress={onStatusPress}    
+                onPress={onStatusPress}    // TODO: Expand to work for the entire status badge, not just text.
             >
                 {status}
             </Text>
@@ -60,13 +62,15 @@ function StatusBadge({status}: {status: Status}) {
     )
 }
 
-function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0}:BillProps) {
+function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
     const [upvotes, setUpvotes] = useState(numUpvotes)
     const [downvotes, setDownvotes] = useState(numDownvotes)
     
     // TODO: Get the existing status of whether or not user upvoted or downvoted.
     const [isUpvoted, setIsUpvoted] = useState(false)
     const [isDownvoted, setIsDownvoted] = useState(false)
+
+    const [isSaved, setIsSaved] = useState(saved)
 
     const handleUpvote = () => {
         // undo upvote
@@ -102,6 +106,42 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         }
     }
 
+    const [topicSelected, setTopicSelected] = useState<String | null>(null)
+    const [topicDefinition, setTopicDefinition] = useState<String | null>(null)
+    const onTopicPress = (topic: string) => {
+        // hide definition if any topic is already selected
+        if (topicSelected){
+            setTopicSelected(null)
+            setTopicDefinition(null)
+            return
+        }
+        
+        // TODO: Expand topics definition list. Refer to client.
+        
+        // show definition for selected topic (case insensitive)
+        // use local variable because topicDefinition may be stale for later if-else statement
+        let definition : String | null = ''
+        switch(topic.toLowerCase()) {
+            case 'trafficking':
+                definition = 'Transporting of or transacting in illegal goods or people'
+                break
+            case 'rights':
+                definition = 'Legal, social, or ethical principles of freedom or entitlement.'
+                break
+            default:
+                definition = null
+        }
+
+        if (definition){
+            setTopicSelected(topic)
+            setTopicDefinition(definition)
+        }
+        else{
+            setTopicSelected(null)
+            setTopicDefinition(null)
+        }
+    }
+
     return (
         <View style={styles.billContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -113,47 +153,73 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
 
             <Text style={styles.description}>{description}</Text>
 
-            {/* TODO: Keyword definition pop ups. */}
             <View style={styles.topicContainer}>
                 <Text style={styles.topicLabel}>Topics: </Text>
                 {topics.map((topic, index) => (
-                    <Text
-                        key={index}
-                        style={{color: index%2==0 ? globalStyles.colors.blue3 : globalStyles.colors.black}}
-                    >
-                        {topic}{' '}
-                    </Text>
+                    <View key={index}>
+                        <Text
+                            style={{color: globalStyles.colors.blue3}}
+                            onPress={() => onTopicPress(topic)}
+                        >
+                            {topic}{' '}
+                        </Text>
+                        {topicDefinition && topicSelected === topic &&
+                            <View style={styles.topicDefinitionWrapper}>
+                                <Text style={styles.topicDefinition}>{topicDefinition}</Text>
+                            </View>
+                        }
+                    </View>
                 ))}
             </View>
 
-            {/* TODO: Reaction and bookmark icons. All icon functionality. Sync with backend. */}
-            <View style={styles.interactionContainer}>
-                <View style={styles.interactionPairWrapper}>
-                    <AntDesign
-                        name="arrowup"
+            {/* TODO: Reaction icons. + For all icons: functionality and sync with backend. */}
+            <View style={styles.engagementContainer}>
+                <View style={styles.leftEngagements}>
+                    <View style={styles.engagementPairWrapper}>
+                        <AntDesign
+                            name="arrowup"
+                            size={24}
+                            color={isUpvoted ? globalStyles.colors.black : globalStyles.colors.grey}
+                            onPress={handleUpvote}
+                        />
+                        <Text style={styles.engagementValues}>{upvotes}</Text>
+                    </View>
+
+                    <View style={styles.engagementPairWrapper}>
+                        <AntDesign
+                            name="arrowdown"
+                            size={24}
+                            color={isDownvoted ? globalStyles.colors.black : globalStyles.colors.grey}
+                            onPress={handleDownvote}
+                        />
+                        <Text style={styles.engagementValues}>{downvotes}</Text>
+                    </View>
+
+                    <View style={styles.engagementPairWrapper}>
+                        <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
+                        <Text style={styles.engagementValues}>{numReactions}</Text>
+                    </View>
+
+                    <Feather name="share-2" size={24} color={globalStyles.colors.grey} />
+                </View>
+                
+                <View>
+                    <MaterialIcons
+                        name="bookmark-outline"
                         size={24}
-                        color={isUpvoted ? globalStyles.colors.black : globalStyles.colors.grey}
-                        onPress={handleUpvote}
+                        color={globalStyles.colors.grey}
+                        onPress={() => setIsSaved(!isSaved)}
                     />
-                    <Text style={styles.interactionValues}>{upvotes}</Text>
+                    {isSaved &&
+                        <MaterialIcons
+                            name="bookmark"
+                            size={18}
+                            style={styles.shadedBookmark}
+                            color={globalStyles.colors.yellow}
+                            onPress={() => setIsSaved(!isSaved)}
+                        />
+                    }
                 </View>
-
-                <View style={styles.interactionPairWrapper}>
-                    <AntDesign
-                        name="arrowdown"
-                        size={24}
-                        color={isDownvoted ? globalStyles.colors.black : globalStyles.colors.grey}
-                        onPress={handleDownvote}
-                    />
-                    <Text style={styles.interactionValues}>{downvotes}</Text>
-                </View>
-
-                <View style={styles.interactionPairWrapper}>
-                    <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
-                    <Text style={styles.interactionValues}>{numReactions}</Text>
-                </View>
-
-                <Feather name="share-2" size={24} color={globalStyles.colors.grey} />
             </View>
 
         </View>

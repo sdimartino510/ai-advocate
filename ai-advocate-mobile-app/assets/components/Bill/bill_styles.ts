@@ -87,20 +87,50 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 17.07,
     },
-    interactionContainer: {
+    engagementContainer: {
         flexDirection: 'row',
-        alignItems: 'flex-end',
-        gap: 8,
-    },
-    interactionPairWrapper: {
-        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
         alignItems: 'flex-end',
     },
-    interactionValues: {
+    engagementPairWrapper: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+    },
+    engagementValues: {
         fontFamily: 'Montserrat_400Regular',
         fontSize: 17,
         lineHeight: 19,
         color: globalStyles.colors.grey,
+    },
+    leftEngagements: {
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+        gap: 8,
+    },
+    topicDefinitionWrapper: {
+        position: 'absolute',
+        zIndex: 1,
+        top: 16,
+        padding: 4,
+        width: 100,      // TODO: Make width responsive but not dependent on topic text width.
+
+        borderWidth: 1,
+        borderRadius: 7,
+        borderColor: globalStyles.colors.lightGrey,
+        backgroundColor: globalStyles.colors.white,
+    },
+    topicDefinition: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 8,
+        lineHeight: 12,
+        color: globalStyles.colors.black,
+    },
+    shadedBookmark: {
+        position: 'absolute',
+        zIndex: 1,
+        top: 2.5,
+        left: 3,
     },
 })
 

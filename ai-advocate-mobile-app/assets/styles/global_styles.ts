@@ -4,10 +4,10 @@ const globalStyles = {
         blue1: "#BAE2FF",
         blue2: "#E0F2FF",
         // Secondary
-        buttonBlue1: "C0DAEC",
-        buttonBlue2: "8DBFE4",
-        darkBlue: "0064AE",
-        lightBlue: "F7FCFF",
+        buttonBlue1: "#C0DAEC",
+        buttonBlue2: "#8DBFE4",
+        darkBlue: "#0064AE",
+        lightBlue: "#F7FCFF",
         // Supporting
         black: "#000000",
         green: "#C5F5C7",
@@ -18,7 +18,7 @@ const globalStyles = {
         pink: "#FADEFF",
         purple: "#E3D9FE",
         red: "#FF0000",
-        yellow: "FFAF37",
+        yellow: "#FFAF37",
         // Other
         navActive: "#007AFF",
         navTextInactive: "#7D7676",

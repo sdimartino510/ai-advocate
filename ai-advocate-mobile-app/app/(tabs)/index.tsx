@@ -14,11 +14,11 @@ export default function Index() {
       <Bill
         title="HUMAN TRAFFICKING: VICTIM RIGHTS"
         id="CA SB376"
-        status="Passed"
+        status="Introduced"
         description="This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers."
         topics={["trafficking", "advocates", "rights"]}
         numReactions={143}
-      />
+      />  {/* TODO: Make algorithm to make topics dynamically determined. */}
     </View>
   )
 }

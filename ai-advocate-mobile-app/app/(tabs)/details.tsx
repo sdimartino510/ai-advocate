@@ -7,6 +7,7 @@ const { width, height} = Dimensions.get("window");
 
 export default function Details() {
     const [modalVisible, setModalVisible] = useState(false);
+    const [activeCircle, setActiveCircle] = useState('circle1');
     const [isBookmarked, setIsBookmarked] = useState(false);
 
     const [openDropdown, setOpenDropdown] = useState(null);
@@ -20,6 +21,24 @@ export default function Details() {
     };
     const router = useRouter();
     const segments = useSegments();
+
+    const handleCirclePress = (circleName) => {
+        setActiveCircle(circleName);
+    };
+
+    const getCircleStyle = (circleName) => {
+        return {
+            marginRight: circleName === 'circle1'? 80: circleName === 'circle2'? 30: circleName === 'circle3'? -10: -20,
+            marginTop: circleName === 'circle1'? -15: circleName === 'circle2'? -30: circleName === 'circle3'? 0: 10,
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            backgroundColor: activeCircle === circleName ? "#8DBFE4": "#C0DAEC",
+            marginBottom: 5,
+            justifyContent: "center",
+            alignItems: "center",
+        }
+    };
 
 
     const handleShare = async () => {
@@ -45,49 +64,49 @@ export default function Details() {
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
-            //back button
+            {/*back button*/}
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <Text style={styles.backButtonText}> &larr;</Text>
                 </TouchableOpacity>
             </View>
-            //bill title & live button
+            {/*bill title & live button*/}
             <View style={styles.titleContainer}>
                  <Text style= {styles.title}> BILL TITLE</Text>
                  <TouchableOpacity onPress={() => router.back()} style={styles.liveButton}>
                         <Text style={styles.liveButtonText}>Live</Text>
                  </TouchableOpacity>
             </View>
-            //bill ID
+            {/*bill ID*/}
             <View style={styles.billIdAndStatus}>
                 <Text style= {styles.id}> Bill ID: 418641279 </Text>
                 <View style={styles.statusBox}>
                     <Text style={styles.status}> Enrolled </Text>
                 </View>
             </View>
-            //description box
+            {/*description box*/}
             <View style={styles.roundedBox}>
-                //bookmark
+                {/*bookmark*/}
                 <TouchableOpacity onPress={handleBookmarkPress} style={styles.bookmarkContainer}>
                 <View style={styles.bookmarkOutline}>
                     <Icon name = "bookmark" size={30} color={isBookmarked ?  '#C0DAEC': '#FFAF37'} style={styles.bookmarkIcon}/>
                 </View>
                 </TouchableOpacity>
                 <View style={styles.circleContainer}>
-                    <TouchableOpacity onPress={() => router.replace('/'+segments.join('/'))} style={styles.bookmarkContainer}>
-                        //description circle (on the right)
-                      <View style={styles.circle1}>
+                    <TouchableOpacity onPress={() =>  handleCirclePress('circle1')}>
+                        {/*description circle (on the right)*/}
+                      <View style={getCircleStyle("circle1")}>
                         <Icon name="align-left" size={20} color="black"/>
                       </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.bookmarkContainer}>
-                        //sponsor, history, and status bubble
-                      <View style={styles.circle2}>
+                    <TouchableOpacity onPress={() => {handleCirclePress('circle2'); setModalVisible(true);}}>
+                        {/*sponsor, history, and status bubble*/}
+                      <View style={getCircleStyle("circle2")}>
                         <Icon name="info" size={20} color="black" />
                       </View>
                     </TouchableOpacity>
                     <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
-                        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                        <TouchableWithoutFeedback onPress={() => {setModalVisible(false);}}>
                             <View style={styles.modalOverlay}>
                                 <TouchableWithoutFeedback>
                                     <View style={styles.modalContainer}>
@@ -108,30 +127,30 @@ export default function Details() {
                             </View>
                         </TouchableWithoutFeedback>
                     </Modal>
-                    <TouchableOpacity onPress={() => router.back()} style={styles.bookmarkContainer}>
-                        //pdf circle
-                      <View style={styles.circle3}>
+                    <TouchableOpacity onPress={() => handleCirclePress('circle4')}>
+                        {/*pdf circle*/}
+                      <View style={getCircleStyle("circle3")}>
                         <Icon name="file-pdf-o" size={20} color="black" />
                       </View>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={handleShare} style={styles.bookmarkContainer}>
+                    <TouchableOpacity onPress={handleShare}>
                         //share circle
-                      <View style={styles.circle4}>
+                      <View style={getCircleStyle("circle4")}>
                         <Icon name="share-alt" size={20} color="black" />
                       </View>
                     </TouchableOpacity>
                 </View>
-                // summary in description box
+                {/*summary in description box*/}
                 <Text style={styles.boxText}>A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do. </Text>
-                //simplify button
+                {/*simplify button*/}
                 <TouchableOpacity onPress={() => router.back()} style={styles.simplifyButton}>
                       <Text style={styles.simplifyButtonText}>Simplify &gt;</Text>
                 </TouchableOpacity>
             </View>
         </View>
-        //expert thoughts on bottom
+        {/*expert thoughts on bottom*/}
         <Text style= {styles.expertTitleText}>Expert's Thoughts </Text>
-        //pro box
+        {/*pro box*/}
         <TouchableOpacity onPress={() => toggleDropdown("dropdown1")} style={styles.dropDown}>
             <Text style={styles.dropDownHeaderText}>
                 {openDropdown === "dropdown1" ? "Pros" : "Pros"}
@@ -142,7 +161,7 @@ export default function Details() {
                 <Text style={styles.infoText}> Pro text </Text>
             </View>
         )}
-        //Cons box
+        {/*con box*/}
         <TouchableOpacity onPress={() => toggleDropdown("dropdown2")} style={styles.dropDown}>
            <Text style={styles.dropDownHeaderText}>
               {openDropdown === "dropdown2" ? "Cons" : "Cons"}
@@ -351,10 +370,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: "#f8f8f8",
         elevation: 2,
-        marginBottom: 20,
+        marginBottom: 0,
     },
     dropdownContent: {
-        width: "80%",
+        width: "81%",
         borderTopWidth: 0,
         borderWidth: 3,
         borderColor: "#ddd",
@@ -385,5 +404,5 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: '#dcdcdc',
         marginHorizontal: 20,
-    },
+    }
 })

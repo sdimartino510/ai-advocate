@@ -6,7 +6,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import globalStyles from '../../styles/global_styles'
 import styles from './bill_styles'
 
-type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled'
+type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled' | 'Vetoed'
 
 type BillProps = {
     title: string,
@@ -20,23 +20,25 @@ type BillProps = {
     saved?: boolean,
 }
 
-// TODO: Status definition pop ups.
 function StatusBadge({status}: {status: Status}) {
     let color = globalStyles.colors.lightGreen
     let statusDefinition = ''
     
-    if (status === 'Passed') {
-        color = globalStyles.colors.lightGreen
-        statusDefinition = 'In legal terms, “passed” is a bill approved by a majority in one chamber, moving to the next for consideration.'
+    if (status === 'Introduced') {
+        color = globalStyles.colors.pink
+        statusDefinition = 'A lawmaker (a senator or assembly member) has officially presented the bill to the legislature for consideration. This is the first step in the process of making it a law.'
     } else if (status === 'Engrossed') {
         color = globalStyles.colors.purple
-        statusDefinition = 'In legal terms, "engrossed" refers to the preparation of a final, official copy of a legal document.'
-    } else if (status === 'Introduced') {
-        color = globalStyles.colors.pink
-        statusDefinition = 'In legal terms, the "introduction" of a bill is the formal process of presenting a proposed law to a legislative body for consideration.'
+        statusDefinition = 'The bill has been updated to include any changes made during the review process. It is then prepared in its final form before moving to the next stage of approval.'
     } else if (status === 'Enrolled') {
         color = globalStyles.colors.orange
-        statusDefinition = 'undefined' // TODO: Define "enrolled" status.
+        statusDefinition = 'The bill has been passed and will now be proofread for accuracy and then delivered to the Governor to be approved or vetoed.'
+    } else if (status === 'Passed') {
+        color = globalStyles.colors.lightGreen
+        statusDefinition = 'A majority of lawmakers in both the State Assembly and the State Senate have voted to approve the bill. The bill then becomes “enrolled” and is then sent to the Governor to be approved or vetoed.'
+    } else if(status === 'Vetoed'){
+        color = globalStyles.colors.lightRed
+        statusDefinition = 'The governor has rejected the bill and decided not to make it a law. However, lawmakers can try to override the veto with a two-thirds vote in both the State Assembly and the State Senate.'
     }
     
     const [showStatusDefinition, setShowStatusDefinition] = useState(false)

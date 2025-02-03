@@ -4,6 +4,7 @@ const globalStyles = {
         blue1: "#BAE2FF",
         blue2: "#E0F2FF",
         // Secondary
+
         buttonBlue1: "#C0DAEC",
         buttonBlue2: "#8DBFE4",
         darkBlue: "#0064AE",

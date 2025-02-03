@@ -25,6 +25,11 @@ const globalStyles = {
         blue3: "#007AFF",
         lightGrey: "#00000033",
         white: "#FFFFFF",
+        searchBarGrey: "#EFEFF0",
+        searchBarText: "#848488",
+        filterButtonBorder: "#95B5CC",
+        sortOptionText: "#49454F",
+        sortOptionBorder: "#79747E",
     },
     fonts: {
         heading: {

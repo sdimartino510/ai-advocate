@@ -8,6 +8,26 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
     },
+    backgroundImages: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: -1,
+      },
+      vector3Image: {
+        top: '0%',
+        width: '100%',
+        height: 750,
+        resizeMode: 'cover',
+      },
+      rectangle105Image: {
+        width: '100%',
+        height: 600,
+        resizeMode: 'cover',
+        position: 'absolute',
+        top: '60%',
+      },
     container: {
         paddingTop: 0,
         paddingHorizontal: 20,
@@ -179,7 +199,7 @@ const styles = StyleSheet.create({
        fontWeight: "bold",
     },
     expertTitleText: {
-        marginLeft: -20,
+        width: "83%",
         marginTop: 30,
         fontSize: 40,
         color: "black",
@@ -232,7 +252,7 @@ const styles = StyleSheet.create({
     simplifiedBar: {
         marginTop: 30,
         padding: 10,
-        backgroundColor: "#E8F0FE",
+        backgroundColor: "white",
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",

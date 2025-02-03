@@ -1,9 +1,11 @@
 import React, { useState, useRef } from 'react';
+import {useLocalSearchParams } from "expo-router";
 import { Text, View, Image, TouchableOpacity, Linking, ScrollView, StyleSheet } from 'react-native';
 
 export default function LNF() {
   const [text, setText] = useState('');
-  const [activeButton, setActiveButton] = useState<string | null>('About');
+  const params = useLocalSearchParams();
+  const [activeButton, setActiveButton] = useState<string | null>(typeof params.activeButton === "string"? params.activeButton: "About");
   const [showFullPanel, setShowFullPanel] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
 

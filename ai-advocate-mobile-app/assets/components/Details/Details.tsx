@@ -1,12 +1,12 @@
-import { Text, View, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, TouchableWithoutFeedback, Share} from "react-native";
-import { useState } from 'react';
+import { Text, View, Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, TouchableWithoutFeedback, Share, Linking} from "react-native";
+import { useState, useEffect } from 'react';
 import { useRouter, useSegments } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./details_styles"
 const { width, height} = Dimensions.get("window");
 import Slider from "@react-native-community/slider";
 
-export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con}) {
+export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link}) {
     const [modalVisible, setModalVisible] = useState(false);
     const [activeCircle, setActiveCircle] = useState('circle1');
     const [isBookmarked, setIsBookmarked] = useState(false);
@@ -16,6 +16,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
     const [showButton, setShowButton] = useState(true);
     const [isSimplified, setIsSimplified] = useState(false);
     const [simplificationLevel, setSimplificationLevel] = useState(0);
+    const [showLive, setShowLive] = useState(false);
 
     const toggleDropdown = (id) => {
         setOpenDropdown(openDropdown === id ? null : id);
@@ -71,8 +72,20 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
         }
     };
 
+    useEffect(() => {
+        if (link) {
+            setShowLive(true);
+        } else {
+            setShowLive(false);
+        }
+    }, [link]);
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.backgroundImages}>
+                <Image source={require('../../images/Vector 3.png')} style={styles.vector3Image} />
+                <Image source={require('../../images/Rectangle 105.png')} style={styles.rectangle105Image} />
+        </View>
         <View style={styles.container}>
             {/*back button*/}
             <View style={styles.header}>
@@ -84,9 +97,11 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             {/*bill title & live button*/}
             <View style={styles.titleContainer}>
                  <Text style= {styles.title}> {billTitle}</Text>
-                 <TouchableOpacity onPress={() => router.back()} style={styles.liveButton}>
-                        <Text style={styles.liveButtonText}>Live</Text>
-                 </TouchableOpacity>
+                    {showLive && (
+                        <TouchableOpacity onPress={() => {Linking.openURL(link).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
+                            <Text style={styles.liveButtonText}>Live</Text>
+                        </TouchableOpacity>
+                    )}
             </View>
 
             {/*bill ID*/}
@@ -195,6 +210,13 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
         </View>
             {/*expert thoughts on bottom*/}
             <Text style= {styles.expertTitleText}>Expert's Thoughts </Text>
+            <View style={{width: "80%"}}>
+                <Text>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.
+                <TouchableOpacity style={{marginTop: 42}} onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
+                    <Text style={{color:"#0064AE"}}> See who they are </Text>
+                </TouchableOpacity>
+                </Text>
+            </View>
             {/*pro box*/}
             <TouchableOpacity onPress={() => toggleDropdown("dropdown1")} style={styles.dropDown}>
                 <Text style={styles.dropDownHeaderText}>

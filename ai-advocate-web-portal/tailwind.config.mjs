@@ -21,6 +21,7 @@ export default {
         grey: "#ECEEF0",
         red: "#FF0000",
         lightRed: "#FED9D9",
+        white:"#F7FCFF"
       },
       fontFamily: {
         Montserrat: ['Montserrat', 'sans-serif']

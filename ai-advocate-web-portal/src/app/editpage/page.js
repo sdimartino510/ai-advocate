@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header
  from "../components/header";
+import EditComponent from "../components/editComponent";
 export default function EditPage() {
     return (
       <div className="flex flex-col">
@@ -15,6 +16,7 @@ export default function EditPage() {
           <p>Last updated: 1/10/2025</p>
         </div>
           {/* {editing sections} */}
+          {<EditComponent/>}
         <button className=""><Link href="/">Back to Home</Link></button>
       </div>
     );

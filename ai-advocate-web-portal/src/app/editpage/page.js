@@ -1,5 +1,5 @@
 import Header
- from "./app/components/header";
+ from "../components/header";
 export default function EditPage() {
     return (
       <div className="flex flex-col">

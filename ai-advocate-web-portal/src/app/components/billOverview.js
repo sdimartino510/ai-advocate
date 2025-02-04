@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function BillOverview() {
   return (
     <div className="grid grid-cols-4 border border-grayBlue rounded-lg shadow-md shadow-black/25 bg-white w-full lg:w-[960px] p-5 gap-3">
@@ -12,8 +13,9 @@ export default function BillOverview() {
                 <p>Cons:</p>
             </div>
         </div>
+        {/* Look into page vs layout to confirm this is suitable routing structure */}
         <div className="col-start-4 flex justify-end p-2">
-            <button className="">Review Bill</button>
+            <button className=""><Link href={'/editpage'}>Review Bill</Link></button>
         </div>
 
 

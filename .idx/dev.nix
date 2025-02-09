@@ -2,12 +2,10 @@
 # see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
-  channel = "stable-24.05"; # or "unstable"
+  channel = "stable-24.11"; # or "unstable"
 
   # Use https://search.nixos.org/packages to find packages
   packages = [
-    pkgs.fnm
-    pkgs.just
   ];
 
   # Sets environment variables in the workspace
@@ -40,12 +38,12 @@
       # Runs when a workspace is first created
       onCreate = {
         # Initialize workspace
-        initialize = "just initialize-idx";
+        initialize = "curl https://mise.run | sh && mise trust && mise run initialize_idx";
       };
       # Runs when the workspace is (re)started
       onStart = {
         # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        backend = "mise run backend";
       };
     };
   };

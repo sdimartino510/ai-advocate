@@ -1,0 +1,6 @@
+{
+  "name": "ai-advocate-backend",
+  "dependencies": {
+    "azure-functions-core-tools": "^4.0.6610"
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import {useLocalSearchParams } from "expo-router";
 import { Text, View, Image, TouchableOpacity, Linking, ScrollView, StyleSheet } from 'react-native';
+import globalStyles from '../../assets/styles/global_styles';
 
 export default function LNF() {
   const [text, setText] = useState('');
@@ -18,16 +19,15 @@ export default function LNF() {
     { id: 6, name: 'Jane Doe', occupation: 'Human trafficking survivor', image: require('../../assets/images/Jane_Doe.png') },
   ];
 
-    const handlePhonePress = () => {
-      const phoneNumber = 'tel:+18442492698';
-      Linking.openURL(phoneNumber).catch(err => console.error('Failed to open phone:', err));
-    };
+  const handlePhonePress = () => {
+    const phoneNumber = 'tel:+18442492698';
+    Linking.openURL(phoneNumber).catch(err => console.error('Failed to open phone:', err));
+  };
 
-    const handleEmailPress = () => {
-      const email = 'mailto:executiveoffice@loverneverfailsus.com'; // Compose email
-      Linking.openURL(email).catch(err => console.error('Failed to open email:', err));
-    };
-
+  const handleEmailPress = () => {
+    const email = 'mailto:executiveoffice@loverneverfailsus.com'; // Compose email
+    Linking.openURL(email).catch(err => console.error('Failed to open email:', err));
+  };
 
   const handleShowFullPanel = () => {
     setShowFullPanel(true);
@@ -69,15 +69,14 @@ export default function LNF() {
           We educate everyday people on legislation relevant to them; empowers everyday people to share their voice about what is being proposed; employs everyday people to screen AI output and ensure it is culturally and experientially insightful.
         </Text>
 
-        <TouchableOpacity style={styles.bottomButton}>
+        <TouchableOpacity style={styles.bottomButton} onPress={openAIAdvocateWebsite}>
           <Text style={styles.buttonText}>Read More</Text>
         </TouchableOpacity>
 
-        <Text style={styles.heading}>Meet the Panel</Text>
+        <Text style={[styles.backButtonText, { paddingLeft: 10 }]}>Meet the Panel</Text>
         <Text style={styles.content}>
-          Our panel consists of experts in various fields who are passionate about creating impactful legislative change and ensuring the inclusion of diverse voices in the decision-making process.
+        Our Panel is a group of experts who review and discuss legislative bills. The pros and cons of these discussions can be found on the relevant bill pages. Meet the 2024 panel below:
         </Text>
-
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.horizontalScrollContainer}>
           {panelMembers.map((member) => (
             <View style={styles.panelMember} key={member.id}>
@@ -95,7 +94,6 @@ export default function LNF() {
           <Text style={styles.buttonText}>See All</Text>
         </TouchableOpacity>
 
-        {/* Add image here */}
         <Image
           source={require('../../assets/images/Infographic.png')}
           style={styles.image}
@@ -103,6 +101,18 @@ export default function LNF() {
       </>
     );
   };
+
+  React.useEffect(() => {
+    // Default "About" text is now set when the component mounts
+    setActiveButton('About');
+    setText(
+      <View>
+        <Text style={styles.content}>
+          Love Never Fails empowers all people to express and experience our best sense of humanity. We do this by restoring, educating, and protecting survivors of human trafficking and their community.
+        </Text>
+      </View>
+    );
+  }, []);
 
 
   const handleButtonPress = (buttonType: string) => {
@@ -124,52 +134,49 @@ export default function LNF() {
         setText(<View style={{ flex: 1 }}>{renderAIAdvocateContent()}</View>);
         break;
 
-case 'Contact Us':
-  setText(
-    <View style={styles.containerStyle}>
-      {/* Phone Number Button */}
-      <TouchableOpacity onPress={() => Linking.openURL('tel:(844) 249-2698')}>
-        <Text style={[styles.content, styles.underlineText]}>
-          (844) 249-2698
-        </Text>
-      </TouchableOpacity>
+      case 'Contact Us':
+        setText(
+          <View style={styles.containerStyle}>
+            {/* Phone Number Button */}
+            <TouchableOpacity onPress={() => Linking.openURL('tel:(844) 249-2698')}>
+              <Text style={[styles.underlineText]}>
+                (844) 249-2698
+              </Text>
+            </TouchableOpacity>
 
-      {/* Email Button */}
-      <TouchableOpacity onPress={() => Linking.openURL('mailto:executiveoffice@loverneverfailsus.com')}>
-        <Text style={[styles.content, styles.underlineText]}>
-          executiveoffice@loverneverfailsus.com
-        </Text>
-      </TouchableOpacity>
+            {/* Email Button */}
+            <TouchableOpacity onPress={() => Linking.openURL('mailto:executiveoffice@loverneverfailsus.com')}>
+              <Text style={[styles.underlineText]}>
+                executiveoffice@loverneverfailsus.com
+              </Text>
+            </TouchableOpacity>
 
-      {/* Mailing Address Section */}
-      <Text style={[styles.content, styles.centeredText]}>
-        <Text style={styles.heading2}>MAILING ADDRESS</Text>
-        {'\n'}
-        6937 Village Parkway #2074{' '}
-        {'\n'}
-        Dublin, CA 94568{' '}
-        {'\n'}
-        United States
-      </Text>
+            {/* Mailing Address Section */}
+            <Text style={[styles.content, styles.centeredText]}>
+              <Text style={styles.heading2}>MAILING ADDRESS</Text>
+              {'\n'}
+              6937 Village Parkway #2074{' '}
+              {'\n'}
+              Dublin, CA 94568{' '}
+              {'\n'}
+              United States
+            </Text>
 
-      {/* Main Office / Community Engagement Center */}
-      <Text style={[styles.content, styles.centeredText]}>
-        <Text style={styles.heading2}>MAIN OFFICE / COMMUNITY ENGAGEMENT CENTER</Text>
-        {'\n'}
-        22580 Grand Street{' '}
-        {'\n'}
-        Hayward, CA 94541
-      </Text>
-      <Image
-        source={require('../../assets/images/Map.png')}
-        style={styles.image}
-      />
-
-    </View>
-  );
-  break;
-
-
+            {/* Main Office / Community Engagement Center */}
+            <Text style={[styles.content, styles.centeredText]}>
+              <Text style={styles.heading2}>MAIN OFFICE / COMMUNITY ENGAGEMENT CENTER</Text>
+              {'\n'}
+              22580 Grand Street{' '}
+              {'\n'}
+              Hayward, CA 94541
+            </Text>
+            <Image
+              source={require('../../assets/images/address_map.png')}
+              style={styles.mapImage}
+            />
+          </View>
+        );
+        break;
 
       default:
         setText('');
@@ -179,6 +186,12 @@ case 'Contact Us':
   const openWebsite = () => {
     Linking.openURL('https://www.loveneverfailsus.com/').catch(err => console.error('Failed to open URL:', err));
   };
+
+    const openAIAdvocateWebsite = () => {
+      Linking.openURL('https://www.loveneverfailsus.com/ai-advocate').catch(err => console.error('Failed to open URL:', err));
+    };
+
+
 
   React.useEffect(() => {
     if (activeButton === 'AI Advocate') {
@@ -276,7 +289,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'white',
+    backgroundColor: globalStyles.colors.white,
   },
   backgroundImages: {
     position: 'absolute',
@@ -310,8 +323,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 60,
-    height: 60,
+    width: 70,
+    height: 68,
     resizeMode: 'contain',
   },
   buttonContainer: {
@@ -321,26 +334,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#ffffff',
+    backgroundColor: globalStyles.colors.white,
     paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 10,
     borderWidth: 1,
-    borderColor: '#999999',
+    borderColor: globalStyles.colors.darkGrey,
   },
   activeButton: {
-    backgroundColor: '#BFE4FF',
+    backgroundColor: globalStyles.colors.blue1,
   },
   buttonText: {
-    color: '#000000',
+    color: globalStyles.colors.black,
     fontSize: 12,
     fontFamily: 'Montserrat_600SemiBold',
   },
   buttonText2: {
-    color: '#000000',
+    color: globalStyles.colors.black,
     fontSize: 16,
     fontFamily: 'Montserrat_600SemiBold',
   },
@@ -348,7 +361,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat_400Regular',
     fontSize: 16,
     lineHeight: 24,
-    color: '#000',
+    color: globalStyles.colors.black,
     marginTop: 20,
     textAlign: 'left',
   },
@@ -373,18 +386,18 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat_400Regular',
     fontSize: 16,
     lineHeight: 24,
-    color: '#000',
+    color: globalStyles.colors.black,
     marginTop: 10,
     textAlign: 'center',
   },
 sectionButton: {
-  backgroundColor: '#BFE4FF',
+  backgroundColor: globalStyles.colors.blue1,
   paddingVertical: 12,
   paddingHorizontal: 30,
   borderRadius: 8,
   marginTop: 20,
   marginBottom: 80,
-  shadowColor: '#000',
+  shadowColor: globalStyles.colors.black,
   shadowOffset: { width: 0, height: 4 },
   shadowOpacity: 0.3,
   shadowRadius: 5,
@@ -411,7 +424,7 @@ sectionButton: {
     fontFamily: 'Montserrat_600SemiBold',
     fontSize: 18,
     lineHeight: 27,
-    color: '#000',
+    color: globalStyles.colors.black,
     marginTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
@@ -420,21 +433,21 @@ sectionButton: {
     fontFamily: 'Montserrat_400Regular',
     fontSize: 16,
     lineHeight: 24,
-    color: '#000',
+    color: globalStyles.colors.black,
     marginTop: 10,
     marginBottom: 20,
     paddingLeft: 10,
     paddingRight: 10,
   },
 bottomButton: {
-  backgroundColor: '#BFE4FF',
+  backgroundColor: globalStyles.colors.blue1,
   paddingVertical: 12,
   paddingHorizontal: 30,
   borderRadius: 8,
   marginTop: 20,
   marginBottom: 40,
   alignSelf: 'flex-end',
-  shadowColor: '#000',
+  shadowColor: globalStyles.colors.black,
   shadowOffset: { width: 0, height: 4 },
   shadowOpacity: 0.3,
   shadowRadius: 5,
@@ -445,7 +458,7 @@ panelHeading: {
   fontFamily: 'Montserrat_400Regular',
   fontSize: 26,
   lineHeight: 27,
-  color: '#000',
+  color: globalStyles.colors.black,
   textAlign: 'left',
   paddingLeft: 10,
   marginTop: 10,
@@ -461,9 +474,9 @@ panelMember: {
   marginRight: 20,
   width: 150,
   padding: 10,
-  backgroundColor: '#8DBFE4',
+  backgroundColor: globalStyles.colors.buttonBlue2,
   borderRadius: 8,
-  shadowColor: '#000',
+  shadowColor: globalStyles.colors.black,
   shadowOffset: { width: 0, height: 4 },
   shadowOpacity: 0.3,
   shadowRadius: 5,
@@ -485,7 +498,7 @@ panelImage: {
 panelName: {
   fontFamily: 'Montserrat_600SemiBold',
   fontSize: 16,
-  color: '#000',
+  color: globalStyles.colors.black,
   marginBottom: 5,
   textAlign: 'left',
   paddingLeft: 10,
@@ -494,7 +507,7 @@ panelName: {
 panelOccupation: {
   fontFamily: 'Montserrat_400Regular',
   fontSize: 12,
-  color: '#000',
+  color: globalStyles.colors.black,
   textAlign: 'left',
   paddingLeft: 10,
 },
@@ -513,7 +526,7 @@ panelOccupation: {
   backButtonText: {
     fontFamily: 'Montserrat_400Regular',
     fontSize: 26,
-    color: '#000',
+    color: globalStyles.colors.black,
   },
 
   gridContainer: {
@@ -525,11 +538,11 @@ panelOccupation: {
 
   gridPanelMember: {
     width: '47%',
-    backgroundColor: '#8DBFE4',
+    backgroundColor: globalStyles.colors.buttonBlue2,
     borderRadius: 8,
     padding: 10,
     marginBottom: 20,
-    shadowColor: '#000',
+    shadowColor: globalStyles.colors.black,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 5,
@@ -546,16 +559,26 @@ underlineText: {
   fontFamily: 'Montserrat_600SemiBold',
   textAlign: 'center',
   textDecorationLine: 'underline',
-  color: '#0000EE',
+  color: globalStyles.colors.black,
 },
   heading2: {
   textAlign: 'center',
     fontFamily: 'Montserrat_700Bold',
     fontSize: 18,
     lineHeight: 27,
-    color: '#000',
-    marginTop: 10,
+    color: globalStyles.colors.black,
+    marginTop: 20,
     paddingLeft: 10,
     paddingRight: 10,
   },
+   mapImage: {
+     width: 350,
+     height: 275,
+     alignSelf: 'center',
+     shadowColor: globalStyles.colors.black,
+     shadowOffset: { width: 0, height: 4 },
+     shadowOpacity: 0.3,
+     shadowRadius: 5,
+     elevation: 5,
+    }
 });

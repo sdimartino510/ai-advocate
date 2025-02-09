@@ -3,6 +3,8 @@
 # dependencies
 node_modules/
 
+bun.lockb
+
 # Expo
 .expo/
 dist/
@@ -34,5 +36,3 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
-
-app-example

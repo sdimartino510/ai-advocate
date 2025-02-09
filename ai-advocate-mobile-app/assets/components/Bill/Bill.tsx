@@ -13,7 +13,7 @@ type BillProps = {
     id: string,
     status: Status,
     description: string,
-    topics: string[],           // TODO: Required for Home page, optional for Saved page? 
+    topics: string[],
     numUpvotes?: number,
     numDownvotes?: number,
     numReactions?: number,
@@ -176,7 +176,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                 ))}
             </View>
 
-            {/* TODO: Reaction icons. + For all icons: functionality and sync with backend. */}
+            {/* TODO: Add reaction icons. + For all icons: functionality and sync with backend. */}
             <View style={styles.engagementContainer}>
                 <View style={styles.leftEngagements}>
                     <View style={styles.engagementPairWrapper}>

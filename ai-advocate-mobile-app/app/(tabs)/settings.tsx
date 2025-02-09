@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch, TouchableOpacity, ScrollView } from 'react-native';
-import Slider from '@react-native-community/slider';
+import {Slider} from '@miblanchard/react-native-slider';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Ionicons } from '@expo/vector-icons';
 import { Dropdown } from 'react-native-element-dropdown';
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
   slider: {
     width: 156,
     height: 40,
-    marginLeft: 125,
+    marginLeft: 300,
   },
   helpButton: {
     flexDirection: 'row',

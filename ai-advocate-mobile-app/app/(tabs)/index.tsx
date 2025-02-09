@@ -110,16 +110,18 @@ export default function Index() {
       </View>
       <SortSelection />
       <SelectedTopics />
-      <Text style={styles.searchResultsStat}>Search Results: {0}</Text> {/** TODO: Dynamically update this number. */}
-
+      
+      {/* TODO: Dynamically update this number. */}
+      <Text style={styles.searchResultsStat}>Search Results: {0}</Text>
+      
       <Bill
         title="HUMAN TRAFFICKING: VICTIM RIGHTS"
         id="CA SB376"
         status="Introduced"
         description="This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers."
-        topics={["trafficking", "advocates", "rights"]}
+        topics={["trafficking", "advocates", "rights"]}  // TODO: Make algorithm to make topics dynamically determined.
         numReactions={143}
-      />  {/* TODO: Make algorithm to make topics dynamically determined. */}
+        />
     </View>
   )
 }

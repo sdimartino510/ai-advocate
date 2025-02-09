@@ -18,7 +18,6 @@ const globalStyles = {
         pink: "#DAFED9",
         purple: "#E3D9FE",
         red: "#FF0000",
-        yellow: "#FFAF37",
         white: "#FFFFFF",
         darkGrey: '#999999',
         // Other

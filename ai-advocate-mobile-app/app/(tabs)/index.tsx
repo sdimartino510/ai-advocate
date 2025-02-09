@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Text, TextInput, View, StyleSheet, TouchableOpacity } from "react-native"
+import { LinearGradient } from 'expo-linear-gradient';
 import Bill from "../../assets/components/Bill/Bill"
 import globalStyles from "@/assets/styles/global_styles"
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -97,32 +98,39 @@ function SelectedTopics(){
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "flex-start",
-        alignItems: "center",
-      }}
-    >
-      <View style = {styles.searchFilterContainer}>
-        <SearchBar />
-        <FilterButton />
+    <LinearGradient
+        colors={[globalStyles.colors.white, globalStyles.colors.blue1]}
+        style={{ flex: 1}}
+      >
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "flex-start",
+          alignItems: "center",
+        }}
+      >
+        <View style = {styles.searchFilterContainer}>
+          <SearchBar />
+          <FilterButton />
+        </View>
+        <SortSelection />
+        <SelectedTopics />
+        
+        {/* TODO: Dynamically update this number. */}
+        <Text style={styles.searchResultsStat}>Search Results: {0}</Text>
+        
+        <Bill
+          title="HUMAN TRAFFICKING: VICTIM RIGHTS"
+          id="CA SB376"
+          status="Introduced"
+          description="This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers."
+          topics={["trafficking", "advocates", "rights"]}  // TODO: Make algorithm to make topics dynamically determined.
+          numReactions={143}
+          />
       </View>
-      <SortSelection />
-      <SelectedTopics />
-      
-      {/* TODO: Dynamically update this number. */}
-      <Text style={styles.searchResultsStat}>Search Results: {0}</Text>
-      
-      <Bill
-        title="HUMAN TRAFFICKING: VICTIM RIGHTS"
-        id="CA SB376"
-        status="Introduced"
-        description="This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers."
-        topics={["trafficking", "advocates", "rights"]}  // TODO: Make algorithm to make topics dynamically determined.
-        numReactions={143}
-        />
-    </View>
+
+      {/** TODO: Loading state. */}
+    </LinearGradient>
   )
 }
 

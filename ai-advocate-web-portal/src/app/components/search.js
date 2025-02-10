@@ -7,7 +7,7 @@ export default function Search() {
                     <p className='text-2xl'>Bill ID Search</p>
                 {/* Ideally we debounce, but if not, then on submission, the input value will be appended to the URL, e.g. /search?query=abc */}
                 <div id='search-input'>
-                    <input name="query" className='mx-[14px] w-96 h-10 rounded-3xl border border-grayBlue'/>
+                    <input name="query" className='mx-[14px] px-6 w-96 h-10 rounded-3xl border border-grayBlue'/>
                     <button type="submit">Submit</button>
                 </div>
 

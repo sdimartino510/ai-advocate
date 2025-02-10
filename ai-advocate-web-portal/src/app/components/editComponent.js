@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ButtonSquare from './buttonSquare';
+import EditableInput from './editableInput';
 
 export default function EditComponent({section}) {
 
@@ -34,7 +35,7 @@ const [difficulty, setDifficulty] = useState('casual')
               </div>
             )}
             {/* Textarea and checkbox for components */}
-            <textarea rows="10" className="border border-grayBlue rounded-lg w-full" />
+            <textarea rows="10" className=" px-3 py-3 border border-grayBlue rounded-lg w-full" />
 
             {section.title == 'Bill Summaries'&& (
             <div className="flex self-start gap-2">
@@ -47,15 +48,15 @@ const [difficulty, setDifficulty] = useState('casual')
           <div className="flex flex-col gap-8 w-full lg:w-[960px] lg:px-24 p-5 ">
             <div className=''>
               <h3 className='font-semibold'>Pros:</h3>
-              <input type="text" className="w-4/5 border border-black rounded-lg my-3"/><br/>
-              <input type="text" className="w-4/5 border border-black rounded-lg my-3"/><br/>
-              <input type="text" className="w-4/5 border border-black rounded-lg my-3"/><br/>
+              <EditableInput/>
+              <EditableInput/>
+              <EditableInput/>
             </div>
             <div>
               <h3 className='font-semibold'>Cons:</h3>
-              <input type="text" className="w-4/5 border border-black rounded-lg my-3"/><br/>
-              <input type="text" className="w-4/5 border border-black rounded-lg my-3"/><br/>
-              <input type="text" className="w-4/5 border border-black rounded-lg my-3"/><br/>
+              <EditableInput/>
+              <EditableInput/>
+              <EditableInput/>
             </div>
           </div>
         )}

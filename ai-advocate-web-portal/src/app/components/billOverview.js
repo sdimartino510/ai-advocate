@@ -15,7 +15,7 @@ export default function BillOverview() {
         </div>
         {/* Look into page vs layout to confirm this is suitable routing structure */}
         <div className="col-start-4 flex justify-end p-2">
-            <button className=""><Link href={'/editpage'}>Review Bill</Link></button>
+            <button className="bg-skyBlue hover:bg-blue-300 shadow-md shadow-black/25  text-darkBlue font-bold py-2 px-4 rounded-full"><Link href={'/editpage'}>Review Bill</Link></button>
         </div>
 
 

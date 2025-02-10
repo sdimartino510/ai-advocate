@@ -3,8 +3,17 @@ import Header
  from "../components/header";
 import EditComponent from "../components/editComponent";
 export default function EditPage() {
+
+  let edit_sections={
+      summary:{
+        title: "Bill Summaries"},
+      thoughts:{
+        title:'Expert\'s thoughts'},
+      pros_cons:{
+          title:'Pros and Cons'}}
+
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-9">
         {<Header/>}
         {/* Montserrat is not loading or is being overwritten */
         /* if routing changes, confirm links work */
@@ -16,7 +25,9 @@ export default function EditPage() {
           <p>Last updated: 1/10/2025</p>
         </div>
           {/* {editing sections} */}
-          {<EditComponent/>}
+          {<EditComponent section={edit_sections.summary}/>}
+          {<EditComponent section={edit_sections.thoughts}/>}
+          {<EditComponent section={edit_sections.pros_cons}/>}
         <button className=""><Link href="/">Back to Home</Link></button>
       </div>
     );

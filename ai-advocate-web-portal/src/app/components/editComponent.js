@@ -44,8 +44,19 @@ const [difficulty, setDifficulty] = useState('casual')
           </>
         ) : (
           // Content for pros and cons
-          <div className="gap-8">
-            <p>Pros and cons</p>
+          <div className="flex flex-col gap-8 w-full lg:w-[960px] lg:px-24 p-5 ">
+            <div className=''>
+              <h3 className='font-semibold'>Pros:</h3>
+              <input type="text" className="w-2/3 border border-black rounded-lg my-3"/><br/>
+              <input type="text" className="w-2/3 border border-black rounded-lg my-3"/><br/>
+              <input type="text" className="w-2/3 border border-black rounded-lg my-3"/><br/>
+            </div>
+            <div>
+              <h3 className='font-semibold'>Cons:</h3>
+              <input type="text" className="w-2/3 border border-black rounded-lg my-3"/><br/>
+              <input type="text" className="w-2/3 border border-black rounded-lg my-3"/><br/>
+              <input type="text" className="w-2/3 border border-black rounded-lg my-3"/><br/>
+            </div>
           </div>
         )}
       </div>

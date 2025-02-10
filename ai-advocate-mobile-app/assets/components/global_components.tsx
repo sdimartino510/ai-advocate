@@ -1,6 +1,6 @@
 import React from "react";
 import { Text } from "react-native";
-import globalStyles from "./styles/global_styles";
+import globalStyles from "../styles/global_styles";
 
 type FontProp = {
     content: string;

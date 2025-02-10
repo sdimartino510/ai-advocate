@@ -5,6 +5,7 @@ import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import globalStyles from '../../styles/global_styles'
 import styles from './bill_styles'
+import {useRouter } from "expo-router";
 
 type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled' | 'Vetoed'
 
@@ -74,6 +75,8 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
     const [isDownvoted, setIsDownvoted] = useState(false)
 
     const [isSaved, setIsSaved] = useState(saved)
+
+    const router = useRouter();
 
     const handleUpvote = () => {
         // undo upvote
@@ -147,6 +150,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
 
     return (
         <View style={styles.billContainer}>
+            <TouchableOpacity onPress={() => router.push('details')}>
             <Text style={styles.title}>{title}</Text>
 
             <View style={styles.IDStatusContainer}>
@@ -225,7 +229,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                     }
                 </View>
             </View>
-
+            </TouchableOpacity>
         </View>
     )
 }

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     },
     roundedBox: {
         width: width - 60,
-        height: height/3,
+        height: height/2.5,
         backgroundColor: "white",
         borderColor: '#BAE2FF',
         borderWidth: 3,
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         marginBottom: 10,
         paddingHorizontal: 30,
+        flex: 1,
     },
     circleContainer: {
         position: "absolute",
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     boxText: {
-        top: 70,
+        marginTop: 40,
         color: "black",
         fontWeight: "bold",
     },
@@ -135,9 +136,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: 20,
         width: "100%",
-        paddingHorizontal: 10,
     },
     title: {
+        textAlign: "left",
         fontSize: 24,
         fontWeight: "bold",
     },
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     },
     statusBox: {
         paddingHorizontal: 10,
-        width: 80,
+        width: 100,
         height: 25,
         borderRadius: 15,
         backgroundColor: "#FEEAD3",
@@ -179,19 +180,25 @@ const styles = StyleSheet.create({
         color: "black",
         fontWeight: "bold",
     },
-    bookmarkIcon: {
+    bookmarkOutline: {
         position: "absolute",
-        top: 10,
-        left: -width/3 - 15,
+        left: 3,
 
     },
+    shadedBookmark: {
+        position: "absolute",
+        zIndex: 1,
+        top: 2.5,
+        left: 3,
+    },
     simplifyButton: {
-        marginTop: height/5,
-        marginLeft: width/2.5,
+        position: "absolute",
+        bottom: 25,
+        right: 20,
+        backgroundColor: "#C0DAEC",
         paddingTop: 10,
         paddingBottom: 10,
         paddingHorizontal: 15,
-        backgroundColor: "#C0DAEC",
         borderRadius: 20,
     },
     simplifyButtonText: {
@@ -271,6 +278,46 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "bold",
         color: "#000",
+    },
+    engagementPairWrapper: {
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+    },
+    engagementValues: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 17,
+        lineHeight: 19,
+        color: "#7D7676",
+    },
+    leftEngagements: {
+        marginLeft: -205,
+        marginTop: 20,
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 8,
+    },
+    status: {
+        paddingVerticle: 3,
+        paddingHorizontal: 16,
+        borderRadius: 9,
+    },
+    statusDefinitionWrapper:{
+        position: 'absolute',
+        zIndex: 1,
+        top: 32,
+        padding: 4,
+        width: '175%',
+
+        borderWidth: 1,
+        borderRadius: 7,
+        borderColor: "#00000033",
+        backgroundColor: "#FFFFFF",
+    },
+    statusDefinition: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 8,
+        lineHeight: 12,
+        color: "#000000",
     },
 
 });

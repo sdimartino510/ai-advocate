@@ -3,13 +3,85 @@ import { useState, useEffect } from 'react';
 import { useRouter, useSegments } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import styles from "./details_styles"
+import AntDesign from '@expo/vector-icons/AntDesign'
+import Feather from '@expo/vector-icons/Feather'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import globalStyles from '../../styles/global_styles'
 const { width, height} = Dimensions.get("window");
 import Slider from "@react-native-community/slider";
 
-export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link}) {
+type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled' | 'Vetoed'
+
+type BillInfo = {
+    billTitle: string,
+    billId: string,
+    billStatus: Status,
+    billSummary: string,
+    billSummaryMid: string,
+    billSummaryCom: string,
+    pro: string,
+    con: string,
+    link: string,
+    numUpvotes?: number,
+    numDownvotes?: number,
+    numReactions?: number,
+    saved?: boolean,
+}
+
+function StatusBadge({status}: {status: Status}) {
+    let color = "#DAFED9"
+    let statusDefinition = ''
+
+    if (status === 'Introduced') {
+        color = "#FADEFF"
+        statusDefinition = 'A lawmaker (a senator or assembly member) has officially presented the bill to the legislature for consideration. This is the first step in the process of making it a law.'
+    } else if (status === 'Engrossed') {
+        color = "#E3D9FE"
+        statusDefinition = 'The bill has been updated to include any changes made during the review process. It is then prepared in its final form before moving to the next stage of approval.'
+    } else if (status === 'Enrolled') {
+        color = "#FEEAD3"
+        statusDefinition = 'The bill has been passed and will now be proofread for accuracy and then delivered to the Governor to be approved or vetoed.'
+    } else if (status === 'Passed') {
+        color = "#DAFED9"
+        statusDefinition = 'A majority of lawmakers in both the State Assembly and the State Senate have voted to approve the bill. The bill then becomes “enrolled” and is then sent to the Governor to be approved or vetoed.'
+    } else if(status === 'Vetoed'){
+        color = "#FED9D9"
+        statusDefinition = 'The governor has rejected the bill and decided not to make it a law. However, lawmakers can try to override the veto with a two-thirds vote in both the State Assembly and the State Senate.'
+    }
+
+    const [showStatusDefinition, setShowStatusDefinition] = useState(false)
+    const onStatusPress = () => {
+        setShowStatusDefinition(!showStatusDefinition)
+    }
+
+    return (
+        <View>
+            <TouchableOpacity onPress={onStatusPress}>
+                <Text
+                    style={[styles.status, {backgroundColor: color}]}
+                >
+                    {status}
+                </Text>
+            </TouchableOpacity>
+
+            {showStatusDefinition &&
+                <View style={styles.statusDefinitionWrapper}>
+                    <Text style={styles.statusDefinition}>{statusDefinition}</Text>
+                </View>
+            }
+        </View>
+    )
+}
+
+export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
+    const [upvotes, setUpvotes] = useState(numUpvotes)
+    const [downvotes, setDownvotes] = useState(numDownvotes)
+
+    const [isUpvoted, setIsUpvoted] = useState(false)
+    const [isDownvoted, setIsDownvoted] = useState(false)
     const [modalVisible, setModalVisible] = useState(false);
     const [activeCircle, setActiveCircle] = useState('circle1');
-    const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(saved);
 
     const [openDropdown, setOpenDropdown] = useState(null);
     const [viewMode, setViewMode] = useState('default');
@@ -22,9 +94,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
         setOpenDropdown(openDropdown === id ? null : id);
     };
 
-    const handleBookmarkPress = () => {
-        setIsBookmarked(!isBookmarked);
-    };
+
     const router = useRouter();
     const segments = useSegments();
 
@@ -50,6 +120,37 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             alignItems: "center",
         }
     };
+
+    const handleUpvote = () => {
+        {/*undo upvote*/}
+        if (isUpvoted){
+            setUpvotes(upvotes -1)
+            setIsUpvoted(false)
+        }
+        else{
+            if (isDownvoted){
+                setDownvotes(downvotes -1)
+                setIsDownvoted(false)
+            }
+            setUpvotes(upvotes + 1)
+            setIsUpvoted(true)
+        }
+    }
+
+    const handleDownvote = () => {
+        if (isDownvoted){
+            setDownvotes(downvotes -1)
+            setIsDownvoted(false)
+        }
+        else{
+            if (isUpvoted){
+                setUpvotes(upvotes - 1)
+                setIsUpvoted(false)
+            }
+            setDownvotes(downvotes +1)
+            setIsDownvoted(true)
+        }
+    }
 
 
     const handleShare = async () => {
@@ -107,19 +208,32 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             {/*bill ID*/}
             <View style={styles.billIdAndStatus}>
                 <Text style= {styles.id}> Bill ID: {billId}</Text>
-                <View style={styles.statusBox}>
-                    <Text style={styles.status}> {billStatus} </Text>
+                <View style={{width: '32%'}}>
+                 <StatusBadge status={billStatus}/>
                 </View>
             </View>
 
             {/*description box*/}
             <View style={styles.roundedBox}>
                 {/*bookmark*/}
-                <TouchableOpacity onPress={handleBookmarkPress} style={styles.bookmarkContainer}>
                 <View style={styles.bookmarkOutline}>
-                    <Icon name = "bookmark" size={30} color={isBookmarked ?  '#C0DAEC': '#FFAF37'} style={styles.bookmarkIcon}/>
+                    <MaterialIcons
+                        name="bookmark-outline"
+                        size={24}
+                        color={"#7D7676"}
+                        onPress={() => setIsBookmarked(!isBookmarked)}
+                    />
+                    {isBookmarked &&
+                        <MaterialIcons
+                            name="bookmark"
+                            size={18}
+                            style={styles.shadedBookmark}
+                            color={"#FFAF37"}
+                            onPress={() => setIsBookmarked(!isBookmarked)}
+                        />
+                    }
                 </View>
-                </TouchableOpacity>
+
                 <View style={styles.circleContainer}>
                     <TouchableOpacity onPress={() =>  {handleCirclePress('circle1'); setViewMode("default");}}>
                         {/*description circle (on the right)*/}
@@ -169,16 +283,16 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     </TouchableOpacity>
                 </View>
                 {/*summary in description box*/}
-                <Text style={styles.boxText}>
-                    {viewMode === "default" ?
-                        (simplificationLevel === 0 ? billSummary:
-                        simplificationLevel === 1 ? billSummaryMid :
-                        simplificationLevel === 2 ? billSummaryCom : "")
-                     :
-                     viewMode === "sponsor" ? "Sponsor details go here." :
-                     viewMode === "history" ? "Bill history details go here." :
-                     viewMode === "status" ? "Current bill status details go here." : ""}
-                </Text>
+                    <Text style={styles.boxText}>
+                        {viewMode === "default" ?
+                            (simplificationLevel === 0 ? billSummary:
+                            simplificationLevel === 1 ? billSummaryMid :
+                            simplificationLevel === 2 ? billSummaryCom : "")
+                         :
+                         viewMode === "sponsor" ? "Sponsor details go here." :
+                         viewMode === "history" ? "Bill history details go here." :
+                         viewMode === "status" ? "Current bill status details go here." : ""}
+                    </Text>
                 {/*simplify button*/}
                 {showButton && (
                     <TouchableOpacity onPress={() => setIsSimplified(!isSimplified)} style={styles.simplifyButton}>
@@ -239,7 +353,32 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                    <Text style={styles.infoText}> {con} </Text>
                </View>
             )}
+        <View style={styles.leftEngagements}>
+            <View style={styles.engagementPairWrapper}>
+                <AntDesign
+                    name="arrowup"
+                    size={24}
+                    color={isUpvoted? "#000000" : "#7D7676"}
+                    onPress={handleUpvote}
+                />
+                <Text style={styles.engagementValues}>{upvotes}</Text>
+            </View>
 
+            <View style={styles.engagementPairWrapper}>
+                <AntDesign
+                    name="arrowdown"
+                    size={24}
+                    color={isDownvoted ? "#000000": "#7D7676"}
+                    onPress={handleDownvote}
+                />
+                <Text style={styles.engagementValues}>{downvotes}</Text>
+
+                <View style={styles.engagementPairWrapper}>
+                    <Feather name="bar-chart-2" size={24} color={"#7D7676"}/>
+                    <Text style={styles.engagementValues}>{numReactions}</Text>
+                </View>
+            </View>
+        </View>
     </ScrollView>
   );
 }

@@ -51,7 +51,7 @@ const [difficulty, setDifficulty] = useState('casual')
       </div>
 
       {/* Footer Section */}
-      <div className="col-start-4 flex justify-end p-2 gap-3">
+      <div className="flex justify-start p-2 gap-3">
       {<ButtonSquare className="self-start ml-5" Text={'Edit'} onClick={''} To={"/"}/>}
       </div>
     </div>

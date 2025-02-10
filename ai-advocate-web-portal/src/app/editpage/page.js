@@ -8,7 +8,7 @@ export default function EditPage() {
       summary:{
         title: "Bill Summaries"},
       thoughts:{
-        title:'Expert\'s thoughts'},
+        title:'Expert\'s Thoughts'},
       pros_cons:{
           title:'Pros and Cons'}}
 
@@ -19,7 +19,7 @@ export default function EditPage() {
         /* if routing changes, confirm links work */
         }
         <button className="self-start"><Link href="/">Go Back</Link></button>
-        <div className="">
+        <div className="lg:px-44 p-5">
           <h1 className="text-4xl">Bill Title</h1>
           <p className="text-xl font-bold">Bill ID</p>
           <p>Last updated: 1/10/2025</p>

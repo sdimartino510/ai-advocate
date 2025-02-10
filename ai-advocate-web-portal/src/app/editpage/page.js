@@ -1,8 +1,11 @@
+'use client'
+
 import Link from "next/link";
 import Header
  from "../components/header";
 import EditComponent from "../components/editComponent";
 export default function EditPage() {
+
 
   let edit_sections={
       summary:{

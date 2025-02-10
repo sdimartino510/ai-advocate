@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ButtonSquare from './buttonSquare';
 
 export default function EditComponent({section}) {
 
@@ -51,7 +52,7 @@ const [difficulty, setDifficulty] = useState('casual')
 
       {/* Footer Section */}
       <div className="col-start-4 flex justify-end p-2 gap-3">
-        <button onClick={''}> Edit </button>
+      {<ButtonSquare className="self-start ml-5" Text={'Edit'} onClick={''} To={"/"}/>}
       </div>
     </div>
   );

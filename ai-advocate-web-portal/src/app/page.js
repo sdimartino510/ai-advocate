@@ -1,11 +1,17 @@
 'use client'
 import Image from "next/image";
-import Header
- from "./components/header";
- import Search from "./components/search";
- import BillOverview from "./components/billOverview";
+import Header from "./components/header";
+import Search from "./components/search";
+import BillOverview from "./components/billOverview";
+import { SB376 } from "@/SB376";
+import { SB376Summary } from "@/SB376_summary";
+
 export default function Home() {
+  const billData = SB376;
+  const billSummary = SB376Summary;
+
   return (
+    // iterate for each bill, pass data into component
     <div className="grid grid-rows-[20px_1fr_20px] justify-items-center min-h-screen">
       <main className="flex flex-col gap-5 row-start-2 items-center sm:items-start
       ">

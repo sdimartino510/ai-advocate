@@ -4,7 +4,8 @@ import EditableInput from './editableInput';
 
 export default function EditComponent({section}) {
 
-const [difficulty, setDifficulty] = useState('casual')
+  // needs CRUD implementation
+  const [information, setInformation] = useState('casual')
 
   return (
       <div className="flex flex-col self-center border border-grayBlue rounded-lg bg-white w-full lg:w-[960px] lg:px-24 p-5 gap-3 ">
@@ -18,35 +19,40 @@ const [difficulty, setDifficulty] = useState('casual')
                 <div className="flex flex-row gap-8 text-lg text-gray-500">
                   {/* update to buttons */}
                   <button
-                    className={`${difficulty== 'casual' ? 'text-black' : ''}`}
-                    onClick={()=>setDifficulty('casual')}>
+                    id='casual'
+                    className={`${information== 'casual' ? 'text-black' : ''}`}
+                    onClick={()=>setInformation('casual')}>
                       Casual
                   </button>
                   <button
-                    className={`${difficulty== 'basic' ? 'text-black' : ''}`}
-                    onClick={()=>setDifficulty('basic')}>
+                    id='basic'
+                    className={`${information== 'basic' ? 'text-black' : ''}`}
+                    onClick={()=>setInformation('basic')}>
                       Basic
                   </button>
                   <button
-                    className={`${difficulty== 'professional' ? 'text-black' : ''}`}
-                    onClick={()=>setDifficulty('professional')}>
+                    id="professional"
+                    className={`${information== 'professional' ? 'text-black' : ''}`}
+                    onClick={()=>setInformation('professional')}>
                       Professional
                   </button>
                 </div>
               )}
-              {/* Textarea and checkbox for components */}
-              <textarea rows="10" className=" px-3 py-3 border border-grayBlue rounded-lg w-full" />
+              {/* needs to conditionally render summary or thought. if summary, conditionally render complexity */}
+              <textarea rows="10" className=" px-3 py-3 border border-grayBlue rounded-lg w-full">
+                  {section.text.casual}
+              </textarea>
 
               {section.title == 'Bill Summaries'&& (
               <div className="flex self-start gap-2">
-                <input type="checkbox" className="border border-grayBlue rounded-lg"/>
+                <input id={information} type="checkbox" className="border border-grayBlue rounded-lg"/>
                 <span> This summary has been verified by the panelists</span>
               </div>)}
             </>
           ) : (
-            // Content for pros and cons - make grid
             <div className="flex flex-col gap-8 w-full lg:w-[960px] lg:px-24 p-5 ">
               <div className=''>
+                {/* iterate inputs w data */}
                 <h3 className='font-semibold'>Pros:</h3>
                 <EditableInput/>
                 <EditableInput/>
@@ -61,11 +67,10 @@ const [difficulty, setDifficulty] = useState('casual')
             </div>
           )}
         </div>
-
         {/* Footer Section */}
         <div className="flex justify-start p-2 gap-3">
           {/* Hide if proscons section true */}
-        {<ButtonSquare className="self-start ml-5" Text={'Edit'} onClick={''} To={"/"}/>}
+        {<ButtonSquare className="self-start ml-5" Text={'Edit'} onClick={''} To={""}/>}
         </div>
       </div>
   );

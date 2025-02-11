@@ -1,14 +1,16 @@
 'use client'
 
-import Header
- from "../components/header";
+import { useState } from "react";
+import Header from "../components/header";
 import EditComponent from "../components/editComponent";
 import ButtonSquare from "../components/buttonSquare";
 import CoverComponent from "../components/coverComponent";
 
 export default function EditPage() {
 
-  let edit_sections={
+  const [editing,isEditing]=useState(false);
+
+  const edit_sections={
       summary:{
         title: "Bill Summaries"},
       thoughts:{
@@ -17,8 +19,6 @@ export default function EditPage() {
           title:'Pros and Cons'}}
 
     return (
-      <>
-
       <div className="flex flex-col gap-9">
         {<Header/>}
         {/* Montserrat is not loading or is being overwritten */
@@ -34,8 +34,7 @@ export default function EditPage() {
           {<EditComponent section={edit_sections.summary}/>}
           {<EditComponent section={edit_sections.thoughts}/>}
           {<EditComponent section={edit_sections.pros_cons}/>}
-          {<ButtonSquare className="self-start ml-5" Text={'Back to Home'} onClick={''} To={"/"}/>}{<CoverComponent/>}
+          {<ButtonSquare className="self-start ml-5" Text={'Back to Home'} onClick={''} To={"/"}/>}{<CoverComponent editing={editing}/>}
       </div>
-      </>
     );
   }

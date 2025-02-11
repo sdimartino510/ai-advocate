@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from "react-native"
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image } from "react-native"
 import { LinearGradient } from 'expo-linear-gradient';
-import Bill from "../../assets/components/Bill/Bill"
-import globalStyles from "@/assets/styles/global_styles"
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import Bill from "../../assets/components/Bill/Bill"
+import globalStyles from "@/assets/styles/global_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
 function SearchBar(){
@@ -45,7 +45,7 @@ function FilterButton({setShowFilterPanel} : {setShowFilterPanel : Function}){
 
 type Topic = "Violence" | "Education" | "Housing" | "Protection" | "Victim" | "Gun Control" | "Support" | "Gender" | "Harrassment"
 
-function FilterPanel({selectedTopics, setSelectedTopics} : {selectedTopics: Set<Topic>, setSelectedTopics : Function}){
+function FilterPanel({selectedTopics, setSelectedTopics, setShowFilterPanel} : {selectedTopics: Set<Topic>, setSelectedTopics : Function, setShowFilterPanel : Function}){
   const topics : Array<Topic> = ["Violence", "Education", "Housing", "Protection", "Victim", "Gun Control", "Support", "Gender", "Harrassment"]
 
   return (
@@ -67,6 +67,12 @@ function FilterPanel({selectedTopics, setSelectedTopics} : {selectedTopics: Set<
           </TouchableOpacity>
         ))}
       </View>
+      <TouchableOpacity
+        style={styles.closeFilterPanelButton}
+        onPress={() => setShowFilterPanel(false)}
+      >
+        <Image source={require('../../assets/images/close_arrow.png')} style={{ width: 40, height: 40 }} />
+      </TouchableOpacity>
     </View>
   )
 }
@@ -162,7 +168,7 @@ export default function Index() {
         />
 
         {showFilterPanel &&
-          <FilterPanel selectedTopics={selectedTopics} setSelectedTopics={setSelectedTopics}/>
+          <FilterPanel selectedTopics={selectedTopics} setSelectedTopics={setSelectedTopics} setShowFilterPanel={setShowFilterPanel}/>
         }
         
         {/* TODO: Dynamically update this number. */}
@@ -320,7 +326,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: globalStyles.colors.grey,
+    borderColor: globalStyles.colors.lightGrey,
     backgroundColor: globalStyles.colors.white,
     boxShadow: "0px 4px 4px {rgba(0, 0, 0, 0.25)}",
   },
@@ -328,5 +334,18 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_400Regular",
     fontSize: 14,
     color: globalStyles.colors.black,
+  },
+  closeFilterPanelButton: {
+    position: "absolute",
+    top: "50%",
+    left: -12,
+    height: 74,
+    width: 24,
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: 7,
+    backgroundColor: globalStyles.colors.lightBlue,
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
   },
 })

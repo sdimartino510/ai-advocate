@@ -132,6 +132,29 @@ const styles = StyleSheet.create({
         top: 2.5,
         left: 3,
     },
+    reactionsButton: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingLeft: 6,  // Shifts the smiley face to the right to look centered
+        height: 24,
+        width: 24,
+    },
+    reactionsContainer: {
+        position: "absolute",
+        left: 30,  // Size of one emoji or interaction Expo icon + 6px gap from smiley face
+        zIndex: 1,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: 4,
+
+        paddingHorizontal: 4,
+        paddingVertical: 8,
+        borderRadius: 12,
+        backgroundColor: globalStyles.colors.blue2,
+    },
 })
 
 export default styles

@@ -148,15 +148,14 @@ export default function Index() {
 
   useEffect(() => {
     if(showFilterPanel) {
-      slideAnim.setValue(300)
       Animated.timing(slideAnim, {
         toValue: 0,
         duration: 450, // Duration of the fade-in
         useNativeDriver: true,
       }).start();
     }
+    // TODO: Fix this animation. It's not working. Opening the panel works though.
     else {
-      slideAnim.setValue(0)
       Animated.timing(slideAnim, {
         toValue: 300,
         duration: 450, // Duration of the fade-out

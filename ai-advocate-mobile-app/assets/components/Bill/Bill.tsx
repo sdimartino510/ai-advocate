@@ -65,6 +65,22 @@ function StatusBadge({status}: {status: Status}) {
     )
 }
 
+function ReactionBar({reactions} : {reactions : Array<{id: number, emoji: string, numReactions: number}>}){
+  return (
+    <View style={styles.reactionsContainer}>
+      {reactions.map((reaction, index) => (
+        <View key={index}>
+            <TouchableOpacity
+                onPress = {() => console.log("Reaction pressed")}  // TODO: Increment reaction count and sync with backend.
+            >
+                <Text>{reaction.emoji}</Text>
+            </TouchableOpacity>
+        </View>
+      ))}
+    </View>
+  )
+}
+
 function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
     const [upvotes, setUpvotes] = useState(numUpvotes)
     const [downvotes, setDownvotes] = useState(numDownvotes)
@@ -145,6 +161,17 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         }
     }
 
+    const [showReactionsBar, setShowReactionsBar] = useState(false)
+
+    // TODO: Sync with backend. This is sample reaction data (taken and modified from Settings page).
+    const [reactions, setReactions] = useState([
+        { id: 1, emoji: '😊', numReactions: 1 },
+        { id: 2, emoji: '🥰', numReactions: 2 },
+        { id: 3, emoji: '😯', numReactions: 3 },
+        { id: 4, emoji: '😢', numReactions: 4 },
+        { id: 5, emoji: '😡', numReactions: 5 },
+    ])
+
     return (
         <View style={styles.billContainer}>
             <Text style={styles.title}>{title}</Text>
@@ -197,6 +224,15 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                             onPress={handleDownvote}
                         />
                         <Text style={styles.engagementValues}>{downvotes}</Text>
+                    </View>
+
+                    <View style={styles.reactionsButton}>
+                        <TouchableOpacity
+                            onPress={() => setShowReactionsBar(!showReactionsBar)}
+                        >
+                            <Text>🙂</Text>
+                        </TouchableOpacity>
+                        {showReactionsBar && <ReactionBar reactions={reactions} />}
                     </View>
 
                     <View style={styles.engagementPairWrapper}>

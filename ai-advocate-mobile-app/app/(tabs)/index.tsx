@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image } from "react-native"
+import { useEffect, useState } from "react";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, Animated } from "react-native"
 import { LinearGradient } from 'expo-linear-gradient';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -49,7 +49,7 @@ function FilterPanel({selectedTopics, setSelectedTopics, setShowFilterPanel} : {
   const topics : Array<Topic> = ["Violence", "Education", "Housing", "Protection", "Victim", "Gun Control", "Support", "Gender", "Harrassment"]
 
   return (
-    <View style={styles.filterPanelContainer}>
+    <View>
       <Text style={styles.filterPanelTitle}>Filter By Topics</Text>
       <Text style={styles.filterPanelDescription}>Click to add/remove topics.</Text>
       <View style={styles.filterPanelOptionsContainer}>
@@ -142,7 +142,28 @@ function SelectedTopics({selectedTopics, setSelectedTopics, setShowFilterPanel} 
 
 export default function Index() {
   const [selectedTopics, setSelectedTopics] = useState<Set<Topic>>(new Set([]))
-  const [showFilterPanel, setShowFilterPanel] = useState<Boolean>(false) // TODO: Add closing filter panel event handler + arrow button.
+  const [showFilterPanel, setShowFilterPanel] = useState<Boolean>(false)
+
+  const slideAnim = new Animated.Value(300); // For filter panel. Initial position of panel is off-screen to the right.
+
+  useEffect(() => {
+    if(showFilterPanel) {
+      slideAnim.setValue(300)
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 450, // Duration of the fade-in
+        useNativeDriver: true,
+      }).start();
+    }
+    else {
+      slideAnim.setValue(0)
+      Animated.timing(slideAnim, {
+        toValue: 300,
+        duration: 450, // Duration of the fade-out
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [showFilterPanel])
 
   return (
     <LinearGradient
@@ -167,9 +188,20 @@ export default function Index() {
           setShowFilterPanel={setShowFilterPanel}
         />
 
-        {showFilterPanel &&
-          <FilterPanel selectedTopics={selectedTopics} setSelectedTopics={setSelectedTopics} setShowFilterPanel={setShowFilterPanel}/>
-        }
+        <Animated.View
+          style={[
+            styles.filterPanelContainer,
+            {
+              transform: [{ translateX: slideAnim }], // Apply the sliding animation
+            },
+          ]}
+        >
+          <FilterPanel
+            selectedTopics={selectedTopics}
+            setSelectedTopics={setSelectedTopics}
+            setShowFilterPanel={setShowFilterPanel}
+          />
+        </Animated.View>
         
         {/* TODO: Dynamically update this number. */}
         <Text style={styles.searchResultsStat}>Search Results: {0}</Text>
@@ -338,7 +370,7 @@ const styles = StyleSheet.create({
   closeFilterPanelButton: {
     position: "absolute",
     top: "50%",
-    left: -12,
+    left: -30,
     height: 74,
     width: 24,
     justifyContent: "center",

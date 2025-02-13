@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 import { Image, Text, View } from 'react-native';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import globalStyles from '../../assets/styles/global_styles';
+import globalStyles from '../../assets/global_styles';
 
 export default function TabLayout() {
   return (

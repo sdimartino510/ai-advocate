@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Text, View, Image, TouchableOpacity, Linking, ScrollView, StyleSheet } from 'react-native';
-import globalStyles from '../../assets/styles/global_styles';
+import globalStyles from '../../assets/global_styles';
 
 export default function LNF() {
   const [text, setText] = useState('');

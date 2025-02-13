@@ -1,10 +1,13 @@
-import { useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity } from "react-native"
+import { useEffect, useState } from "react";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, Animated } from "react-native"
 import { LinearGradient } from 'expo-linear-gradient';
-import Bill from "../../assets/components/Bill/Bill"
-import globalStyles from "@/assets/styles/global_styles"
 import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Bill from "../../assets/components/Bill/Bill"
+import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
+import { Topic } from "@/assets/types"
+import globalStyles from "@/assets/global_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
 function SearchBar(){
@@ -15,23 +18,23 @@ function SearchBar(){
   }
 
   return (
-      <View style={styles.searchBarContainer}>
-          <TextInput
-            style={styles.searchBar}
-            placeholder="Search Bills"
-            onChangeText = {handleChange}
-          >
-            {searchQuery}
-          </TextInput>
-      </View>
+    <View style={styles.searchBar}>
+      <TextInput
+        style={styles.searchBarInput}
+        placeholder="Search Bills"
+        onChangeText = {handleChange}
+      >
+        {searchQuery}
+      </TextInput>
+    </View>
   )
 }
 
-// TODO: Implement filter by topics functionality.
-function FilterButton(){
+// TODO: Implement functionality to display bills based on selected topics (topic filters).
+function FilterButton({setShowFilterPanel} : {setShowFilterPanel : Function}){
   return (
     <TouchableOpacity
-      onPress={() => console.log("Filter button pressed")}  // TODO: Placeholder.
+      onPress={() => setShowFilterPanel(true)}
       style={{width: "20%"}}
     >
       <View style={styles.filterButtonContainer}>
@@ -42,7 +45,7 @@ function FilterButton(){
   )
 }
 
-// TODO: Implement sort by time or panel reviewed functionality.
+// TODO: Implement functionality to display bills in order of time or only display verified (panel-reviewed) bills.
 function SortSelection(){
   const options = ["All", "Recent", "Trending", "Panel"]
   const [selectedOption, setSelectedOption] = useState<String>("All")
@@ -72,31 +75,63 @@ function SortSelection(){
   )
 }
 
-function SelectedTopics(){
-  // TODO: Connect selected topics to filter button functionality: add, update, remove topics.
-  const topics = ["Violence", "Education", "Housing", "Protection", "Victim", "Gun Control", "Support", "Gender", "Harrassment"]
-  const [selectedTopics, setSelectedTopics] = useState<Array<String>>(["Violence", "Education"])
-
+function SelectedTopics({selectedTopics, setSelectedTopics, setShowFilterPanel} : {selectedTopics: Set<Topic>, setSelectedTopics : Function, setShowFilterPanel : Function}){
   return (
     <View style={styles.selectedTopicsContainer}>
-      {selectedTopics.map((topic, index) => (
+      {[...selectedTopics].map((topic, index) => (
         <View
           key={index}
           style={styles.selectedTopic}
         >
           <Text style={styles.selectedTopicText}>{topic}    </Text>
           <TouchableOpacity
-            onPress={() => console.log("Remove topic")}  // TODO: Placeholder.
+            onPress={() => {
+              const updatedTopics = new Set(selectedTopics);
+              updatedTopics.delete(topic);
+              setSelectedTopics(updatedTopics)
+            }}
           >
             <FontAwesome name="remove" size={12} color={globalStyles.colors.grey} />
           </TouchableOpacity>
         </View>
       ))}
+
+      {/** Open/close filter panel to add/remove filtered topics. */}
+      {selectedTopics.size >= 1 && 
+        <TouchableOpacity
+          onPress={() => setShowFilterPanel(true)}
+        >
+          <Ionicons name="ellipsis-horizontal-circle" size={24} color={globalStyles.colors.grey} />
+        </TouchableOpacity>
+      }
     </View>
   )
 }
 
 export default function Index() {
+  const [selectedTopics, setSelectedTopics] = useState<Set<Topic>>(new Set([]))
+  const [showFilterPanel, setShowFilterPanel] = useState<Boolean>(false)
+
+  const slideAnim = new Animated.Value(300); // For filter panel. Initial position of panel is off-screen to the right.
+
+  useEffect(() => {
+    if(showFilterPanel) {
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 450, // Duration of the fade-in
+        useNativeDriver: true,
+      }).start();
+    }
+    // TODO: Fix this animation. It's not working. Opening the panel works though.
+    else {
+      Animated.timing(slideAnim, {
+        toValue: 300,
+        duration: 450, // Duration of the fade-out
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [showFilterPanel])
+
   return (
     <LinearGradient
         colors={[globalStyles.colors.white, globalStyles.colors.blue1]}
@@ -109,16 +144,36 @@ export default function Index() {
           alignItems: "center",
         }}
       >
-        <View style = {styles.searchFilterContainer}>
+        <View style = {styles.searchBarContainer}>
           <SearchBar />
-          <FilterButton />
+          <FilterButton setShowFilterPanel={setShowFilterPanel}/>
         </View>
         <SortSelection />
-        <SelectedTopics />
+        <SelectedTopics
+          selectedTopics={selectedTopics}
+          setSelectedTopics={setSelectedTopics}
+          setShowFilterPanel={setShowFilterPanel}
+        />
+
+        <Animated.View
+          style={[
+            styles.filterPanelContainer,
+            {
+              transform: [{ translateX: slideAnim }], // Apply the sliding animation
+            },
+          ]}
+        >
+          <FilterPanel
+            selectedTopics={selectedTopics}
+            setSelectedTopics={setSelectedTopics}
+            setShowFilterPanel={setShowFilterPanel}
+          />
+        </Animated.View>
         
         {/* TODO: Dynamically update this number. */}
         <Text style={styles.searchResultsStat}>Search Results: {0}</Text>
         
+        {/** TODO: Scroll View for the portion of screen displaying the bills. */}
         <Bill
           title="HUMAN TRAFFICKING: VICTIM RIGHTS"
           id="CA SB376"
@@ -135,7 +190,8 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  searchFilterContainer: {
+  // Search Bar Styles
+  searchBarContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -143,10 +199,10 @@ const styles = StyleSheet.create({
     width: "100%",
     gap: 16,
   },
-  searchBarContainer:{
+  searchBar:{
     width: "75%",
   },
-  searchBar: {
+  searchBarInput: {
     padding: 8,
     paddingLeft: 32,
     fontSize: 17,
@@ -159,6 +215,7 @@ const styles = StyleSheet.create({
     backgroundColor: globalStyles.colors.searchBarGrey,
     color: globalStyles.colors.searchBarText,
   },
+  // Filter Button Styles
   filterButtonContainer:{
     flexDirection: "row",
     justifyContent: "center",
@@ -175,6 +232,7 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_800Bold",
     textAlign: "center",
   },
+  // Sort Selection Styles
   sortSelectionContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -187,17 +245,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     borderWidth: 1,
     borderRadius: 8,
+    borderColor: globalStyles.colors.sortOptionBorder,
     fontSize: 14,
     fontFamily: "Montserrat_400Regular",
     color: globalStyles.colors.sortOptionText,
-    borderColor: globalStyles.colors.sortOptionBorder,
     backgroundColor: globalStyles.colors.white,
   },
+  // Selected Topics Styles
   selectedTopicsContainer: {
     width: "100%",
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start",
+    alignItems: "center",
     gap: 8,
     padding: 16,
   },
@@ -225,5 +285,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: "Montserrat_400Regular",
     color: globalStyles.colors.sortOptionText,
+  },
+  filterPanelContainer: {
+    position: "absolute",
+    top: 60,
+    right: 0,
+    zIndex: 1,
+    width: "64%",
+    
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    borderTopLeftRadius: 8,
+    borderBottomLeftRadius: 8,
+    backgroundColor: globalStyles.colors.lightBlue,
+    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
   },
 })

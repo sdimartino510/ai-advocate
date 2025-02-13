@@ -70,7 +70,7 @@ function ReactionBar(
     {reactions, setReactions, selectedReaction, setSelectedReaction, setShowReactionsBar, totalReactions, setTotalReactions} : 
     {
         reactions : Array<{id: number, emoji: string, numReactions: number}>
-        setReactions : Function
+        setReactions : React.Dispatch<React.SetStateAction<Array<{id: number, emoji: string, numReactions: number}>>>
         selectedReaction : number
         setSelectedReaction : React.Dispatch<React.SetStateAction<number>> 
         setShowReactionsBar : React.Dispatch<React.SetStateAction<boolean>> 
@@ -115,6 +115,24 @@ function ReactionBar(
                 </TouchableOpacity>
             </View>
         ))}
+        </View>
+    )
+}
+
+function ReactionStats({totalReactions, reactions} : {totalReactions: number, reactions: Array<{id: number, emoji: string, numReactions: number}>}) {
+    return(
+        <View style={styles.reactionStatsContainer}>
+            <View style={styles.reactionStatsPairWrapper}>
+                <Text style={styles.reactionStatsText}>All {totalReactions}</Text>
+            </View>
+            {reactions.map((reaction, index) => 
+                <View
+                    style={styles.reactionStatsPairWrapper}
+                    key={index}
+                >
+                    <Text style={styles.reactionStatsText}>{reaction.emoji} {reaction.numReactions}</Text>
+                </View>
+            )}
         </View>
     )
 }
@@ -203,14 +221,16 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
     const [selectedReaction, setSelectedReaction] = useState<number>(-1) // Default reaction id == 0. TODO: Initialize with user's reaction.
 
     // TODO: Sync with backend. This is sample reaction data (taken and modified from Settings page).
-    const [reactions, setReactions] = useState([
-        { id: 0, emoji: '😊', numReactions: 0 },
-        { id: 1, emoji: '🥰', numReactions: 0 },
-        { id: 2, emoji: '😯', numReactions: 0 },
-        { id: 3, emoji: '😢', numReactions: 0 },
-        { id: 4, emoji: '😡', numReactions: 0 },
+    const [reactions, setReactions] = useState<Array<{id: number, emoji: string, numReactions: number}>>([
+        { id: 0, emoji: '😊', numReactions: 96 },
+        { id: 1, emoji: '🥰', numReactions: 27 },
+        { id: 2, emoji: '😯', numReactions: 13 },
+        { id: 3, emoji: '😢', numReactions: 5 },
+        { id: 4, emoji: '😡', numReactions: 2 },
     ])
     const [totalReactions, setTotalReactions] = useState<number>(numReactions) // TODO: Sync with backend.
+
+    const [showReactionStats, setShowReactionStats] = useState<boolean>(false)
 
     return (
         <View style={styles.billContainer}>
@@ -284,10 +304,18 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                         }
                     </View>
 
-                    <View style={styles.engagementPairWrapper}>
+                    <TouchableOpacity
+                        style={styles.engagementPairWrapper}
+                        onPress={() => setShowReactionStats(!showReactionStats)}
+                    >
                         <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
                         <Text style={styles.engagementValues}>{totalReactions}</Text>
-                    </View>
+                        {showReactionStats && 
+                            <View style={styles.reactionStatsBase}>
+                                <ReactionStats totalReactions={totalReactions} reactions={reactions} />
+                            </View>
+                        }
+                    </TouchableOpacity>
 
                     <Feather name="share-2" size={24} color={globalStyles.colors.grey} />
                 </View>

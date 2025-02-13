@@ -18,6 +18,7 @@ type BillProps = {
     numDownvotes?: number,
     numReactions?: number,
     saved?: boolean,
+    reactionID?: number, // TODO: Initialize with user's reaction.
 }
 
 function StatusBadge({status}: {status: Status}) {
@@ -65,20 +66,78 @@ function StatusBadge({status}: {status: Status}) {
     )
 }
 
-function ReactionBar({reactions} : {reactions : Array<{id: number, emoji: string, numReactions: number}>}){
-  return (
-    <View style={styles.reactionsContainer}>
-      {reactions.map((reaction, index) => (
-        <View key={index}>
-            <TouchableOpacity
-                onPress = {() => console.log("Reaction pressed")}  // TODO: Increment reaction count and sync with backend.
-            >
-                <Text>{reaction.emoji}</Text>
-            </TouchableOpacity>
+function ReactionBar(
+    {reactions, setReactions, selectedReaction, setSelectedReaction, setShowReactionsBar, totalReactions, setTotalReactions} : 
+    {
+        reactions : Array<{id: number, emoji: string, numReactions: number}>
+        setReactions : Function
+        selectedReaction : number
+        setSelectedReaction : Function
+        setShowReactionsBar : Function
+        totalReactions : number
+        setTotalReactions: React.Dispatch<React.SetStateAction<number>>  // Use SetStateAction<number> to type this correctly
+    }
+) {
+
+    const handleReactionPress = (index: number) => {
+        // console.log("BEFORE")
+        // reactions.forEach((reaction) => {
+        //     console.log("Reaction", reaction.emoji, "count:", reaction.numReactions)
+        // })
+
+        // Remove current selected reaction.
+        if (selectedReaction !== -1){
+            const updatedReactions = reactions
+            updatedReactions[selectedReaction].numReactions -= 1 // decrement unselected reaction's count
+            setReactions(updatedReactions)
+            setTotalReactions(totalReactions => totalReactions - 1)
+            // console.log("removed reaction")
+        }
+        // Reset to default reaction if pressed on already selected reaction.
+        if (selectedReaction === index){
+            setSelectedReaction(-1)
+            // console.log("reset reaction")
+            // console.log("AFTER")
+            // console.log("Reaction", index, "removed")
+            // reactions.forEach((reaction) => {
+            //     console.log("Reaction", reaction.emoji, "count:", reaction.numReactions)
+            // })
+        }
+        // Select new reaction if pressed on different reaction.
+        else {
+            setSelectedReaction(index)
+            const updatedReactions = reactions
+            updatedReactions[index].numReactions += 1
+            setReactions(updatedReactions)
+            setTotalReactions(totalReactions => totalReactions + 1)
+            // console.log("added reaction")
+            // console.log("AFTER")
+            // console.log("Reaction", index, "added")
+            // reactions.forEach((reaction) => {
+            //     console.log("Reaction", reaction.emoji, "count:", reaction.numReactions)
+            // })
+        }
+        // console.log("Total reactions:", totalReactions)
+        // console.log("Previously selected:", selectedReaction)
+        // console.log("Selected:", index)
+
+        // Close reaction bar after updating a reaction
+        setShowReactionsBar(false)
+    }
+
+    return (
+        <View style={styles.reactionsContainer}>
+        {reactions.map((reaction, index) => (
+            <View key={index}>
+                <TouchableOpacity
+                    onPress = {() => {handleReactionPress(index)}}
+                >
+                    <Text>{reaction.emoji}</Text>
+                </TouchableOpacity>
+            </View>
+        ))}
         </View>
-      ))}
-    </View>
-  )
+    )
 }
 
 function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
@@ -163,14 +222,17 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
 
     const [showReactionsBar, setShowReactionsBar] = useState(false)
 
+    const [selectedReaction, setSelectedReaction] = useState<number>(-1) // Default reaction id == 0. TODO: Initialize with user's reaction.
+
     // TODO: Sync with backend. This is sample reaction data (taken and modified from Settings page).
     const [reactions, setReactions] = useState([
-        { id: 1, emoji: '😊', numReactions: 1 },
-        { id: 2, emoji: '🥰', numReactions: 2 },
-        { id: 3, emoji: '😯', numReactions: 3 },
-        { id: 4, emoji: '😢', numReactions: 4 },
-        { id: 5, emoji: '😡', numReactions: 5 },
+        { id: 0, emoji: '😊', numReactions: 0 },
+        { id: 1, emoji: '🥰', numReactions: 0 },
+        { id: 2, emoji: '😯', numReactions: 0 },
+        { id: 3, emoji: '😢', numReactions: 0 },
+        { id: 4, emoji: '😡', numReactions: 0 },
     ])
+    const [totalReactions, setTotalReactions] = useState(numReactions) // TODO: Sync with backend.
 
     return (
         <View style={styles.billContainer}>
@@ -230,14 +292,24 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                         <TouchableOpacity
                             onPress={() => setShowReactionsBar(!showReactionsBar)}
                         >
-                            <Text>🙂</Text>
+                            <Text>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
                         </TouchableOpacity>
-                        {showReactionsBar && <ReactionBar reactions={reactions} />}
+                        {showReactionsBar &&
+                            <ReactionBar
+                                reactions={reactions}
+                                setReactions={setReactions}
+                                selectedReaction={selectedReaction}
+                                setSelectedReaction={setSelectedReaction}
+                                setShowReactionsBar={setShowReactionsBar}
+                                totalReactions={totalReactions}
+                                setTotalReactions={setTotalReactions}
+                            />
+                        }
                     </View>
 
                     <View style={styles.engagementPairWrapper}>
                         <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
-                        <Text style={styles.engagementValues}>{numReactions}</Text>
+                        <Text style={styles.engagementValues}>{totalReactions}</Text>
                     </View>
 
                     <Feather name="share-2" size={24} color={globalStyles.colors.grey} />

@@ -5,6 +5,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Bill from "../../assets/components/Bill/Bill"
+import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
+import { Topic } from "@/assets/types"
 import globalStyles from "@/assets/styles/global_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
@@ -16,15 +18,15 @@ function SearchBar(){
   }
 
   return (
-      <View style={styles.searchBar}>
-          <TextInput
-            style={styles.searchBarInput}
-            placeholder="Search Bills"
-            onChangeText = {handleChange}
-          >
-            {searchQuery}
-          </TextInput>
-      </View>
+    <View style={styles.searchBar}>
+      <TextInput
+        style={styles.searchBarInput}
+        placeholder="Search Bills"
+        onChangeText = {handleChange}
+      >
+        {searchQuery}
+      </TextInput>
+    </View>
   )
 }
 
@@ -40,40 +42,6 @@ function FilterButton({setShowFilterPanel} : {setShowFilterPanel : Function}){
         <AntDesign name="filter" size={20} color="black" />
       </View>
     </TouchableOpacity>
-  )
-}
-
-type Topic = "Violence" | "Education" | "Housing" | "Protection" | "Victim" | "Gun Control" | "Support" | "Gender" | "Harrassment"
-
-function FilterPanel({selectedTopics, setSelectedTopics, setShowFilterPanel} : {selectedTopics: Set<Topic>, setSelectedTopics : Function, setShowFilterPanel : Function}){
-  const topics : Array<Topic> = ["Violence", "Education", "Housing", "Protection", "Victim", "Gun Control", "Support", "Gender", "Harrassment"]
-
-  return (
-    <View>
-      <Text style={styles.filterPanelTitle}>Filter By Topics</Text>
-      <Text style={styles.filterPanelDescription}>Click to add/remove topics.</Text>
-      <View style={styles.filterPanelOptionsContainer}>
-        {topics.map((topic, index) => (
-          <TouchableOpacity
-            key={index}
-            style={styles.filterPanelOptionButton}
-            onPress={() => {
-              const updatedTopics = new Set(selectedTopics)
-              updatedTopics.add(topic)
-              setSelectedTopics(updatedTopics)
-            }}
-          >
-            <Text style={styles.filterPanelOptionText}>{topic}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <TouchableOpacity
-        style={styles.closeFilterPanelButton}
-        onPress={() => setShowFilterPanel(false)}
-      >
-        <Image source={require('../../assets/images/close_arrow.png')} style={{ width: 40, height: 40 }} />
-      </TouchableOpacity>
-    </View>
   )
 }
 
@@ -318,7 +286,6 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_400Regular",
     color: globalStyles.colors.sortOptionText,
   },
-  // Filter Panel Styles
   filterPanelContainer: {
     position: "absolute",
     top: 60,
@@ -330,52 +297,6 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderTopLeftRadius: 8,
     borderBottomLeftRadius: 8,
-    backgroundColor: globalStyles.colors.lightBlue,
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  },
-  filterPanelTitle: {
-    marginBottom: 12,
-    fontSize: 16,
-    fontFamily: "Montserrat_700Bold",
-    color: globalStyles.colors.black,
-  },
-  filterPanelDescription: {
-    marginBottom: 32,
-    fontSize: 14,
-    fontFamily: "Montserrat_400Regular",
-    color: globalStyles.colors.black,
-  },
-  filterPanelOptionsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    gap: 12,
-  },
-  filterPanelOptionButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    marginBottom: 16,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: globalStyles.colors.lightGrey,
-    backgroundColor: globalStyles.colors.white,
-    boxShadow: "0px 4px 4px {rgba(0, 0, 0, 0.25)}",
-  },
-  filterPanelOptionText: {
-    fontFamily: "Montserrat_400Regular",
-    fontSize: 14,
-    color: globalStyles.colors.black,
-  },
-  closeFilterPanelButton: {
-    position: "absolute",
-    top: "50%",
-    left: -30,
-    height: 74,
-    width: 24,
-    justifyContent: "center",
-    alignItems: "center",
-
-    borderRadius: 7,
     backgroundColor: globalStyles.colors.lightBlue,
     boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
   },

@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        paddingLeft: 6,  // Shifts the smiley face to the right to look centered
+        paddingLeft: 2,  // Shifts the smiley face to the right to look more centered
         height: 24,
         width: 24,
     },
@@ -187,6 +187,9 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat_400Regular',
         fontSize: 17,
         color: globalStyles.colors.grey,
+    },
+    emoji: {
+        fontSize: 17,
     },
 })
 

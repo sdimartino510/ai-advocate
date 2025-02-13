@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import globalStyles from '../../styles/global_styles'
+import globalStyles from '../../global_styles'
 import styles from './bill_styles'
 
 type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled' | 'Vetoed'

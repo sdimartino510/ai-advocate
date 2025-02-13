@@ -7,7 +7,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Octicons from '@expo/vector-icons/Octicons';
 import Entypo from '@expo/vector-icons/Entypo';
-import globalStyles from '../../assets/styles/global_styles';
+import globalStyles from '../../assets/global_styles';
 
 const Stack = createNativeStackNavigator();
 

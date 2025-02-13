@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native'
-import globalStyles from '../../styles/global_styles'
+import globalStyles from '../../global_styles'
 
 const styles = StyleSheet.create({
     billContainer: {

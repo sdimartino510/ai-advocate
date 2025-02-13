@@ -7,7 +7,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Bill from "../../assets/components/Bill/Bill"
 import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
 import { Topic } from "@/assets/types"
-import globalStyles from "@/assets/styles/global_styles"
+import globalStyles from "@/assets/global_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
 function SearchBar(){

@@ -111,7 +111,7 @@ function ReactionBar(
                 <TouchableOpacity
                     onPress = {() => {handleReactionPress(index)}}
                 >
-                    <Text>{reaction.emoji}</Text>
+                    <Text style={styles.emoji}>{reaction.emoji}</Text>
                 </TouchableOpacity>
             </View>
         ))}
@@ -289,7 +289,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                         <TouchableOpacity
                             onPress={() => setShowReactionsBar(!showReactionsBar)}
                         >
-                            <Text>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
+                            <Text style={styles.emoji}>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
                         </TouchableOpacity>
                         {showReactionsBar &&
                             <ReactionBar

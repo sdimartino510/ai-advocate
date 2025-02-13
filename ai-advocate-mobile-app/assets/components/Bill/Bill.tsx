@@ -72,36 +72,24 @@ function ReactionBar(
         reactions : Array<{id: number, emoji: string, numReactions: number}>
         setReactions : Function
         selectedReaction : number
-        setSelectedReaction : Function
-        setShowReactionsBar : Function
+        setSelectedReaction : React.Dispatch<React.SetStateAction<number>> 
+        setShowReactionsBar : React.Dispatch<React.SetStateAction<boolean>> 
         totalReactions : number
         setTotalReactions: React.Dispatch<React.SetStateAction<number>>  // Use SetStateAction<number> to type this correctly
     }
 ) {
 
     const handleReactionPress = (index: number) => {
-        // console.log("BEFORE")
-        // reactions.forEach((reaction) => {
-        //     console.log("Reaction", reaction.emoji, "count:", reaction.numReactions)
-        // })
-
         // Remove current selected reaction.
         if (selectedReaction !== -1){
             const updatedReactions = reactions
             updatedReactions[selectedReaction].numReactions -= 1 // decrement unselected reaction's count
             setReactions(updatedReactions)
             setTotalReactions(totalReactions => totalReactions - 1)
-            // console.log("removed reaction")
         }
         // Reset to default reaction if pressed on already selected reaction.
         if (selectedReaction === index){
             setSelectedReaction(-1)
-            // console.log("reset reaction")
-            // console.log("AFTER")
-            // console.log("Reaction", index, "removed")
-            // reactions.forEach((reaction) => {
-            //     console.log("Reaction", reaction.emoji, "count:", reaction.numReactions)
-            // })
         }
         // Select new reaction if pressed on different reaction.
         else {
@@ -110,16 +98,7 @@ function ReactionBar(
             updatedReactions[index].numReactions += 1
             setReactions(updatedReactions)
             setTotalReactions(totalReactions => totalReactions + 1)
-            // console.log("added reaction")
-            // console.log("AFTER")
-            // console.log("Reaction", index, "added")
-            // reactions.forEach((reaction) => {
-            //     console.log("Reaction", reaction.emoji, "count:", reaction.numReactions)
-            // })
         }
-        // console.log("Total reactions:", totalReactions)
-        // console.log("Previously selected:", selectedReaction)
-        // console.log("Selected:", index)
 
         // Close reaction bar after updating a reaction
         setShowReactionsBar(false)
@@ -141,14 +120,14 @@ function ReactionBar(
 }
 
 function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
-    const [upvotes, setUpvotes] = useState(numUpvotes)
-    const [downvotes, setDownvotes] = useState(numDownvotes)
+    const [upvotes, setUpvotes] = useState<number>(numUpvotes)
+    const [downvotes, setDownvotes] = useState<number>(numDownvotes)
     
     // TODO: Get the existing status of whether or not user upvoted or downvoted.
-    const [isUpvoted, setIsUpvoted] = useState(false)
-    const [isDownvoted, setIsDownvoted] = useState(false)
+    const [isUpvoted, setIsUpvoted] = useState<boolean>(false)
+    const [isDownvoted, setIsDownvoted] = useState<boolean>(false)
 
-    const [isSaved, setIsSaved] = useState(saved)
+    const [isSaved, setIsSaved] = useState<boolean>(saved)
 
     const handleUpvote = () => {
         // undo upvote
@@ -220,8 +199,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         }
     }
 
-    const [showReactionsBar, setShowReactionsBar] = useState(false)
-
+    const [showReactionsBar, setShowReactionsBar] = useState<boolean>(false)
     const [selectedReaction, setSelectedReaction] = useState<number>(-1) // Default reaction id == 0. TODO: Initialize with user's reaction.
 
     // TODO: Sync with backend. This is sample reaction data (taken and modified from Settings page).
@@ -232,7 +210,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         { id: 3, emoji: '😢', numReactions: 0 },
         { id: 4, emoji: '😡', numReactions: 0 },
     ])
-    const [totalReactions, setTotalReactions] = useState(numReactions) // TODO: Sync with backend.
+    const [totalReactions, setTotalReactions] = useState<number>(numReactions) // TODO: Sync with backend.
 
     return (
         <View style={styles.billContainer}>
@@ -265,7 +243,6 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                 ))}
             </View>
 
-            {/* TODO: Add reaction icons. + For all icons: functionality and sync with backend. */}
             <View style={styles.engagementContainer}>
                 <View style={styles.leftEngagements}>
                     <View style={styles.engagementPairWrapper}>

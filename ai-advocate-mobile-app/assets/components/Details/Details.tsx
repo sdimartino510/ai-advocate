@@ -29,23 +29,23 @@ type BillInfo = {
 }
 
 function StatusBadge({status}: {status: Status}) {
-    let color = "#DAFED9"
+    let color = globalStyles.colors.lightGreen
     let statusDefinition = ''
 
     if (status === 'Introduced') {
-        color = "#FADEFF"
+        color = globalStyles.colors.pink
         statusDefinition = 'A lawmaker (a senator or assembly member) has officially presented the bill to the legislature for consideration. This is the first step in the process of making it a law.'
     } else if (status === 'Engrossed') {
-        color = "#E3D9FE"
+        color = globalStyles.colors.purple
         statusDefinition = 'The bill has been updated to include any changes made during the review process. It is then prepared in its final form before moving to the next stage of approval.'
     } else if (status === 'Enrolled') {
-        color = "#FEEAD3"
+        color = globalStyles.colors.orange
         statusDefinition = 'The bill has been passed and will now be proofread for accuracy and then delivered to the Governor to be approved or vetoed.'
     } else if (status === 'Passed') {
-        color = "#DAFED9"
+        color = globalStyles.colors.lightGreen
         statusDefinition = 'A majority of lawmakers in both the State Assembly and the State Senate have voted to approve the bill. The bill then becomes “enrolled” and is then sent to the Governor to be approved or vetoed.'
     } else if(status === 'Vetoed'){
-        color = "#FED9D9"
+        color = globalStyles.colors.lightRed
         statusDefinition = 'The governor has rejected the bill and decided not to make it a law. However, lawmakers can try to override the veto with a two-thirds vote in both the State Assembly and the State Senate.'
     }
 
@@ -114,7 +114,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             width: 40,
             height: 40,
             borderRadius: 20,
-            backgroundColor: activeCircle === circleName ? "#8DBFE4": "#C0DAEC",
+            backgroundColor: activeCircle === circleName ? globalStyles.colors.buttonBlue2: globalStyles.colors.buttonBlue1,
             marginBottom: 5,
             justifyContent: "center",
             alignItems: "center",
@@ -238,13 +238,13 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     <TouchableOpacity onPress={() =>  {handleCirclePress('circle1'); setViewMode("default");}}>
                         {/*description circle (on the right)*/}
                       <View style={getCircleStyle("circle1")}>
-                        <Icon name="align-left" size={20} color="black"/>
+                        <Icon name="align-left" size={20} color={globalStyles.colors.black}/>
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {handleCirclePress('circle2'); setModalVisible(true);}}>
                         {/*sponsor, history, and status bubble*/}
                       <View style={getCircleStyle("circle2")}>
-                        <Icon name="info" size={20} color="black" />
+                        <Icon name="info" size={20} color={globalStyles.colors.black} />
                       </View>
                     </TouchableOpacity>
                     <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
@@ -272,13 +272,13 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     <TouchableOpacity onPress={() => handleCirclePress('circle3')}>
                         {/*pdf circle*/}
                       <View style={getCircleStyle("circle3")}>
-                        <Icon name="file-pdf-o" size={20} color="black" />
+                        <Icon name="file-pdf-o" size={20} color={globalStyles.colors.black} />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleShare}>
                         {/*share circle*/}
                       <View style={getCircleStyle("circle4")}>
-                        <Icon name="share-alt" size={20} color="black" />
+                        <Icon name="share-alt" size={20} color={globalStyles.colors.black} />
                       </View>
                     </TouchableOpacity>
                 </View>
@@ -310,9 +310,9 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                                         step={1}
                                         value={simplificationLevel}
                                         onSlidingComplete={(value) => setSimplificationLevel(value)}
-                                        minimumTrackTintColor="#BAE2FF"
-                                        maximumTrackTintColor= "#BAE2FF"
-                                        thumbTintColor="#BAE2FF"
+                                        minimumTrackTintColor= {globalStyles.colors.blue1}
+                                        maximumTrackTintColor= {globalStyles.colors.blue1}
+                                        thumbTintColor={globalStyles.colors.blue1}
                                     />
                                     <View style={styles.sliderLabels}>
                                         <Text style={simplificationLevel === 0 ? styles.activeLabel : styles.label}>Simple</Text>
@@ -327,7 +327,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             <View style={{width: "80%"}}>
                 <Text>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.
                 <TouchableOpacity style={{marginTop: 42}} onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
-                    <Text style={{color:"#0064AE"}}> See who they are </Text>
+                    <Text style={{color:globalStyles.colors.darkBlue}}> See who they are </Text>
                 </TouchableOpacity>
                 </Text>
             </View>
@@ -358,7 +358,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                 <AntDesign
                     name="arrowup"
                     size={24}
-                    color={isUpvoted? "#000000" : "#7D7676"}
+                    color={isUpvoted? globalStyles.colors.black : globalStyles.colors.grey}
                     onPress={handleUpvote}
                 />
                 <Text style={styles.engagementValues}>{upvotes}</Text>
@@ -368,13 +368,13 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                 <AntDesign
                     name="arrowdown"
                     size={24}
-                    color={isDownvoted ? "#000000": "#7D7676"}
+                    color={isDownvoted ? globalStyles.colors.black : globalStyles.colors.grey}
                     onPress={handleDownvote}
                 />
                 <Text style={styles.engagementValues}>{downvotes}</Text>
 
                 <View style={styles.engagementPairWrapper}>
-                    <Feather name="bar-chart-2" size={24} color={"#7D7676"}/>
+                    <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey}/>
                     <Text style={styles.engagementValues}>{numReactions}</Text>
                 </View>
             </View>

@@ -1,11 +1,12 @@
 import { StyleSheet, Dimensions} from "react-native";
 const { width, height} = Dimensions.get("window");
+import globalStyles from '../../styles/global_styles'
 
 const styles = StyleSheet.create({
     scrollContainer: {
         paddingTop: 20,
         paddingBottom: 20,
-        backgroundColor: "#fff",
+        backgroundColor: globalStyles.colors.white,
         alignItems: "center",
     },
     backgroundImages: {
@@ -49,15 +50,15 @@ const styles = StyleSheet.create({
     },
     backButtonText: {
         fontSize: 50,
-        color: "black",
+        color: globalStyles.colors.black,
         fontWeight: "bold",
         marginTop: -20,
     },
     roundedBox: {
         width: width - 60,
         height: height/2.5,
-        backgroundColor: "white",
-        borderColor: '#BAE2FF',
+        backgroundColor: globalStyles.colors.white,
+        borderColor: globalStyles.colors.blue1,
         borderWidth: 3,
         borderTopRightRadius: 120,
         borderRadius: 15,
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: "#C0DAEC",
+        backgroundColor: globalStyles.colors.buttonBlue1,
         marginBottom: 5,
         justifyContent: "center",
         alignItems: "center",
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
             width: 40,
             height: 40,
             borderRadius: 20,
-            backgroundColor: "#C0DAEC",
+            backgroundColor: globalStyles.colors.buttonBlue1,
             marginBottom: 5,
             justifyContent: "center",
             alignItems: "center",
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
             width: 40,
             height: 40,
             borderRadius: 20,
-            backgroundColor: "#C0DAEC",
+            backgroundColor: globalStyles.colors.buttonBlue1,
             marginBottom: 5,
             justifyContent: "center",
             alignItems: "center",
@@ -120,14 +121,14 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
-        backgroundColor: "#C0DAEC",
+        backgroundColor: globalStyles.colors.buttonBlue1,
         marginBottom: 5,
         justifyContent: "center",
         alignItems: "center",
     },
     boxText: {
         marginTop: 40,
-        color: "black",
+        color: globalStyles.colors.black,
         fontWeight: "bold",
     },
     titleContainer: {
@@ -146,11 +147,11 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 10,
         paddingHorizontal: 20,
-        backgroundColor: "red",
+        backgroundColor: globalStyles.colors.red,
         borderRadius: 5,
     },
     liveButtonText: {
-        color: "white",
+        color: globalStyles.colors.white,
         fontWeight: "bold",
     },
     billIdAndStatus: {
@@ -168,16 +169,16 @@ const styles = StyleSheet.create({
         width: 100,
         height: 25,
         borderRadius: 15,
-        backgroundColor: "#FEEAD3",
+        backgroundColor: globalStyles.colors.orange,
         marginBottom: 5,
-        shadowColor: "#000",
+        shadowColor: globalStyles.colors.black,
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.3,
         shadowRadius: 4,
     },
     status: {
         paddingTop: 3,
-        color: "black",
+        color: globalStyles.colors.black,
         fontWeight: "bold",
     },
     bookmarkOutline: {
@@ -195,21 +196,22 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 25,
         right: 20,
-        backgroundColor: "#C0DAEC",
+        backgroundColor: globalStyles.colors.buttonBlue1,
         paddingTop: 10,
         paddingBottom: 10,
         paddingHorizontal: 15,
         borderRadius: 20,
     },
     simplifyButtonText: {
-       color: "#0064AE",
+       color: globalStyles.colors.darkBlue,
        fontWeight: "bold",
     },
     expertTitleText: {
+        fontFamily: 'Montserrat_400Regular',
         width: "83%",
         marginTop: 30,
         fontSize: 40,
-        color: "black",
+        color: globalStyles.colors.black,
         fontWeight: "bold",
     },
     dropDown: {
@@ -228,7 +230,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 0,
         borderWidth: 3,
         borderColor: "#ddd",
-        backgroundColor: "#ffffff",
+        backgroundColor: globalStyles.colors.white,
         padding: 10,
     },
     modalOverlay: {
@@ -242,7 +244,7 @@ const styles = StyleSheet.create({
         marginLeft: -width/10,
         width: '65%',
         padding: 20,
-        backgroundColor: 'white',
+        backgroundColor: globalStyles.colors.white,
         borderRadius: 10,
         alignItems: 'stretch',
     },
@@ -259,7 +261,7 @@ const styles = StyleSheet.create({
     simplifiedBar: {
         marginTop: 30,
         padding: 10,
-        backgroundColor: "white",
+        backgroundColor: globalStyles.colors.white,
         borderRadius: 10,
         alignItems: "center",
         justifyContent: "center",
@@ -277,7 +279,7 @@ const styles = StyleSheet.create({
     activeLabel: {
         fontSize: 14,
         fontWeight: "bold",
-        color: "#000",
+        color: globalStyles.colors.black,
     },
     engagementPairWrapper: {
         flexDirection: 'row',
@@ -287,7 +289,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat_400Regular',
         fontSize: 17,
         lineHeight: 19,
-        color: "#7D7676",
+        color: globalStyles.colors.grey,
     },
     leftEngagements: {
         marginLeft: -205,
@@ -310,14 +312,14 @@ const styles = StyleSheet.create({
 
         borderWidth: 1,
         borderRadius: 7,
-        borderColor: "#00000033",
-        backgroundColor: "#FFFFFF",
+        borderColor: globalStyles.colors.lightGrey,
+        backgroundColor: globalStyles.colors.white,
     },
     statusDefinition: {
         fontFamily: 'Montserrat_400Regular',
         fontSize: 8,
         lineHeight: 12,
-        color: "#000000",
+        color: globalStyles.colors.black,
     },
 
 });

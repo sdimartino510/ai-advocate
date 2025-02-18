@@ -6,7 +6,7 @@ import styles from "./details_styles"
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import globalStyles from '../../styles/global_styles'
+import globalStyles from '../../global_styles'
 const { width, height} = Dimensions.get("window");
 import Slider from "@react-native-community/slider";
 
@@ -73,6 +73,67 @@ function StatusBadge({status}: {status: Status}) {
     )
 }
 
+function ReactionBar(
+    {reactions, setReactions, selectedReaction, setSelectedReaction, setShowReactionsBar, totalReactions, setTotalReactions} :
+    {
+        reactions : Array<{id: number, emoji: string, numReactions: number}>
+        setReactions : React.Dispatch<React.SetStateAction<Array<{id: number, emoji: string, numReactions: number}>>>
+        selectedReaction : number
+        setSelectedReaction : React.Dispatch<React.SetStateAction<number>>
+        setShowReactionsBar : React.Dispatch<React.SetStateAction<boolean>>
+        totalReactions : number
+        setTotalReactions: React.Dispatch<React.SetStateAction<number>>
+    }
+) {
+    const handleReactionPress = (index: number) => {
+        if (selectedReaction !== -1){
+            const updatedReactions = reactions
+            updatedReactions[selectedReaction].numReactions -= 1
+            setReactions(updatedReactions)
+            setTotalReactions(totalReactions => totalReactions -1)
+        }
+
+        if(selectedReaction === index){
+            setSelectedReaction(-1)
+        }
+
+        else {
+            setSelectedReaction(index)
+            const updatedReactions = reactions
+            updatedReactions[index].numReactions += 1
+            setReactions(updatedReactions)
+            setTotalReactions(totalReactions => totalReactions + 1)
+        }
+        setShowReactionsBar(false)
+    }
+    return (
+        <View style={styles.reactionsContainer}>
+        {reactions.map((reaction, index) => (
+            <View key={index}>
+                <TouchableOpacity onPress={() => {handleReactionPress(index)}}>
+                    <Text style={styles.emoji}>{reaction.emoji}</Text>
+                </TouchableOpacity>
+            </View>
+        ))}
+        </View>
+    )
+}
+
+function ReactionStats({totalReactions, reactions} : {totalReactions: number, reactions: Array<{id: number, emoji: string, numReactions: number}>}){
+    return(
+        <View style={styles.reactionStatsContainer}>
+            <View style={styles.reactionStatsPairWrapper}>
+                <Text style={styles.reactionStatsText}>All {totalReactions}</Text>
+            </View>
+            {reactions.map((reaction, index) =>
+                <View style={styles.reactionStatsPairWrapper} key={index}>
+                    <Text style={styles.reactionStatsText}>{reaction.emoji} {reaction.numReactions}</Text>
+                </View>
+            )}
+        </View>
+    )
+}
+
 export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
     const [upvotes, setUpvotes] = useState(numUpvotes)
     const [downvotes, setDownvotes] = useState(numDownvotes)
@@ -90,6 +151,20 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
     const [simplificationLevel, setSimplificationLevel] = useState(0);
     const [showLive, setShowLive] = useState(false);
 
+    const[showReactionsBar, setShowReactionsBar] = useState<boolean>(false)
+    const[selectedReaction, setSelectedReaction] = useState<number>(-1)
+
+    const [reactions, setReactions] = useState<Array<{id: number, emoji: string, numReactions: number}>>([
+        { id: 0, emoji: '😊', numReactions: 96 },
+        { id: 1, emoji: '🥰', numReactions: 27 },
+        { id: 2, emoji: '😯', numReactions: 13 },
+        { id: 3, emoji: '😢', numReactions: 5 },
+        { id: 4, emoji: '😡', numReactions: 2 },
+    ])
+
+    const[totalReactions, setTotalReactions] = useState<number>(numReactions)
+    const [showReactionStats, setShowReactionStats] = useState<boolean>(false)
+
     const toggleDropdown = (id) => {
         setOpenDropdown(openDropdown === id ? null : id);
     };
@@ -98,7 +173,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
     const router = useRouter();
     const segments = useSegments();
 
-    const handleCirclePress = (circleName) => {
+    const handleCirclePress = ({circleName}:{circleName: React.SetStateAction<String>}) => {
         setActiveCircle(circleName);
         if(circleName !== 'circle1') {
             setShowButton(false);
@@ -107,7 +182,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
         }
     };
 
-    const getCircleStyle = (circleName) => {
+    const getCircleStyle = ({circleName}:{circleName: string}) => {
         return {
             marginRight: circleName === 'circle1'? 80: circleName === 'circle2'? 30: circleName === 'circle3'? -10: -20,
             marginTop: circleName === 'circle1'? -15: circleName === 'circle2'? -30: circleName === 'circle3'? 0: 10,
@@ -237,13 +312,13 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                 <View style={styles.circleContainer}>
                     <TouchableOpacity onPress={() =>  {handleCirclePress('circle1'); setViewMode("default");}}>
                         {/*description circle (on the right)*/}
-                      <View style={getCircleStyle("circle1")}>
+                      <View style={getCircleStyle({ circleName: "circle1" })}>
                         <Icon name="align-left" size={20} color={globalStyles.colors.black}/>
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {handleCirclePress('circle2'); setModalVisible(true);}}>
                         {/*sponsor, history, and status bubble*/}
-                      <View style={getCircleStyle("circle2")}>
+                      <View style={getCircleStyle({ circleName: "circle2" })}>
                         <Icon name="info" size={20} color={globalStyles.colors.black} />
                       </View>
                     </TouchableOpacity>
@@ -271,13 +346,13 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     </Modal>
                     <TouchableOpacity onPress={() => handleCirclePress('circle3')}>
                         {/*pdf circle*/}
-                      <View style={getCircleStyle("circle3")}>
+                      <View style={getCircleStyle({ circleName: "circle3" })}>
                         <Icon name="file-pdf-o" size={20} color={globalStyles.colors.black} />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={handleShare}>
                         {/*share circle*/}
-                      <View style={getCircleStyle("circle4")}>
+                      <View style={getCircleStyle({ circleName: "circle4" })}>
                         <Icon name="share-alt" size={20} color={globalStyles.colors.black} />
                       </View>
                     </TouchableOpacity>
@@ -372,12 +447,33 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     onPress={handleDownvote}
                 />
                 <Text style={styles.engagementValues}>{downvotes}</Text>
-
-                <View style={styles.engagementPairWrapper}>
-                    <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey}/>
-                    <Text style={styles.engagementValues}>{numReactions}</Text>
-                </View>
             </View>
+
+                <View style={styles.reactionsButton}>
+                    <TouchableOpacity onPress={() => setShowReactionsBar(!showReactionsBar)}>
+                        <Text style={styles.emoji}>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
+                    </TouchableOpacity>
+                    {showReactionsBar &&
+                        <ReactionBar
+                            reactions={reactions}
+                            setReactions={setReactions}
+                            selectedReaction={selectedReaction}
+                            setSelectedReaction={setSelectedReaction}
+                            setShowReactionsBar={setShowReactionsBar}
+                            totalReactions={totalReactions}
+                            setTotalReactions={setTotalReactions}
+                        />}
+                </View>
+
+                <TouchableOpacity style={styles.engagementPairWrapper} onPress={()=> setShowReactionStats(!showReactionStats)}>
+                    <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
+                    <Text style={styles.engagementValues}>{totalReactions}</Text>
+                    {showReactionStats &&
+                        <View style={styles.reactionStatsBase}>
+                            <ReactionStats totalReactions={totalReactions} reactions={reactions} />
+                        </View>
+                    }
+                </TouchableOpacity>
         </View>
     </ScrollView>
   );

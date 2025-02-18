@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions} from "react-native";
 const { width, height} = Dimensions.get("window");
-import globalStyles from '../../styles/global_styles'
+import globalStyles from '../../global_styles'
 
 const styles = StyleSheet.create({
     scrollContainer: {
@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 20,
-        backgroundColor: "#f8f8f8",
-        elevation: 2,
+        backgroundColor: globalStyles.colors.white,
         marginBottom: 20,
     },
     backButton: {
@@ -292,7 +291,7 @@ const styles = StyleSheet.create({
         color: globalStyles.colors.grey,
     },
     leftEngagements: {
-        marginLeft: -205,
+        marginLeft: -155,
         marginTop: 20,
         flexDirection: 'row',
         alignItems: 'flex-start',
@@ -302,6 +301,7 @@ const styles = StyleSheet.create({
         paddingVerticle: 3,
         paddingHorizontal: 16,
         borderRadius: 9,
+        fontWeight: "bold",
     },
     statusDefinitionWrapper:{
         position: 'absolute',
@@ -321,7 +321,64 @@ const styles = StyleSheet.create({
         lineHeight: 12,
         color: globalStyles.colors.black,
     },
+    reactionsButton: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingLeft: 2,
+        height: 24,
+        width: 24,
+    },
+    reactionsContainer: {
+        position: "absolute",
+        left:30,
+        zIndex: 1,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: 4,
 
+        paddingHorizontal: 4,
+        paddingVertical: 8,
+        borderRadius: 12,
+        backgroundColor: globalStyles.colors.blue2,
+    },
+    reactionStatsBase: {
+        position: "absolute",
+        bottom: 24,
+        zIndex: 1,
+    },
+    reactionStatsContainer:{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        alignItems: "center",
+        gap: 8,
+
+        width: 156,
+        height: 132,
+        padding: 10,
+        borderRadius: 7,
+        backgroundColor: globalStyles.colors.lightBlue,
+    },
+    reactionStatsPairWrapper: {
+        justifyContent: "center",
+        width: 64,
+        height: 32,
+        paddingHorizontal: 4,
+
+        borderRadius: 9,
+        backgroundColor: globalStyles.colors.blue2,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    },
+    reactionStatsText: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 17,
+        color: globalStyles.colors.grey,
+    },
+    emoji: {
+        fontSize: 17,
+    },
 });
 
 export default styles;

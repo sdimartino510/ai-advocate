@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import { Text, View, StyleSheet, TouchableOpacity, Animated } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
-import FontAwesome from "@expo/vector-icons/FontAwesome"
-import Ionicons from "@expo/vector-icons/Ionicons"
 import Bill from "../../assets/components/Bill/Bill"
 import SearchBar from "@/assets/components/SearchBar/SearchBar"
 import FilterButton from "@/assets/components/FilterButton/FilterButton"
 import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
+import SelectedTopics from "@/assets/components/SelectedTopics/SelectedTopics"
 import { Topic } from "@/assets/types"
 import globalStyles from "@/assets/global_styles"
 
@@ -36,39 +35,6 @@ function SortSelection(){
           </Text>
         </TouchableOpacity>
       ))}
-    </View>
-  )
-}
-
-function SelectedTopics({selectedTopics, setSelectedTopics, setShowFilterPanel} : {selectedTopics: Set<Topic>, setSelectedTopics : Function, setShowFilterPanel : Function}){
-  return (
-    <View style={styles.selectedTopicsContainer}>
-      {[...selectedTopics].map((topic, index) => (
-        <View
-          key={index}
-          style={styles.selectedTopic}
-        >
-          <Text style={styles.selectedTopicText}>{topic}    </Text>
-          <TouchableOpacity
-            onPress={() => {
-              const updatedTopics = new Set(selectedTopics);
-              updatedTopics.delete(topic);
-              setSelectedTopics(updatedTopics)
-            }}
-          >
-            <FontAwesome name="remove" size={12} color={globalStyles.colors.grey} />
-          </TouchableOpacity>
-        </View>
-      ))}
-
-      {/** Open/close filter panel to add/remove filtered topics. */}
-      {selectedTopics.size >= 1 && 
-        <TouchableOpacity
-          onPress={() => setShowFilterPanel(true)}
-        >
-          <Ionicons name="ellipsis-horizontal-circle" size={24} color={globalStyles.colors.grey} />
-        </TouchableOpacity>
-      }
     </View>
   )
 }
@@ -181,33 +147,6 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat_400Regular",
     color: globalStyles.colors.sortOptionText,
     backgroundColor: globalStyles.colors.white,
-  },
-  // Selected Topics Styles
-  selectedTopicsContainer: {
-    width: "100%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    gap: 8,
-    padding: 16,
-  },
-  selectedTopic: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 5,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: globalStyles.colors.sortOptionBorder,
-    color: globalStyles.colors.sortOptionText,
-    backgroundColor: globalStyles.colors.white,
-  },
-  selectedTopicText: {
-    textAlign: "center",
-    fontSize: 12,
-    fontFamily: "Montserrat_400Regular",
-    color: globalStyles.colors.black,
   },
   searchResultsStat: {
     paddingHorizontal: 16,

@@ -3,7 +3,7 @@ import {TextInput, View} from "react-native"
 import styles from "@/assets/components/SearchBar/search_bar_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
-function SearchBar(){
+function SearchBar({pageName} : {pageName : String}) {
   const [searchQuery, setSearchQuery] = useState<String>("")
   
   const handleChange = (text : String) => {
@@ -14,7 +14,7 @@ function SearchBar(){
     <View style={styles.searchBar}>
       <TextInput
         style={styles.searchBarInput}
-        placeholder="Search Bills"
+        placeholder={pageName === "Home" ? "Search Bills" : "Search Saved Bills"}
         onChangeText = {handleChange}
       >
         {searchQuery}

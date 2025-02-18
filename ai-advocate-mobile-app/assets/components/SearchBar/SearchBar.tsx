@@ -1,6 +1,6 @@
-import {useState} from 'react'
-import {TextInput, View} from 'react-native'
-import styles from './search_bar_styles'
+import {useState} from "react"
+import {TextInput, View} from "react-native"
+import styles from "@/assets/components/SearchBar/search_bar_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
 function SearchBar(){

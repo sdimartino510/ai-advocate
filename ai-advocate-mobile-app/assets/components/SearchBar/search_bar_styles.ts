@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import globalStyles from '@/assets/global_styles'
+import {StyleSheet} from "react-native"
+import globalStyles from "@/assets/global_styles"
 
 const styles = StyleSheet.create({
     searchBar:{

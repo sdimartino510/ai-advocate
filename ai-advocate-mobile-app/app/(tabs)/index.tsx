@@ -1,29 +1,14 @@
 import { useEffect, useState } from "react"
 import { Text, View, StyleSheet, TouchableOpacity, Animated } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
-import AntDesign from "@expo/vector-icons/AntDesign"
 import FontAwesome from "@expo/vector-icons/FontAwesome"
 import Ionicons from "@expo/vector-icons/Ionicons"
 import Bill from "../../assets/components/Bill/Bill"
 import SearchBar from "@/assets/components/SearchBar/SearchBar"
+import FilterButton from "@/assets/components/FilterButton/FilterButton"
 import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
 import { Topic } from "@/assets/types"
 import globalStyles from "@/assets/global_styles"
-
-// TODO: Implement functionality to display bills based on selected topics (topic filters).
-function FilterButton({setShowFilterPanel} : {setShowFilterPanel : Function}){
-  return (
-    <TouchableOpacity
-      onPress={() => setShowFilterPanel(true)}
-      style={{width: "20%"}}
-    >
-      <View style={styles.filterButtonContainer}>
-        <Text style={styles.filterButtonText}>Filter </Text>
-        <AntDesign name="filter" size={20} color="black" />
-      </View>
-    </TouchableOpacity>
-  )
-}
 
 // TODO: Implement functionality to display bills in order of time or only display verified (panel-reviewed) bills.
 function SortSelection(){
@@ -124,7 +109,7 @@ export default function Index() {
           alignItems: "center",
         }}
       >
-        <View style = {styles.searchBarContainer}>
+        <View style = {styles.searchBarFilterButtonContainer}>
           <SearchBar />
           <FilterButton setShowFilterPanel={setShowFilterPanel}/>
         </View>
@@ -170,30 +155,13 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  searchBarContainer: {
+  searchBarFilterButtonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
     width: "100%",
     gap: 16,
-  },
-  // Filter Button Styles
-  filterButtonContainer:{
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 8,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: globalStyles.colors.filterButtonBorder,
-    backgroundColor: globalStyles.colors.blue1,
-    boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
-  },
-  filterButtonText: {
-    fontSize: 17,
-    fontFamily: "Montserrat_800Bold",
-    textAlign: "center",
   },
   // Sort Selection Styles
   sortSelectionContainer: {

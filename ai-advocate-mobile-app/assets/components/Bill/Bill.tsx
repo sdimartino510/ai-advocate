@@ -1,13 +1,12 @@
-import React, {useState} from 'react'
-import { View, Text, TouchableOpacity } from 'react-native'
+import React, {useState} from "react"
+import { View, Text, TouchableOpacity } from "react-native"
+import {useRouter } from "expo-router"
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import globalStyles from '../../global_styles'
-import styles from './bill_styles'
-import {useRouter } from "expo-router";
-
-type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled' | 'Vetoed'
+import MaterialIcons from "@expo/vector-icons/MaterialIcons"
+import { Status } from "@/assets/types"
+import globalStyles from "@/assets/global_styles"
+import styles from "@/assets/components/Bill/bill_styles"
 
 type BillProps = {
     title: string,

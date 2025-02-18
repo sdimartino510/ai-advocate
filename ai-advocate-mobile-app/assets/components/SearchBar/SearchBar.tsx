@@ -3,7 +3,7 @@ import {TextInput, View} from "react-native"
 import styles from "@/assets/components/SearchBar/search_bar_styles"
 
 // TODO: Connect search bar to search page. Implement functionality for querying results.
-function SearchBar({pageName} : {pageName : String}) {
+function SearchBar({pageName} : {pageName : String}){
   const [searchQuery, setSearchQuery] = useState<String>("")
   
   const handleChange = (text : String) => {

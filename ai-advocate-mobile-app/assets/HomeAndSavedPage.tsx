@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Text, View, StyleSheet, Animated } from "react-native"
+import { Text, View, StyleSheet, Animated, ScrollView } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import Bill from "@/assets/components/Bill/Bill"
 import SearchBar from "@/assets/components/SearchBar/SearchBar"
@@ -9,6 +9,7 @@ import SortSelection from "@/assets/components/SortSelection/SortSelection"
 import SelectedTopics from "@/assets/components/SelectedTopics/SelectedTopics"
 import { Topic } from "@/assets/types"
 import globalStyles from "@/assets/global_styles"
+import sample_data from "@/assets/sample_data"
 
 // TODO: Only display saved bills when the pageName is "Saved". UseEffect to fetch bills (and filter by saved status) from database.
 export default function HomeAndSavedPage({pageName} : {pageName : String}) {
@@ -76,15 +77,20 @@ export default function HomeAndSavedPage({pageName} : {pageName : String}) {
         {/* TODO: Dynamically update this number. */}
         <Text style={styles.searchResultsStat}>{pageName === "Home" ? "Search Results:" : "Saved Bills:"} {0}</Text>
         
-        {/** TODO: Scroll View for the portion of screen displaying the bills. */}
-        <Bill
-          title="HUMAN TRAFFICKING: VICTIM RIGHTS"
-          id="CA SB376"
-          status="Introduced"
-          description="This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers."
-          topics={["trafficking", "advocates", "rights"]}  // TODO: Make algorithm to make topics dynamically determined.
-          numReactions={143}
-          />
+        {/** TODO: Make algorithm to make topics for each bill dynamically determined. */}
+        <ScrollView style={{width: "100%"}}>
+            {sample_data.map((bill, index) => (
+                <Bill
+                    key={index}
+                    title={bill.title}
+                    id={bill.id}
+                    status={bill.status}
+                    description={bill.description}
+                    topics={bill.topics}
+                    numReactions={bill.numReactions}
+                />
+            ))}
+        </ScrollView>
       </View>
 
       {/** TODO: Loading state. */}
@@ -103,6 +109,7 @@ const styles = StyleSheet.create({
   },
   searchResultsStat: {
     paddingHorizontal: 16,
+    paddingBottom: 16,
     justifyContent: "center",
     alignSelf: "flex-end",
     fontSize: 14,

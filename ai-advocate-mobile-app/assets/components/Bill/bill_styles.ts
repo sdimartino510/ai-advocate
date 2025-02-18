@@ -6,6 +6,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
 
         margin: 16,
+        marginBottom: 24,
+        marginTop: 0,
         padding: 16,
         borderWidth: 1,
         borderRadius: 8,

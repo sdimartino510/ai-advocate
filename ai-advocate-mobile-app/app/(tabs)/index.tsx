@@ -1,43 +1,14 @@
 import { useEffect, useState } from "react"
-import { Text, View, StyleSheet, TouchableOpacity, Animated } from "react-native"
+import { Text, View, StyleSheet, Animated } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import Bill from "../../assets/components/Bill/Bill"
 import SearchBar from "@/assets/components/SearchBar/SearchBar"
 import FilterButton from "@/assets/components/FilterButton/FilterButton"
 import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
+import SortSelection from "@/assets/components/SortSelection/SortSelection"
 import SelectedTopics from "@/assets/components/SelectedTopics/SelectedTopics"
 import { Topic } from "@/assets/types"
 import globalStyles from "@/assets/global_styles"
-
-// TODO: Implement functionality to display bills in order of time or only display verified (panel-reviewed) bills.
-function SortSelection(){
-  const options = ["All", "Recent", "Trending", "Panel"]
-  const [selectedOption, setSelectedOption] = useState<String>("All")
-
-  const handleOptionSelection = (option : String) => {
-    setSelectedOption(option)
-  }
-
-  return (
-    <View style={styles.sortSelectionContainer}>
-      {options.map((option, index) => (
-        <TouchableOpacity
-          key={index}
-          onPress={() => handleOptionSelection(option)}
-        >
-          <Text
-            style={[
-              styles.sortOption, 
-              selectedOption === option ? { backgroundColor: globalStyles.colors.blue1, color: globalStyles.colors.black } : null
-            ]}
-          >
-            {option}
-          </Text>
-        </TouchableOpacity>
-      ))}
-    </View>
-  )
-}
 
 export default function Index() {
   const [selectedTopics, setSelectedTopics] = useState<Set<Topic>>(new Set([]))
@@ -128,25 +99,6 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "100%",
     gap: 16,
-  },
-  // Sort Selection Styles
-  sortSelectionContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 16,
-  },
-  sortOption: {
-    textAlign: "center",
-    paddingVertical: 6,
-    paddingHorizontal: 14,
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: globalStyles.colors.sortOptionBorder,
-    fontSize: 14,
-    fontFamily: "Montserrat_400Regular",
-    color: globalStyles.colors.sortOptionText,
-    backgroundColor: globalStyles.colors.white,
   },
   searchResultsStat: {
     paddingHorizontal: 16,

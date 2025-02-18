@@ -40,60 +40,60 @@ export default function HomeAndSavedPage({pageName} : {pageName : String}) {
     <LinearGradient
         colors={[globalStyles.colors.white, globalStyles.colors.blue1]}
         style={{ flex: 1}}
-      >
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
-        <View style = {styles.searchBarFilterButtonContainer}>
-          <SearchBar pageName={pageName}/>
-          <FilterButton setShowFilterPanel={setShowFilterPanel}/>
-        </View>
-        <SortSelection />
-        <SelectedTopics
-          selectedTopics={selectedTopics}
-          setSelectedTopics={setSelectedTopics}
-          setShowFilterPanel={setShowFilterPanel}
-        />
-
-        <Animated.View
-          style={[
-            styles.filterPanelContainer,
-            {
-              transform: [{ translateX: slideAnim }], // Apply the sliding animation
-            },
-          ]}
+    >
+        <View
+            style={{
+            flex: 1,
+            justifyContent: "flex-start",
+            alignItems: "center",
+            }}
         >
-          <FilterPanel
-            selectedTopics={selectedTopics}
-            setSelectedTopics={setSelectedTopics}
-            setShowFilterPanel={setShowFilterPanel}
-          />
-        </Animated.View>
-        
-        {/* TODO: Dynamically update this number. */}
-        <Text style={styles.searchResultsStat}>{pageName === "Home" ? "Search Results:" : "Saved Bills:"} {0}</Text>
-        
-        {/** TODO: Make algorithm to make topics for each bill dynamically determined. */}
-        <ScrollView style={{width: "100%"}}>
-            {sample_data.map((bill, index) => (
-                <Bill
-                    key={index}
-                    title={bill.title}
-                    id={bill.id}
-                    status={bill.status}
-                    description={bill.description}
-                    topics={bill.topics}
-                    numReactions={bill.numReactions}
-                />
-            ))}
-        </ScrollView>
-      </View>
+            <View style = {styles.searchBarFilterButtonContainer}>
+                <SearchBar pageName={pageName}/>
+                <FilterButton setShowFilterPanel={setShowFilterPanel}/>
+            </View>
+            <SortSelection />
+            <SelectedTopics
+                selectedTopics={selectedTopics}
+                setSelectedTopics={setSelectedTopics}
+                setShowFilterPanel={setShowFilterPanel}
+            />
 
-      {/** TODO: Loading state. */}
+            <Animated.View
+                style={[
+                    styles.filterPanelContainer,
+                    {
+                    transform: [{ translateX: slideAnim }], // Apply the sliding animation
+                    },
+                ]}
+            >
+                <FilterPanel
+                    selectedTopics={selectedTopics}
+                    setSelectedTopics={setSelectedTopics}
+                    setShowFilterPanel={setShowFilterPanel}
+                />
+            </Animated.View>
+            
+            {/* TODO: Dynamically update this number. */}
+            <Text style={styles.searchResultsStat}>{pageName === "Home" ? "Search Results:" : "Saved Bills:"} {0}</Text>
+            
+            {/** TODO: Make algorithm to make topics for each bill dynamically determined. */}
+            <ScrollView style={{width: "100%"}}>
+                {sample_data.map((bill, index) => (
+                    <Bill
+                        key={index}
+                        title={bill.title}
+                        id={bill.id}
+                        status={bill.status}
+                        description={bill.description}
+                        topics={bill.topics}
+                        numReactions={bill.numReactions}
+                    />
+                ))}
+            </ScrollView>
+        </View>
+
+        {/** TODO: Loading state. */}
     </LinearGradient>
   )
 }

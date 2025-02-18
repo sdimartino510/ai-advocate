@@ -106,15 +106,15 @@ function ReactionBar(
 
     return (
         <View style={styles.reactionsContainer}>
-        {reactions.map((reaction, index) => (
-            <View key={index}>
-                <TouchableOpacity
-                    onPress = {() => {handleReactionPress(index)}}
-                >
-                    <Text style={styles.emoji}>{reaction.emoji}</Text>
-                </TouchableOpacity>
-            </View>
-        ))}
+            {reactions.map((reaction, index) => (
+                <View key={index}>
+                    <TouchableOpacity
+                        onPress = {() => {handleReactionPress(index)}}
+                    >
+                        <Text style={styles.emoji}>{reaction.emoji}</Text>
+                    </TouchableOpacity>
+                </View>
+            ))}
         </View>
     )
 }

@@ -1,34 +1,14 @@
-import { useEffect, useState } from "react";
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Image, Animated } from "react-native"
-import { LinearGradient } from 'expo-linear-gradient';
-import AntDesign from '@expo/vector-icons/AntDesign';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { useEffect, useState } from "react"
+import { Text, View, StyleSheet, TouchableOpacity, Animated } from "react-native"
+import { LinearGradient } from "expo-linear-gradient"
+import AntDesign from "@expo/vector-icons/AntDesign"
+import FontAwesome from "@expo/vector-icons/FontAwesome"
+import Ionicons from "@expo/vector-icons/Ionicons"
 import Bill from "../../assets/components/Bill/Bill"
+import SearchBar from "@/assets/components/SearchBar/SearchBar"
 import FilterPanel from "@/assets/components/FilterPanel/FilterPanel"
 import { Topic } from "@/assets/types"
 import globalStyles from "@/assets/global_styles"
-
-// TODO: Connect search bar to search page. Implement functionality for querying results.
-function SearchBar(){
-  const [searchQuery, setSearchQuery] = useState<String>("")
-  
-  const handleChange = (text : String) => {
-    setSearchQuery(text)
-  }
-
-  return (
-    <View style={styles.searchBar}>
-      <TextInput
-        style={styles.searchBarInput}
-        placeholder="Search Bills"
-        onChangeText = {handleChange}
-      >
-        {searchQuery}
-      </TextInput>
-    </View>
-  )
-}
 
 // TODO: Implement functionality to display bills based on selected topics (topic filters).
 function FilterButton({setShowFilterPanel} : {setShowFilterPanel : Function}){
@@ -190,7 +170,6 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
-  // Search Bar Styles
   searchBarContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -198,22 +177,6 @@ const styles = StyleSheet.create({
     padding: 16,
     width: "100%",
     gap: 16,
-  },
-  searchBar:{
-    width: "75%",
-  },
-  searchBarInput: {
-    padding: 8,
-    paddingLeft: 32,
-    fontSize: 17,
-    lineHeight: 22,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-
-    fontFamily: "Montserrat_400Regular",
-    backgroundColor: globalStyles.colors.searchBarGrey,
-    color: globalStyles.colors.searchBarText,
   },
   // Filter Button Styles
   filterButtonContainer:{

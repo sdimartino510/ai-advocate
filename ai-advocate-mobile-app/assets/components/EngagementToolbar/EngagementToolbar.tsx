@@ -146,9 +146,7 @@ function EngagementToolbar(
                         <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
                         <Text style={styles.engagementValues}>{totalReactions}</Text>
                         {showReactionStats && 
-                            <View style={styles.reactionStatsBase}>
-                                <ReactionStats totalReactions={totalReactions} reactions={reactions} />
-                            </View>
+                            <ReactionStats totalReactions={totalReactions} reactions={reactions} />
                         }
                     </TouchableOpacity>
                 }

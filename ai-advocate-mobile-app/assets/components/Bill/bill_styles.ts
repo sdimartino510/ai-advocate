@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     billContainer: {
         alignItems: 'flex-start',
 
+        position: "relative",
         margin: 16,
         marginBottom: 24,
         marginTop: 0,
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     },
     topicDefinitionWrapper: {
         position: 'absolute',
-        zIndex: 1,
+        zIndex: 2,
         top: 16,
         padding: 4,
         width: 100,      // TODO: Make width responsive but not dependent on topic text width.

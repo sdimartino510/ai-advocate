@@ -3,6 +3,9 @@ import globalStyles from "@/assets/global_styles"
 
 const styles = StyleSheet.create({
     reactionStatsContainer:{
+        position: "absolute",
+        zIndex: 1,
+        bottom: 24,
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "flex-start",

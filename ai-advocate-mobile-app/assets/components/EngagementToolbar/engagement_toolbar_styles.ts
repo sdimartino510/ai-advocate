@@ -3,6 +3,7 @@ import globalStyles from "@/assets/global_styles"
 
 const styles = StyleSheet.create({
     engagementContainer: {
+        position: "relative",
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
@@ -34,14 +35,8 @@ const styles = StyleSheet.create({
         height: 24,
         width: 24,
     },
-    reactionStatsBase: {
-        position: "absolute",
-        top: 24,
-        zIndex: 1,
-    },
     shadedBookmark: {
         position: 'absolute',
-        zIndex: 1,
         top: 2.5,
         left: 3,
     },

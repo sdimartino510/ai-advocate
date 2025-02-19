@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     },
     // Simplify bill slider
     simplifiedBar: {
-        width: "95%",
+        width: "100%",
         alignSelf: "center",  // Align the bar with the parent container (the screen itself in this case)
         marginTop: 20,
         padding: 10,

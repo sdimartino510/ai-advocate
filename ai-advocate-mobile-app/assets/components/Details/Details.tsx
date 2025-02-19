@@ -241,7 +241,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             {isSimplified && (
                 <View style={styles.simplifiedBar}>
                     <Slider
-                        style={{width: 250, height: 40}}
+                        style={{width: 275, height: 40}}
                         minimumValue={0}
                         maximumValue={2}
                         step={1}

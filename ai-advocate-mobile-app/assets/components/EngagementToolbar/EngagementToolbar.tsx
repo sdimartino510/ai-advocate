@@ -2,10 +2,10 @@ import {useState} from "react"
 import {View, Text, TouchableOpacity} from "react-native"
 import AntDesign from '@expo/vector-icons/AntDesign'
 import Feather from '@expo/vector-icons/Feather'
-import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import globalStyles from "@/assets/global_styles"
 import styles from "@/assets/components/EngagementToolbar/engagement_toolbar_styles"
 import ShareButton from "@/assets/components/ShareButton/ShareButton"
+import SaveButton from "@/assets/components/SaveButton/SaveButton"
 import ReactionsBar from "@/assets/components/ReactionsBar/ReactionsBar"
 import ReactionStats from "@/assets/components/ReactionStats/ReactionStats"
 
@@ -157,25 +157,7 @@ function EngagementToolbar(
             
 
             {/** Right engagement: saving bills */}
-            {showSavedButton &&
-                <View>
-                    <MaterialIcons
-                        name="bookmark-outline"
-                        size={24}
-                        color={globalStyles.colors.grey}
-                        onPress={() => setIsSaved(!isSaved)}
-                    />
-                    {isSaved &&
-                        <MaterialIcons
-                            name="bookmark"
-                            size={18}
-                            style={styles.shadedBookmark}
-                            color={globalStyles.colors.yellow}
-                            onPress={() => setIsSaved(!isSaved)}
-                        />
-                    }
-                </View>
-            }
+            {showSavedButton && <SaveButton isSaved={isSaved} setIsSaved={setIsSaved}/> }
         </View>
     )
 }

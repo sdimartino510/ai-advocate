@@ -157,12 +157,6 @@ const styles = StyleSheet.create({
         top: 5,
         left: 5,
     },
-    shadedBookmark: {
-        position: "absolute",
-        zIndex: 1,
-        top: 2.5,
-        left: 3,
-    },
     simplifyButton: {
         position: "absolute",
         flexDirection: "row",

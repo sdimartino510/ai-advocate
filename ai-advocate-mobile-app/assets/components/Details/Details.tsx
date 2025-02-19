@@ -5,9 +5,9 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Status } from "@/assets/types";
 import ShareButton from "@/assets/components/ShareButton/ShareButton";
+import SaveButton from "@/assets/components/SaveButton/SaveButton";
 import Slider from "@react-native-community/slider";
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge";
 import EngagementToolbar from "../EngagementToolbar/EngagementToolbar";
@@ -129,21 +129,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             <View style={styles.roundedBox}>
                 {/*bookmark*/}
                 <View style={styles.bookmarkWrapper}>
-                    <MaterialIcons
-                        name="bookmark-outline"
-                        size={24}
-                        color={globalStyles.colors.grey}
-                        onPress={() => setIsSaved(!isSaved)}
-                    />
-                    {isSaved &&
-                        <MaterialIcons
-                            name="bookmark"
-                            size={18}
-                            style={styles.shadedBookmark}
-                            color={globalStyles.colors.yellow}
-                            onPress={() => setIsSaved(!isSaved)}
-                        />
-                    }
+                    <SaveButton isSaved={isSaved} setIsSaved={setIsSaved}/>
                 </View>
 
                 <View style={styles.circleContainer}>

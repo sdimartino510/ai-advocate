@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     },
     statusDefinition: {
         fontFamily: 'Montserrat_400Regular',
-        fontSize: 8,
+        fontSize: 10,
         lineHeight: 12,
         color: globalStyles.colors.black,
     },

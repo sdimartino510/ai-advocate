@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
         borderColor: globalStyles.colors.lightGrey,
         backgroundColor: globalStyles.colors.white,
     },
-    topicDefinition: {
+    topicDefinitionText: {
         fontFamily: 'Montserrat_400Regular',
-        fontSize: 8,
+        fontSize: 10,
         lineHeight: 12,
         color: globalStyles.colors.black,
     },

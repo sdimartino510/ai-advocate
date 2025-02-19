@@ -94,7 +94,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
             <View style={styles.topicContainer}>
                 <Text style={styles.topicLabel}>Topics: </Text>
                 {topics.map((topic, index) => (
-                    <View key={index}>
+                    <View key={index} style={styles.topicWrapper}>
                         <TouchableOpacity onPress={() => onTopicPress(topic)}>
                             <Text
                                 style={{color: globalStyles.colors.blue3}}
@@ -104,7 +104,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                         </TouchableOpacity>
                         {topicDefinition && topicSelected === topic &&
                             <View style={styles.topicDefinitionWrapper}>
-                                <Text style={styles.topicDefinition}>{topicDefinition}</Text>
+                                <Text style={styles.topicDefinitionText}>{topicDefinition}</Text>
                             </View>
                         }
                     </View>

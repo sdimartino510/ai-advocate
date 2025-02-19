@@ -36,15 +36,15 @@ function EngagementToolbar(
     :
     {
         upvotes: number, 
-        setUpvotes: (upvotes: number) => void,
+        setUpvotes: React.Dispatch<React.SetStateAction<number>>,
         downvotes: number,
-        setDownvotes: (downvotes: number) => void, 
+        setDownvotes: React.Dispatch<React.SetStateAction<number>>, 
         isUpvoted: boolean, 
-        setIsUpvoted: (isUpvoted: boolean) => void,
+        setIsUpvoted: React.Dispatch<React.SetStateAction<boolean>>,
         isDownvoted: boolean, 
-        setIsDownvoted: (isDownvoted: boolean) => void,
+        setIsDownvoted: React.Dispatch<React.SetStateAction<boolean>>,
         isSaved: boolean,
-        setIsSaved: (isSaved: boolean) => void,
+        setIsSaved: React.Dispatch<React.SetStateAction<boolean>>,
         
         reactions: {id: number, emoji: string, numReactions: number}[], 
         setReactions: React.Dispatch<React.SetStateAction<Array<{id: number, emoji: string, numReactions: number}>>>,

@@ -192,7 +192,6 @@ const styles = StyleSheet.create({
         marginTop: height/8,
         marginLeft: -width/10,
         width: '65%',
-        padding: 20,
         backgroundColor: globalStyles.colors.white,
         borderRadius: 10,
         alignItems: 'stretch',
@@ -206,7 +205,6 @@ const styles = StyleSheet.create({
     divider: {
         height: 1,
         backgroundColor: globalStyles.colors.lightGrey,
-        marginHorizontal: 20,
     },
     // Simplify bill slider
     simplifiedBar: {

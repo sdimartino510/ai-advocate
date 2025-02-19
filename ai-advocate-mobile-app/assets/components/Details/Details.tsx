@@ -2,13 +2,15 @@ import { Text, View, Image, TouchableOpacity, ScrollView, Modal, TouchableWithou
 import { useState, useEffect } from 'react';
 import { useRouter } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Slider from "@react-native-community/slider";
 import { Status } from "@/assets/types";
+import Slider from "@react-native-community/slider";
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge";
+import EngagementToolbar from "../EngagementToolbar/EngagementToolbar";
 import globalStyles from '@/assets/global_styles';
 import styles from "./details_styles";
-import EngagementToolbar from "../EngagementToolbar/EngagementToolbar";
 
 // TODO: Combine with bill component type and move to types.ts
 type BillInfo = {
@@ -115,196 +117,201 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
             <View style={styles.backgroundImages}>
-                    <Image source={require('../../images/Vector 3.png')} style={styles.vector3Image} />
-                    <Image source={require('../../images/Rectangle 105.png')} style={styles.rectangle105Image} />
+                <Image source={require('../../images/Vector 3.png')} style={styles.vector3Image} />
+                <Image source={require('../../images/Rectangle 105.png')} style={styles.rectangle105Image} />
             </View>
-            <View style={styles.container}>
-                {/*back button*/}
-                <View style={styles.header}>
-                    <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                        <Text style={styles.backButtonText}> &larr;</Text>
-                    </TouchableOpacity>
-                </View>
 
-                {/*bill title & live button*/}
-                <View style={styles.titleContainer}>
-                    <Text style= {styles.title}> {billTitle}</Text>
-                        {showLive && (
-                            <TouchableOpacity onPress={() => {Linking.openURL(link).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
-                                <Text style={styles.liveButtonText}>Live</Text>
-                            </TouchableOpacity>
-                        )}
-                </View>
+            <TouchableOpacity onPress={() => router.back()} style={styles.backButtonWrapper}>
+                <Text style={styles.backButtonText}> &larr;</Text>
+            </TouchableOpacity>
+            
+            {/*bill title & live button*/}
+            <View style={styles.titleAndLiveContainer}>
+                <Text style= {styles.title}>{billTitle}</Text>
+                    {showLive && (
+                        <TouchableOpacity onPress={() => {Linking.openURL(link).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
+                            <Text style={styles.liveButtonText}>&bull; LIVE</Text>
+                        </TouchableOpacity>
+                    )}
+            </View>
+            
+            {/*bill ID*/}
+            <Text style= {styles.id}>Bill ID: {billId}</Text>
 
-                {/*bill ID*/}
-                <View style={styles.billIdAndStatus}>
-                    <Text style= {styles.id}> Bill ID: {billId}</Text>
-                    <View style={{width: '32%'}}>
-                    <StatusBadge status={billStatus}/>
-                    </View>
-                </View>
+            {/*status badge*/}
+            <View style={styles.statusBadgeContainer}>
+                <StatusBadge status={billStatus}/>
+            </View>
 
-                {/*description box*/}
-                <View style={styles.roundedBox}>
-                    {/*bookmark*/}
-                    <View style={styles.bookmarkOutline}>
+            {/*description box*/}
+            <View style={styles.roundedBox}>
+                {/*bookmark*/}
+                <View style={styles.bookmarkWrapper}>
+                    <MaterialIcons
+                        name="bookmark-outline"
+                        size={24}
+                        color={globalStyles.colors.grey}
+                        onPress={() => setIsSaved(!isSaved)}
+                    />
+                    {isSaved &&
                         <MaterialIcons
-                            name="bookmark-outline"
-                            size={24}
-                            color={"#7D7676"}
+                            name="bookmark"
+                            size={18}
+                            style={styles.shadedBookmark}
+                            color={globalStyles.colors.yellow}
                             onPress={() => setIsSaved(!isSaved)}
                         />
-                        {isSaved &&
-                            <MaterialIcons
-                                name="bookmark"
-                                size={18}
-                                style={styles.shadedBookmark}
-                                color={"#FFAF37"}
-                                onPress={() => setIsSaved(!isSaved)}
-                            />
-                        }
-                    </View>
+                    }
+                </View>
 
-                    <View style={styles.circleContainer}>
-                        <TouchableOpacity onPress={() =>  {handleCirclePress('circle1'); setViewMode("default");}}>
-                            {/*description circle (on the right)*/}
+                <View style={styles.circleContainer}>
+                    <TouchableOpacity onPress={() =>  {handleCirclePress('circle1'); setViewMode("default");}}>
+                        {/*description circle (on the right)*/}
                         <View style={getCircleStyle({ circleName: "circle1" })}>
                             <Icon name="align-left" size={20} color={globalStyles.colors.black}/>
                         </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => {handleCirclePress('circle2'); setModalVisible(true);}}>
-                            {/*sponsor, history, and status bubble*/}
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => {handleCirclePress('circle2'); setModalVisible(true);}}>
+                        {/*sponsor, history, and status bubble*/}
                         <View style={getCircleStyle({ circleName: "circle2" })}>
-                            <Icon name="info" size={20} color={globalStyles.colors.black} />
+                            <Feather name="info" size={24} color={globalStyles.colors.black} />
                         </View>
-                        </TouchableOpacity>
-                        <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
-                            <TouchableWithoutFeedback onPress={() => {setModalVisible(false);}}>
-                                <View style={styles.modalOverlay}>
-                                    <TouchableWithoutFeedback>
-                                        <View style={styles.modalContainer}>
-                                            <TouchableOpacity onPress={()=> {setViewMode("sponsor"); setModalVisible(false);}}>
-                                                <Text style= {styles.item}> Sponsors</Text>
-                                            </TouchableOpacity>
-                                            <View style={styles.divider}/>
-                                            <TouchableOpacity onPress={()=> {setViewMode("history"); setModalVisible(false);}}>
-                                                <Text style= {styles.item}> History</Text>
-                                            </TouchableOpacity>
-                                            <View style={styles.divider}/>
-                                            <TouchableOpacity onPress={()=> {setViewMode("status"); setModalVisible(false);}}>
+                    </TouchableOpacity>
+
+                    <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
+                        <TouchableWithoutFeedback onPress={() => {setModalVisible(false);}}>
+                            <View style={styles.modalOverlay}>
+                                <TouchableWithoutFeedback>
+                                    <View style={styles.modalContainer}>
+                                        <TouchableOpacity onPress={()=> {setViewMode("sponsor"); setModalVisible(false);}}>
+                                            <Text style= {styles.item}> Sponsors</Text>
+                                        </TouchableOpacity>
+                                        <View style={styles.divider}/>
+                                        <TouchableOpacity onPress={()=> {setViewMode("history"); setModalVisible(false);}}>
+                                            <Text style= {styles.item}> History</Text>
+                                        </TouchableOpacity>
+                                        <View style={styles.divider}/>
+                                        <TouchableOpacity onPress={()=> {setViewMode("status"); setModalVisible(false);}}>
                                             <Text style= {styles.item}> Status</Text>
-                                            </TouchableOpacity>
-                                            <View style={styles.divider}/>
-                                        </View>
-                                    </TouchableWithoutFeedback>
-                                </View>
-                            </TouchableWithoutFeedback>
-                        </Modal>
-                        <TouchableOpacity onPress={() => handleCirclePress('circle3')}>
-                            {/*pdf circle*/}
+                                        </TouchableOpacity>
+                                        <View style={styles.divider}/>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </Modal>
+
+                    <TouchableOpacity onPress={() => handleCirclePress('circle3')}>
+                        {/*pdf circle*/}
                         <View style={getCircleStyle({ circleName: "circle3" })}>
                             <Icon name="file-pdf-o" size={20} color={globalStyles.colors.black} />
                         </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={handleShare}>
-                            {/*share circle*/}
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={handleShare}>
+                        {/*share circle*/}
                         <View style={getCircleStyle({ circleName: "circle4" })}>
-                            <Icon name="share-alt" size={20} color={globalStyles.colors.black} />
+                            <Feather name="share-2" size={24} color={globalStyles.colors.grey} />
                         </View>
-                        </TouchableOpacity>
-                    </View>
-                    {/*summary in description box*/}
-                        <Text style={styles.boxText}>
-                            {viewMode === "default" ?
-                                (simplificationLevel === 0 ? billSummary:
-                                simplificationLevel === 1 ? billSummaryMid :
-                                simplificationLevel === 2 ? billSummaryCom : "")
-                            :
-                            viewMode === "sponsor" ? "Sponsor details go here." :
-                            viewMode === "history" ? "Bill history details go here." :
-                            viewMode === "status" ? "Current bill status details go here." : ""}
-                        </Text>
-                    {/*simplify button*/}
-                    {showButton && (
-                        <TouchableOpacity onPress={() => setIsSimplified(!isSimplified)} style={styles.simplifyButton}>
-                            <Text style={styles.simplifyButtonText}>{isSimplified? "Simplify" : "Simplify"}</Text>
-                        </TouchableOpacity>
-                    )}
+                    </TouchableOpacity>
                 </View>
-                {/*simplify slide bar*/}
-                    {isSimplified && (
-                        <View style={styles.simplifiedBar}>
-                            <Slider
-                                style={{width: 250, height: 40}}
-                                minimumValue={0}
-                                maximumValue={2}
-                                step={1}
-                                value={simplificationLevel}
-                                onSlidingComplete={(value) => setSimplificationLevel(value)}
-                                minimumTrackTintColor= {globalStyles.colors.blue1}
-                                maximumTrackTintColor= {globalStyles.colors.blue1}
-                                thumbTintColor={globalStyles.colors.blue1}
-                            />
-                            <View style={styles.sliderLabels}>
-                                <Text style={simplificationLevel === 0 ? styles.activeLabel : styles.label}>Simple</Text>
-                                <Text style={simplificationLevel === 1 ? styles.activeLabel : styles.label}>Medium</Text>
-                                <Text style={simplificationLevel === 2 ? styles.activeLabel : styles.label}>Complex</Text>
-                            </View>
-                        </View>
-                    )}
+
+                {/*summary in description box*/}
+                <Text style={styles.boxText}>
+                    {viewMode === "default" ?
+                        (simplificationLevel === 0 ? billSummary:
+                        simplificationLevel === 1 ? billSummaryMid :
+                        simplificationLevel === 2 ? billSummaryCom : "")
+                    :
+                    viewMode === "sponsor" ? "Sponsor details go here." :
+                    viewMode === "history" ? "Bill history details go here." :
+                    viewMode === "status" ? "Current bill status details go here." : ""}
+                </Text>
+
+                {/**TODO: Toggle between simplify and view original button. */}
+                {/*simplify button*/}
+                <TouchableOpacity onPress={() => setIsSimplified(!isSimplified)} style={styles.simplifyButton}>
+                    <Text style={styles.simplifyButtonText}>{isSimplified? "Simplify" : "Simplify"}</Text>
+                </TouchableOpacity>
             </View>
+
+            {/*simplify slide bar*/}
+            {isSimplified && (
+                <View style={styles.simplifiedBar}>
+                    <Slider
+                        style={{width: 250, height: 40}}
+                        minimumValue={0}
+                        maximumValue={2}
+                        step={1}
+                        value={simplificationLevel}
+                        onSlidingComplete={(value) => setSimplificationLevel(value)}
+                        minimumTrackTintColor= {globalStyles.colors.blue1}
+                        maximumTrackTintColor= {globalStyles.colors.blue1}
+                        thumbTintColor={globalStyles.colors.blue1}
+                    />
+                    <View style={styles.sliderLabels}>
+                        <Text style={simplificationLevel === 0 ? styles.activeLabel : styles.label}>Simple</Text>
+                        <Text style={simplificationLevel === 1 ? styles.activeLabel : styles.label}>Medium</Text>
+                        <Text style={simplificationLevel === 2 ? styles.activeLabel : styles.label}>Complex</Text>
+                    </View>
+                </View>
+            )}
                     
             {/*expert thoughts on bottom*/}
-            <Text style= {styles.expertTitle}>Expert's Thoughts </Text>
-            <View style={{width: "80%"}}>
-                <Text style={styles.expertDescription}>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.
-                    <TouchableOpacity style={{marginTop: 42}} onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
-                        <Text style={{color:globalStyles.colors.darkBlue}}> See who they are. </Text>
-                    </TouchableOpacity>
-                </Text>
+            <View style={styles.expertThoughtsTitleWrapper}>
+                <Text style= {styles.expertTitle}>Expert's Thoughts </Text>
+                <AntDesign name="Safety" size={24} color="black" />
+            </View>
+
+            {/*TODO: Align linked text with unlinked text. */}
+            <View style={{width: "95%"}}>
+                <Text style={styles.expertDescription}>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.</Text>
+                <TouchableOpacity onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
+                    <Text style={[styles.expertDescription, {color:globalStyles.colors.darkBlue}]}>See who they are.</Text>
+                </TouchableOpacity>
             </View>
 
             {/*pro box*/}
             <TouchableOpacity
                 onPress={() => toggleDropdown("dropdown1")}
                 style={[
-                    styles.dropDown,
+                    styles.dropDownButton,
                     openDropdown === "dropdown1" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
                 ]}
             >
-                <Text style={styles.dropDownHeaderText}>
+                <Text style={styles.dropDownButtonText}>
                     {openDropdown === "dropdown1" ? "Pros" : "Pros"}
                 </Text>
             </TouchableOpacity>
                 
             {openDropdown === "dropdown1" && (
-                <View style={styles.dropdownContent}>
-                    <Text style={styles.infoText}> {pro} </Text>
+                <View style={styles.dropdownContentWrapper}>
+                    <Text style={styles.dropdownContentText}>{pro}</Text>
                 </View>
             )}
-            
+
             {/*con box*/}
             <TouchableOpacity
                 onPress={() => toggleDropdown("dropdown2")}
                 style={[
-                    styles.dropDown,
+                    styles.dropDownButton,
                     openDropdown === "dropdown2" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
                 ]}
             >
-                <Text style={styles.dropDownHeaderText}>
+                <Text style={styles.dropDownButtonText}>
                     {openDropdown === "dropdown2" ? "Cons" : "Cons"}
                 </Text>
             </TouchableOpacity>
 
             {openDropdown === "dropdown2" && (
-            <View style={styles.dropdownContent}>
-                <Text style={styles.infoText}> {con} </Text>
+            <View style={styles.dropdownContentWrapper}>
+                <Text style={styles.dropdownContentText}>{con}</Text>
             </View>
             )}
             
             {/*engagement toolbar*/}
-            {/** TODO: Check styles for engagement toolbar view wrapper. */}
-            <View style={[{width: "80%", marginTop: 30, flexDirection: 'row', justifyContent: "flex-start"}]}>
+            <View style={{marginTop: 30}}>
                 <EngagementToolbar 
                     upvotes={upvotes}
                     setUpvotes={setUpvotes}
@@ -332,4 +339,3 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
         </ScrollView>
     );
 }
-

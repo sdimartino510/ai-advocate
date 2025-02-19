@@ -1,13 +1,12 @@
 import { StyleSheet, Dimensions} from "react-native";
 const { width, height} = Dimensions.get("window");
-import globalStyles from '../../global_styles'
+import globalStyles from '@/assets/global_styles';
 
 const styles = StyleSheet.create({
     scrollContainer: {
-        paddingTop: 20,
-        paddingBottom: 20,
+        padding: 20,
         backgroundColor: globalStyles.colors.white,
-        alignItems: "center",
+        alignItems: "flex-start",
     },
     backgroundImages: {
         position: 'absolute',
@@ -15,43 +14,30 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         zIndex: -1,
-      },
-      vector3Image: {
+    },
+    vector3Image: {
         top: '0%',
         width: '100%',
         height: 750,
         resizeMode: 'cover',
-      },
-      rectangle105Image: {
+    },
+    rectangle105Image: {
         width: '100%',
         height: 600,
         resizeMode: 'cover',
         position: 'absolute',
         top: '60%',
-      },
-    container: {
-        paddingTop: 0,
-        paddingHorizontal: 20,
-        width: "100%",
-        marginBottom: 20,
     },
-    header: {
+    backButtonWrapper: {
         width: "30%",
         height: 50,
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 20,
-        backgroundColor: globalStyles.colors.white,
-        marginBottom: 20,
-    },
-    backButton: {
-        padding: 0,
+        justifyContent: "center",
     },
     backButtonText: {
-        fontSize: 50,
-        color: globalStyles.colors.black,
-        fontWeight: "bold",
         marginTop: -20,
+        fontSize: 26,
+        fontWeight: "bold",
+        color: globalStyles.colors.black,
     },
     roundedBox: {
         width: width - 60,
@@ -63,7 +49,7 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         justifyContent: "flex-start",
         alignItems: "center",
-        shadowColor: "#000",
+        shadowColor: globalStyles.colors.black,
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.3,
         shadowRadius: 4,
@@ -93,26 +79,26 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     circle2: {
-            marginRight: 30,
-            marginTop: -30,
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: globalStyles.colors.buttonBlue1,
-            marginBottom: 5,
-            justifyContent: "center",
-            alignItems: "center",
+        marginRight: 30,
+        marginTop: -30,
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: globalStyles.colors.buttonBlue1,
+        marginBottom: 5,
+        justifyContent: "center",
+        alignItems: "center",
     },
     circle3: {
-            marginRight: -10,
-            marginTop: 0,
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: globalStyles.colors.buttonBlue1,
-            marginBottom: 5,
-            justifyContent: "center",
-            alignItems: "center",
+        marginRight: -10,
+        marginTop: 0,
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: globalStyles.colors.buttonBlue1,
+        marginBottom: 5,
+        justifyContent: "center",
+        alignItems: "center",
     },
     circle4: {
         marginRight: -20,
@@ -127,58 +113,49 @@ const styles = StyleSheet.create({
     },
     boxText: {
         marginTop: 40,
+        marginRight: 20,
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 16,
         color: globalStyles.colors.black,
-        fontWeight: "bold",
     },
-    titleContainer: {
+    titleAndLiveContainer: {
+        width: "100%",
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        gap: 10,
         marginBottom: 20,
-        width: "100%",
     },
     title: {
+        width: "72%",
         textAlign: "left",
-        fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 26,
+        color: globalStyles.colors.black,
     },
     liveButton: {
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: globalStyles.colors.red,
         borderRadius: 5,
+        backgroundColor: globalStyles.colors.red,
     },
     liveButtonText: {
+        fontFamily: 'Montserrat_700Bold',
+        fontSize: 16,
         color: globalStyles.colors.white,
-        fontWeight: "bold",
-    },
-    billIdAndStatus: {
-        paddingHorizontal: 10,
-        marginTop: -10,
-        paddingBottom: 20,
     },
     id: {
-        fontSize: 20,
-        fontWeight: "bold",
-        paddingBottom: 20,
+        marginBottom: 20,
+        fontFamily: 'Montserrat_600SemiBold',
+        fontSize: 16,
     },
-    statusBox: {
-        paddingHorizontal: 10,
-        width: 100,
-        height: 25,
-        borderRadius: 15,
-        backgroundColor: globalStyles.colors.orange,
-        marginBottom: 5,
-        shadowColor: globalStyles.colors.black,
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
+    statusBadgeContainer: {
+        marginBottom: 20,
     },
-    bookmarkOutline: {
+    bookmarkWrapper: {
         position: "absolute",
-        left: 3,
-
+        top: 5,
+        left: 5,
     },
     shadedBookmark: {
         position: "absolute",
@@ -188,17 +165,16 @@ const styles = StyleSheet.create({
     },
     simplifyButton: {
         position: "absolute",
-        bottom: 25,
+        bottom: 20,
         right: 20,
-        backgroundColor: globalStyles.colors.buttonBlue1,
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingVertical: 10,
         paddingHorizontal: 15,
         borderRadius: 20,
+        backgroundColor: globalStyles.colors.buttonBlue1,
     },
     simplifyButtonText: {
-       color: globalStyles.colors.darkBlue,
-       fontWeight: "bold",
+        fontFamily: 'Montserrat_600SemiBold',
+        color: globalStyles.colors.darkBlue,
     },
     modalOverlay: {
         flex: 1,
@@ -216,56 +192,69 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
     },
     item: {
-        fontSize: 18,
         padding: 10,
         textAlign: 'left',
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 17,
     },
     divider: {
         height: 1,
-        backgroundColor: '#dcdcdc',
+        backgroundColor: globalStyles.colors.lightGrey,
         marginHorizontal: 20,
     },
+    // Simplify bill slider
     simplifiedBar: {
-        marginTop: 30,
+        width: "95%",
+        alignSelf: "center",  // Align the bar with the parent container (the screen itself in this case)
+        marginTop: 20,
         padding: 10,
-        backgroundColor: globalStyles.colors.white,
-        borderRadius: 10,
+        justifyContent: "space-between",  // Align items within the bar
         alignItems: "center",
-        justifyContent: "center",
+
+        borderWidth: 2,
+        borderRadius: 10,
+        borderColor: globalStyles.colors.blue1,
+        backgroundColor: globalStyles.colors.white,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     sliderLabels: {
         flexDirection: "row",
         justifyContent: "space-between",
-        width: 250,
+        width: "90%",
         marginTop: 5,
     },
     label: {
+        fontFamily: "Montserrat_400Regular",
         fontSize: 14,
-        color: "#666",
+        color: globalStyles.colors.grey,
     },
     activeLabel: {
+        fontFamily: "Montserrat_600SemiBold",
         fontSize: 14,
-        fontWeight: "bold",
         color: globalStyles.colors.black,
     },
     // Expert's Thoughts Section
+    expertThoughtsTitleWrapper: {
+        marginTop: 30,
+        flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center",  
+        gap: 10,
+    },
     expertTitle: {
         fontFamily: 'Montserrat_400Regular',
-        width: "83%",
-        marginTop: 30,
         fontSize: 26,
-        fontWeight: "bold",
         color: globalStyles.colors.black,
     },
     expertDescription: {
-        fontFamily: 'Montserrat_400Regular',
         marginTop: 10,
-        fontSize: 14,
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 16,
         color: globalStyles.colors.black,
     },
-    dropDown: {
+    dropDownButton: {
         marginTop: 30,
-        width: "80%",
+        width: "95%",
         height: 50,
         flexDirection: "row",
         alignItems: "center",
@@ -276,20 +265,20 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
-    dropDownHeaderText: {
+    dropDownButtonText: {
         fontFamily: 'Montserrat_400Regular',
         fontSize: 17,
         color: globalStyles.colors.black,
     },
-    dropdownContent: {
-        width: "80%",
+    dropdownContentWrapper: {
+        width: "95%",
+        padding: 20,
         borderBottomLeftRadius: 10,
         borderBottomRightRadius: 10,
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
         backgroundColor: globalStyles.colors.white,
-        padding: 14,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
-    infoText: {
+    dropdownContentText: {
         fontFamily: 'Montserrat_400Regular',
         fontSize: 14,
         color: globalStyles.colors.black,

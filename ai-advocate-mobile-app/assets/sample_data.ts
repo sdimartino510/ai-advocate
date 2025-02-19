@@ -7,6 +7,13 @@ const sample_data = [
         description: "This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers.",
         topics: ["trafficking", "advocates", "rights"],
         numReactions: 143,
+        
+        linkLIVE: "https://www.loveneverfailsus.com/",
+        billSummarySimple: "This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers.",
+        billSummaryMedium: "This bill ensures that trafficking survivors have the right to be accompanied by a support person and an advocate during interviews with law enforcement or legal representatives to provide emotional and legal support.",
+        billSummaryComplex: "This bill grants trafficking survivors the legal right to have a designated support person and advocate present during interviews with police officers or attorneys, ensuring that they have both emotional and legal assistance throughout the process to facilitate a safer and more supportive environment during such critical interactions.",
+        pros: "This bill provides trafficking survivors with crucial emotional and legal support during interviews, helping to reduce trauma and improve the fairness of legal processes.",
+        cons: "The implementation of this bill could potentially slow down legal proceedings and create logistical challenges in ensuring the availability of appropriate advocates and support persons.",
     },
     {
         title: "SURVIVORS OF HUMAN TRAFFICKING SUPPORT ACT",
@@ -15,6 +22,13 @@ const sample_data = [
         description: "This bill aims to improve human trafficking survivor support through survivor review boards & police interaction guidelines.",
         topics: ["support", "trafficking", "survivors"],
         numReactions: 65,
+
+        linkLIVE: "",
+        billSummarySimple: "Simple summary.",
+        billSummaryMedium: "Medium summary.",
+        billSummaryComplex: "Complex summary.",
+        pros: "Pros",
+        cons: "Cons",
     },
     {
         title: "BILL TITLE [ENROLLED]",
@@ -23,6 +37,13 @@ const sample_data = [
         description: "A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do.",
         topics: ["topic1", "topic2"],
         numReactions: 1,
+
+        linkLIVE: "",
+        billSummarySimple: "Simple summary.",
+        billSummaryMedium: "Medium summary.",
+        billSummaryComplex: "Complex summary.",
+        pros: "Pros",
+        cons: "Cons",
     },
     {
         title: "BILL TITLE [PASSED]",
@@ -31,6 +52,13 @@ const sample_data = [
         description: "A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do.",
         topics: ["topic1", "topic2"],
         numReactions: 2,
+
+        linkLIVE: "",
+        billSummarySimple: "Simple summary.",
+        billSummaryMedium: "Medium summary.",
+        billSummaryComplex: "Complex summary.",
+        pros: "Pros",
+        cons: "Cons",
     },
     {
         title: "BILL TITLE [VETOED]",
@@ -39,6 +67,13 @@ const sample_data = [
         description: "A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do.",
         topics: ["topic1", "topic2"],
         numReactions: 3,
+
+        linkLIVE: "",
+        billSummarySimple: "Simple summary.",
+        billSummaryMedium: "Medium summary.",
+        billSummaryComplex: "Complex summary.",
+        pros: "Pros",
+        cons: "Cons",
     },
 ]
 

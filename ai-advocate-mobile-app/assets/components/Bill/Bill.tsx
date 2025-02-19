@@ -81,7 +81,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
     return (
         <View style={styles.billContainer}>
             {/** TODO: Sync Details page with Bill component. */}
-            <TouchableOpacity onPress={() => router.push('/details')}>
+            <TouchableOpacity onPress={() => router.push(`/details?id=${id}`)}>
             <Text style={styles.title}>{title}</Text>
 
             <View style={styles.IDStatusContainer}>

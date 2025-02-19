@@ -19,19 +19,22 @@ type BillInfo = {
     billTitle: string,
     billId: string,
     billStatus: Status,
-    billSummary: string,
-    billSummaryMid: string,
-    billSummaryCom: string,
-    pro: string,
-    con: string,
+    billDescription: string,
+
     link: string,
+    billSummarySimple: string,
+    billSummaryMedium: string,
+    billSummaryComplex: string,
+    pros: string,
+    cons: string,
+
     numUpvotes?: number,
     numDownvotes?: number,
     numReactions?: number,
     saved?: boolean,
 }
 
-export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
+export default function Details({billTitle, billId, billStatus, billDescription, billSummarySimple, billSummaryMedium, billSummaryComplex, pros, cons, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
     {/** For engagement toolbar: */}
     const [upvotes, setUpvotes] = useState(numUpvotes)
     const [downvotes, setDownvotes] = useState(numDownvotes)
@@ -185,10 +188,11 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
 
                 {/*summary in description box*/}
                 <Text style={styles.boxText}>
-                    {viewMode === "default" ?
-                        (simplificationLevel === 0 ? billSummary:
-                        simplificationLevel === 1 ? billSummaryMid :
-                        simplificationLevel === 2 ? billSummaryCom : "")
+                    {viewMode === "default" ? 
+                        (simplificationLevel === 0 ? billDescription:
+                        simplificationLevel === 1 ? billSummarySimple:
+                        simplificationLevel === 2 ? billSummaryMedium :
+                        simplificationLevel === 3 ? billSummaryComplex : "")
                     :
                     viewMode === "sponsor" ? "Sponsor details go here." :
                     viewMode === "history" ? "Bill history details go here." :
@@ -196,7 +200,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                 </Text>
 
                 {/*simplify button*/}
-                <TouchableOpacity onPress={() => setIsSimplified(!isSimplified)} style={styles.simplifyButton}>
+                <TouchableOpacity onPress={() => {setIsSimplified(!isSimplified); setSimplificationLevel(0);}} style={styles.simplifyButton}>
                     <Text style={styles.simplifyButtonText}>{isSimplified? "See Original" : "Simplify"}</Text>
                     <Entypo name="chevron-right" size={20} color={globalStyles.colors.darkBlue} />
                 </TouchableOpacity>
@@ -207,8 +211,8 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                 <View style={styles.simplifiedBar}>
                     <Slider
                         style={{width: 275, height: 40}}
-                        minimumValue={0}
-                        maximumValue={2}
+                        minimumValue={1}
+                        maximumValue={3}
                         step={1}
                         value={simplificationLevel}
                         onSlidingComplete={(value) => setSimplificationLevel(value)}
@@ -217,9 +221,9 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                         thumbTintColor={globalStyles.colors.blue1}
                     />
                     <View style={styles.sliderLabels}>
-                        <Text style={simplificationLevel === 0 ? styles.activeLabel : styles.label}>Simple</Text>
-                        <Text style={simplificationLevel === 1 ? styles.activeLabel : styles.label}>Medium</Text>
-                        <Text style={simplificationLevel === 2 ? styles.activeLabel : styles.label}>Complex</Text>
+                        <Text style={simplificationLevel === 1 ? styles.activeLabel : styles.label}>Simple</Text>
+                        <Text style={simplificationLevel === 2 ? styles.activeLabel : styles.label}>Medium</Text>
+                        <Text style={simplificationLevel === 3 ? styles.activeLabel : styles.label}>Complex</Text>
                     </View>
                 </View>
             )}
@@ -256,7 +260,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                 
             {openDropdown === "dropdown1" && (
                 <View style={styles.dropdownContentWrapper}>
-                    <Text style={styles.dropdownContentText}>{pro}</Text>
+                    <Text style={styles.dropdownContentText}>{pros}</Text>
                 </View>
             )}
 
@@ -278,7 +282,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
 
             {openDropdown === "dropdown2" && (
             <View style={styles.dropdownContentWrapper}>
-                <Text style={styles.dropdownContentText}>{con}</Text>
+                <Text style={styles.dropdownContentText}>{cons}</Text>
             </View>
             )}
             

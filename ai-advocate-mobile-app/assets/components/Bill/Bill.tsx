@@ -94,7 +94,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
             <View style={styles.topicContainer}>
                 <Text style={styles.topicLabel}>Topics: </Text>
                 {topics.map((topic, index) => (
-                    <View key={index} style={styles.topicWrapper}>
+                    <View key={index}>
                         <TouchableOpacity onPress={() => onTopicPress(topic)}>
                             <Text
                                 style={{color: globalStyles.colors.blue3}}

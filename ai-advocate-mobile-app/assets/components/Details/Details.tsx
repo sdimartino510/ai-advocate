@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Status } from "@/assets/types";
@@ -229,10 +230,10 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     viewMode === "status" ? "Current bill status details go here." : ""}
                 </Text>
 
-                {/**TODO: Toggle between simplify and view original button. */}
                 {/*simplify button*/}
                 <TouchableOpacity onPress={() => setIsSimplified(!isSimplified)} style={styles.simplifyButton}>
-                    <Text style={styles.simplifyButtonText}>{isSimplified? "Simplify" : "Simplify"}</Text>
+                    <Text style={styles.simplifyButtonText}>{isSimplified? "See Original" : "Simplify"}</Text>
+                    <Entypo name="chevron-right" size={20} color={globalStyles.colors.darkBlue} />
                 </TouchableOpacity>
             </View>
 
@@ -280,9 +281,12 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     openDropdown === "dropdown1" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
                 ]}
             >
-                <Text style={styles.dropDownButtonText}>
-                    {openDropdown === "dropdown1" ? "Pros" : "Pros"}
-                </Text>
+                <Text style={styles.dropDownButtonText}>Pros</Text>
+                {openDropdown === "dropdown1" ? 
+                    <Entypo name="chevron-thin-down" size={17} color={globalStyles.colors.black} />
+                    :
+                    <Entypo name="chevron-thin-right" size={17} color={globalStyles.colors.black} />
+                }
             </TouchableOpacity>
                 
             {openDropdown === "dropdown1" && (
@@ -299,9 +303,12 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     openDropdown === "dropdown2" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
                 ]}
             >
-                <Text style={styles.dropDownButtonText}>
-                    {openDropdown === "dropdown2" ? "Cons" : "Cons"}
-                </Text>
+                <Text style={styles.dropDownButtonText}>Cons</Text>
+                {openDropdown === "dropdown2" ? 
+                    <Entypo name="chevron-thin-down" size={17} color={globalStyles.colors.black} />
+                    :
+                    <Entypo name="chevron-thin-right" size={17} color={globalStyles.colors.black} />
+                }
             </TouchableOpacity>
 
             {openDropdown === "dropdown2" && (

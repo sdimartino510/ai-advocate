@@ -165,15 +165,21 @@ const styles = StyleSheet.create({
     },
     simplifyButton: {
         position: "absolute",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         bottom: 20,
         right: 20,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
+        paddingVertical: 5,
+        paddingLeft: 10,
+        paddingRight: 5,
         borderRadius: 20,
         backgroundColor: globalStyles.colors.buttonBlue1,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     },
     simplifyButtonText: {
         fontFamily: 'Montserrat_600SemiBold',
+        fontSize: 16,
         color: globalStyles.colors.darkBlue,
     },
     modalOverlay: {
@@ -258,6 +264,7 @@ const styles = StyleSheet.create({
         height: 50,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between",
         paddingHorizontal: 20,
         elevation: 2,
 

@@ -253,41 +253,58 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                         </View>
                     )}
             </View>
-                {/*expert thoughts on bottom*/}
-                <Text style= {styles.expertTitleText}>Expert's Thoughts </Text>
-                <View style={{width: "80%"}}>
-                    <Text>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.
+                    
+            {/*expert thoughts on bottom*/}
+            <Text style= {styles.expertTitle}>Expert's Thoughts </Text>
+            <View style={{width: "80%"}}>
+                <Text style={styles.expertDescription}>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.
                     <TouchableOpacity style={{marginTop: 42}} onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
-                        <Text style={{color:globalStyles.colors.darkBlue}}> See who they are </Text>
+                        <Text style={{color:globalStyles.colors.darkBlue}}> See who they are. </Text>
                     </TouchableOpacity>
-                    </Text>
+                </Text>
+            </View>
+
+            {/*pro box*/}
+            <TouchableOpacity
+                onPress={() => toggleDropdown("dropdown1")}
+                style={[
+                    styles.dropDown,
+                    openDropdown === "dropdown1" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+                ]}
+            >
+                <Text style={styles.dropDownHeaderText}>
+                    {openDropdown === "dropdown1" ? "Pros" : "Pros"}
+                </Text>
+            </TouchableOpacity>
+                
+            {openDropdown === "dropdown1" && (
+                <View style={styles.dropdownContent}>
+                    <Text style={styles.infoText}> {pro} </Text>
                 </View>
-                {/*pro box*/}
-                <TouchableOpacity onPress={() => toggleDropdown("dropdown1")} style={styles.dropDown}>
-                    <Text style={styles.dropDownHeaderText}>
-                        {openDropdown === "dropdown1" ? "Pros" : "Pros"}
-                    </Text>
-                </TouchableOpacity>
-                {openDropdown === "dropdown1" && (
-                    <View style={styles.dropdownContent}>
-                        <Text style={styles.infoText}> {pro} </Text>
-                    </View>
-                )}
-                {/*con box*/}
-                <TouchableOpacity onPress={() => toggleDropdown("dropdown2")} style={styles.dropDown}>
+            )}
+            
+            {/*con box*/}
+            <TouchableOpacity
+                onPress={() => toggleDropdown("dropdown2")}
+                style={[
+                    styles.dropDown,
+                    openDropdown === "dropdown2" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+                ]}
+            >
                 <Text style={styles.dropDownHeaderText}>
                     {openDropdown === "dropdown2" ? "Cons" : "Cons"}
                 </Text>
-                </TouchableOpacity>
-                {openDropdown === "dropdown2" && (
-                <View style={styles.dropdownContent}>
-                    <Text style={styles.infoText}> {con} </Text>
-                </View>
-                )}
+            </TouchableOpacity>
+
+            {openDropdown === "dropdown2" && (
+            <View style={styles.dropdownContent}>
+                <Text style={styles.infoText}> {con} </Text>
+            </View>
+            )}
             
             {/*engagement toolbar*/}
             {/** TODO: Check styles for engagement toolbar view wrapper. */}
-            <View style={[{paddingHorizontal: 40, paddingVertical: 20, flexDirection: 'row', justifyContent: "flex-start"}]}>
+            <View style={[{width: "80%", marginTop: 30, flexDirection: 'row', justifyContent: "flex-start"}]}>
                 <EngagementToolbar 
                     upvotes={upvotes}
                     setUpvotes={setUpvotes}

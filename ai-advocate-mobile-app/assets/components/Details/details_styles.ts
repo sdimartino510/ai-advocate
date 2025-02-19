@@ -200,33 +200,6 @@ const styles = StyleSheet.create({
        color: globalStyles.colors.darkBlue,
        fontWeight: "bold",
     },
-    expertTitleText: {
-        fontFamily: 'Montserrat_400Regular',
-        width: "83%",
-        marginTop: 30,
-        fontSize: 40,
-        color: globalStyles.colors.black,
-        fontWeight: "bold",
-    },
-    dropDown: {
-        marginTop: 30,
-        width: "80%",
-        height: 50,
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 20,
-        backgroundColor: "#f8f8f8",
-        elevation: 2,
-        marginBottom: 0,
-    },
-    dropdownContent: {
-        width: "81%",
-        borderTopWidth: 0,
-        borderWidth: 3,
-        borderColor: "#ddd",
-        backgroundColor: globalStyles.colors.white,
-        padding: 10,
-    },
     modalOverlay: {
         flex: 1,
         justifyContent: 'center',
@@ -374,6 +347,52 @@ const styles = StyleSheet.create({
     },
     emoji: {
         fontSize: 17,
+    },
+    // Expert's Thoughts Section
+    expertTitle: {
+        fontFamily: 'Montserrat_400Regular',
+        width: "83%",
+        marginTop: 30,
+        fontSize: 26,
+        fontWeight: "bold",
+        color: globalStyles.colors.black,
+    },
+    expertDescription: {
+        fontFamily: 'Montserrat_400Regular',
+        marginTop: 10,
+        fontSize: 14,
+        color: globalStyles.colors.black,
+    },
+    dropDown: {
+        marginTop: 30,
+        width: "80%",
+        height: 50,
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        elevation: 2,
+
+        backgroundColor: globalStyles.colors.white,
+        borderRadius: 10,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+    },
+    dropDownHeaderText: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 17,
+        color: globalStyles.colors.black,
+    },
+    dropdownContent: {
+        width: "80%",
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+        backgroundColor: globalStyles.colors.white,
+        padding: 14,
+    },
+    infoText: {
+        fontFamily: 'Montserrat_400Regular',
+        fontSize: 14,
+        color: globalStyles.colors.black,
     },
 });
 

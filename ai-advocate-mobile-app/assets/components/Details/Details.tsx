@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather'
-import { Status } from "@/assets/types";
+import { BillInfo } from "@/assets/types";
 import ShareButton from "@/assets/components/ShareButton/ShareButton";
 import SaveButton from "@/assets/components/SaveButton/SaveButton";
 import Slider from "@react-native-community/slider";
@@ -14,27 +14,16 @@ import EngagementToolbar from "../EngagementToolbar/EngagementToolbar";
 import globalStyles from '@/assets/global_styles';
 import styles from "./details_styles";
 
-// TODO: Combine with bill component type and move to types.ts
-type BillInfo = {
-    billTitle: string,
-    billId: string,
-    billStatus: Status,
-    billDescription: string,
-
-    link: string,
+type DetailsProps = BillInfo & {
+    linkLIVE: string,
     billSummarySimple: string,
     billSummaryMedium: string,
     billSummaryComplex: string,
     pros: string,
     cons: string,
-
-    numUpvotes?: number,
-    numDownvotes?: number,
-    numReactions?: number,
-    saved?: boolean,
 }
 
-export default function Details({billTitle, billId, billStatus, billDescription, billSummarySimple, billSummaryMedium, billSummaryComplex, pros, cons, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
+export default function Details({billTitle, billId, billStatus, billDescription, billSummarySimple, billSummaryMedium, billSummaryComplex, pros, cons, linkLIVE, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:DetailsProps) {
     {/** For engagement toolbar: */}
     const [upvotes, setUpvotes] = useState(numUpvotes)
     const [downvotes, setDownvotes] = useState(numDownvotes)
@@ -92,12 +81,12 @@ export default function Details({billTitle, billId, billStatus, billDescription,
     };
 
     useEffect(() => {
-        if (link) {
+        if (linkLIVE) {
             setShowLive(true);
         } else {
             setShowLive(false);
         }
-    }, [link]);
+    }, [linkLIVE]);
 
     return (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -114,7 +103,7 @@ export default function Details({billTitle, billId, billStatus, billDescription,
             <View style={styles.titleAndLiveContainer}>
                 <Text style= {styles.title}>{billTitle}</Text>
                     {showLive && (
-                        <TouchableOpacity onPress={() => {Linking.openURL(link).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
+                        <TouchableOpacity onPress={() => {Linking.openURL(linkLIVE).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
                             <Text style={styles.liveButtonText}>&bull; LIVE</Text>
                         </TouchableOpacity>
                     )}

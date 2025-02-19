@@ -82,11 +82,11 @@ export default function HomeAndSavedPage({pageName} : {pageName : String}) {
                 {sample_data.map((bill, index) => (
                     <Bill
                         key={index}
-                        title={bill.title}
-                        id={bill.id}
-                        status={bill.status}
-                        description={bill.description}
-                        topics={bill.topics}
+                        billTitle={bill.title}
+                        billId={bill.id}
+                        billStatus={bill.status}
+                        billDescription={bill.description}
+                        billTopics={bill.topics}
                         numReactions={bill.numReactions}
                     />
                 ))}

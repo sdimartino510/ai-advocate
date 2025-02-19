@@ -1,26 +1,17 @@
 import React, {useState} from "react"
 import { View, Text, TouchableOpacity } from "react-native"
 import {useRouter } from "expo-router"
-import { Status } from "@/assets/types"
+import { BillInfo } from "@/assets/types"
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge"
 import globalStyles from "@/assets/global_styles"
 import styles from "@/assets/components/Bill/bill_styles"
 import EngagementToolbar from "../EngagementToolbar/EngagementToolbar"
 
-type BillProps = {
-    title: string,
-    id: string,
-    status: Status,
-    description: string,
-    topics: string[],
-    numUpvotes?: number,
-    numDownvotes?: number,
-    numReactions: number,
-    saved?: boolean,
-    reactionID?: number, // TODO: Initialize with user's reaction.
+type BillProps = BillInfo & {
+    billTopics: string[],
 }
 
-function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions, saved=false}:BillProps) {
+function Bill({billTitle, billId, billStatus, billDescription, billTopics, numUpvotes=0, numDownvotes=0, numReactions, saved=false, reactionID=0}:BillProps) {
     const [upvotes, setUpvotes] = useState<number>(numUpvotes)
     const [downvotes, setDownvotes] = useState<number>(numDownvotes)
     const [isUpvoted, setIsUpvoted] = useState<boolean>(false)
@@ -81,19 +72,19 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
     return (
         <View style={styles.billContainer}>
             {/** TODO: Sync Details page with Bill component. */}
-            <TouchableOpacity onPress={() => router.push(`/details?id=${id}`)}>
-            <Text style={styles.title}>{title}</Text>
+            <TouchableOpacity onPress={() => router.push(`/details?id=${billId}`)}>
+            <Text style={styles.title}>{billTitle}</Text>
 
             <View style={styles.IDStatusContainer}>
-                <Text style={styles.billID}>Bill ID: {id}</Text>
-                <StatusBadge status={status} />
+                <Text style={styles.billID}>Bill ID: {billId}</Text>
+                <StatusBadge status={billStatus} />
             </View>
 
-            <Text style={styles.description}>{description}</Text>
+            <Text style={styles.description}>{billDescription}</Text>
 
             <View style={styles.topicContainer}>
                 <Text style={styles.topicLabel}>Topics: </Text>
-                {topics.map((topic, index) => (
+                {billTopics.map((topic, index) => (
                     <View key={index}>
                         <TouchableOpacity onPress={() => onTopicPress(topic)}>
                             <Text

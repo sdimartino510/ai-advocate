@@ -17,13 +17,14 @@ export default function DetailsInfo(){
     }
 
     return (
+        // TODO: Interaction data should be synced with bill component or backend.
         <Details
             billTitle={bill.title}
             billId={id}
             billStatus={bill.status}
             billDescription={bill.description}
 
-            link={bill.linkLIVE}
+            linkLIVE={bill.linkLIVE}
             billSummarySimple={bill.billSummarySimple}
             billSummaryMedium={bill.billSummaryMedium}
             billSummaryComplex={bill.billSummaryComplex}
@@ -32,6 +33,5 @@ export default function DetailsInfo(){
 
             numReactions={bill.numReactions}
         />
-        // TODO: Interaction data should be synced with bill component or backend.
     )
  }

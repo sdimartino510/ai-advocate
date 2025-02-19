@@ -364,7 +364,8 @@ const styles = StyleSheet.create({
   slider: {
     width: 156,
     height: 40,
-    marginLeft: 125,
+  marginLeft: 'auto',
+  marginRight: -20,
   },
   helpButton: {
     flexDirection: 'row',

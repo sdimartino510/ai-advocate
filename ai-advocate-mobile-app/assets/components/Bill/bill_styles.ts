@@ -60,27 +60,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 17.07,
     },
-    engagementContainer: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-    },
-    engagementPairWrapper: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-    },
-    engagementValues: {
-        fontFamily: 'Montserrat_400Regular',
-        fontSize: 17,
-        lineHeight: 19,
-        color: globalStyles.colors.grey,
-    },
-    leftEngagements: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        gap: 8,
-    },
     topicDefinitionWrapper: {
         position: 'absolute',
         zIndex: 1,
@@ -99,28 +78,6 @@ const styles = StyleSheet.create({
         lineHeight: 12,
         color: globalStyles.colors.black,
     },
-    shadedBookmark: {
-        position: 'absolute',
-        zIndex: 1,
-        top: 2.5,
-        left: 3,
-    },
-    reactionsButton: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingLeft: 2,  // Shifts the smiley face to the right to look more centered
-        height: 24,
-        width: 24,
-    },
-    reactionStatsBase: {
-        position: "absolute",
-        top: 24,
-        zIndex: 1,
-    },
-    emoji: {
-        fontSize: 17,
-    }
 })
 
 export default styles

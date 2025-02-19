@@ -1,15 +1,11 @@
 import React, {useState} from "react"
 import { View, Text, TouchableOpacity } from "react-native"
 import {useRouter } from "expo-router"
-import AntDesign from '@expo/vector-icons/AntDesign'
-import Feather from '@expo/vector-icons/Feather'
-import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import { Status } from "@/assets/types"
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge"
-import ReactionsBar from "@/assets/components/ReactionsBar/ReactionsBar"
-import ReactionStats from "@/assets/components/ReactionStats/ReactionStats"
 import globalStyles from "@/assets/global_styles"
 import styles from "@/assets/components/Bill/bill_styles"
+import EngagementToolbar from "../EngagementToolbar/EngagementToolbar"
 
 type BillProps = {
     title: string,
@@ -27,51 +23,15 @@ type BillProps = {
 function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
     const [upvotes, setUpvotes] = useState<number>(numUpvotes)
     const [downvotes, setDownvotes] = useState<number>(numDownvotes)
-    
-    // TODO: Get the existing status of whether or not user upvoted or downvoted.
     const [isUpvoted, setIsUpvoted] = useState<boolean>(false)
     const [isDownvoted, setIsDownvoted] = useState<boolean>(false)
-
     const [isSaved, setIsSaved] = useState<boolean>(saved)
-
-    const router = useRouter();
-
-    const handleUpvote = () => {
-        // undo upvote
-        if (isUpvoted) {
-            setUpvotes(upvotes - 1)
-            setIsUpvoted(false)
-        }
-        // undo downvote, then upvote
-        else{
-            if (isDownvoted) {
-                setDownvotes(downvotes - 1)
-                setIsDownvoted(false)
-            }
-            setUpvotes(upvotes + 1)
-            setIsUpvoted(true)
-        }
-    }
-
-    const handleDownvote = () => {
-        // undo downvote
-        if (isDownvoted) {
-            setDownvotes(downvotes - 1)
-            setIsDownvoted(false)
-        }
-        // undo upvote, then downvote
-        else{
-            if (isUpvoted) {
-                setUpvotes(upvotes - 1)
-                setIsUpvoted(false)
-            }
-            setDownvotes(downvotes + 1)
-            setIsDownvoted(true)
-        }
-    }
 
     const [topicSelected, setTopicSelected] = useState<String | null>(null)
     const [topicDefinition, setTopicDefinition] = useState<String | null>(null)
+
+    const router = useRouter();
+
     const onTopicPress = (topic: string) => {
         // hide definition if any topic is already selected
         if (topicSelected){
@@ -81,7 +41,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         }
         
         // TODO: Expand topics definition list. Refer to client.
-
+        
         // show definition for selected topic (case insensitive)
         // use local variable because topicDefinition may be stale for later if-else statement
         let definition : String | null = ''
@@ -89,10 +49,10 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
             case 'trafficking':
                 definition = 'Transporting of or transacting in illegal goods or people'
                 break
-            case 'rights':
-                definition = 'Legal, social, or ethical principles of freedom or entitlement.'
-                break
-            default:
+                case 'rights':
+                    definition = 'Legal, social, or ethical principles of freedom or entitlement.'
+                    break
+                    default:
                 definition = null
         }
 
@@ -106,7 +66,6 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
         }
     }
 
-    const [showReactionsBar, setShowReactionsBar] = useState<boolean>(false)
     const [selectedReaction, setSelectedReaction] = useState<number>(-1) // Default reaction id == 0. TODO: Initialize with user's reaction.
 
     // TODO: Sync with backend. This is sample reaction data (taken and modified from Settings page).
@@ -119,10 +78,9 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
     ])
     const [totalReactions, setTotalReactions] = useState<number>(numReactions) // TODO: Sync with backend.
 
-    const [showReactionStats, setShowReactionStats] = useState<boolean>(false)
-
     return (
         <View style={styles.billContainer}>
+            {/** TODO: Sync Details page with Bill component. */}
             <TouchableOpacity onPress={() => router.push('details')}>
             <Text style={styles.title}>{title}</Text>
 
@@ -153,81 +111,26 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                 ))}
             </View>
 
-            <View style={styles.engagementContainer}>
-                <View style={styles.leftEngagements}>
-                    <View style={styles.engagementPairWrapper}>
-                        <AntDesign
-                            name="arrowup"
-                            size={24}
-                            color={isUpvoted ? globalStyles.colors.black : globalStyles.colors.grey}
-                            onPress={handleUpvote}
-                        />
-                        <Text style={styles.engagementValues}>{upvotes}</Text>
-                    </View>
+            <EngagementToolbar 
+                upvotes={upvotes}
+                setUpvotes={setUpvotes}
+                downvotes={downvotes}
+                setDownvotes={setDownvotes}
+                isUpvoted={isUpvoted}
+                setIsUpvoted={setIsUpvoted}
+                isDownvoted={isDownvoted}
+                setIsDownvoted={setIsDownvoted}
+                isSaved={isSaved}
+                setIsSaved={setIsSaved}
 
-                    <View style={styles.engagementPairWrapper}>
-                        <AntDesign
-                            name="arrowdown"
-                            size={24}
-                            color={isDownvoted ? globalStyles.colors.black : globalStyles.colors.grey}
-                            onPress={handleDownvote}
-                        />
-                        <Text style={styles.engagementValues}>{downvotes}</Text>
-                    </View>
+                reactions={reactions}
+                setReactions={setReactions}
+                selectedReaction={selectedReaction}
+                setSelectedReaction={setSelectedReaction}
+                totalReactions={totalReactions}
+                setTotalReactions={setTotalReactions}
+            />
 
-                    <View style={styles.reactionsButton}>
-                        <TouchableOpacity
-                            onPress={() => setShowReactionsBar(!showReactionsBar)}
-                        >
-                            <Text style={styles.emoji}>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
-                        </TouchableOpacity>
-                        {showReactionsBar &&
-                            <ReactionsBar
-                                reactions={reactions}
-                                setReactions={setReactions}
-                                selectedReaction={selectedReaction}
-                                setSelectedReaction={setSelectedReaction}
-                                setShowReactionsBar={setShowReactionsBar}
-                                totalReactions={totalReactions}
-                                setTotalReactions={setTotalReactions}
-                            />
-                        }
-                    </View>
-
-                    <TouchableOpacity
-                        style={styles.engagementPairWrapper}
-                        onPress={() => setShowReactionStats(!showReactionStats)}
-                    >
-                        <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
-                        <Text style={styles.engagementValues}>{totalReactions}</Text>
-                        {showReactionStats && 
-                            <View style={styles.reactionStatsBase}>
-                                <ReactionStats totalReactions={totalReactions} reactions={reactions} />
-                            </View>
-                        }
-                    </TouchableOpacity>
-
-                    <Feather name="share-2" size={24} color={globalStyles.colors.grey} />
-                </View>
-                
-                <View>
-                    <MaterialIcons
-                        name="bookmark-outline"
-                        size={24}
-                        color={globalStyles.colors.grey}
-                        onPress={() => setIsSaved(!isSaved)}
-                    />
-                    {isSaved &&
-                        <MaterialIcons
-                            name="bookmark"
-                            size={18}
-                            style={styles.shadedBookmark}
-                            color={globalStyles.colors.yellow}
-                            onPress={() => setIsSaved(!isSaved)}
-                        />
-                    }
-                </View>
-            </View>
             </TouchableOpacity>
         </View>
     )

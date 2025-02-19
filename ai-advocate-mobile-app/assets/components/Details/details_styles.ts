@@ -175,11 +175,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 4,
     },
-    status: {
-        paddingTop: 3,
-        color: globalStyles.colors.black,
-        fontWeight: "bold",
-    },
     bookmarkOutline: {
         position: "absolute",
         left: 3,
@@ -298,10 +293,11 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     status: {
-        paddingVerticle: 3,
+        paddingVertical: 3,
         paddingHorizontal: 16,
         borderRadius: 9,
         fontWeight: "bold",
+        color: globalStyles.colors.black,
     },
     statusDefinitionWrapper:{
         position: 'absolute',

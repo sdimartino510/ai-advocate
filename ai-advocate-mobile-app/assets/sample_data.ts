@@ -22,7 +22,7 @@ const sample_data = [
         status: "Enrolled",
         description: "A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do.",
         topics: ["topic1", "topic2"],
-        numReactions: 0,
+        numReactions: 1,
     },
     {
         title: "BILL TITLE [PASSED]",
@@ -30,7 +30,7 @@ const sample_data = [
         status: "Passed",
         description: "A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do.",
         topics: ["topic1", "topic2"],
-        numReactions: 0,
+        numReactions: 2,
     },
     {
         title: "BILL TITLE [VETOED]",
@@ -38,7 +38,7 @@ const sample_data = [
         status: "Vetoed",
         description: "A short summary of the bill and what it touches upon. A plain language summary of what the bill aims to do.",
         topics: ["topic1", "topic2"],
-        numReactions: 0,
+        numReactions: 3,
     },
 ]
 

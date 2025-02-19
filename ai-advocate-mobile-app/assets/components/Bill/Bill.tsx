@@ -15,12 +15,12 @@ type BillProps = {
     topics: string[],
     numUpvotes?: number,
     numDownvotes?: number,
-    numReactions?: number,
+    numReactions: number,
     saved?: boolean,
     reactionID?: number, // TODO: Initialize with user's reaction.
 }
 
-function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
+function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions, saved=false}:BillProps) {
     const [upvotes, setUpvotes] = useState<number>(numUpvotes)
     const [downvotes, setDownvotes] = useState<number>(numDownvotes)
     const [isUpvoted, setIsUpvoted] = useState<boolean>(false)
@@ -81,7 +81,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
     return (
         <View style={styles.billContainer}>
             {/** TODO: Sync Details page with Bill component. */}
-            <TouchableOpacity onPress={() => router.push('details')}>
+            <TouchableOpacity onPress={() => router.push('/details')}>
             <Text style={styles.title}>{title}</Text>
 
             <View style={styles.IDStatusContainer}>

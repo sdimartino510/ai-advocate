@@ -7,6 +7,7 @@ import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Status } from "@/assets/types";
+import ShareButton from "@/assets/components/ShareButton/ShareButton";
 import Slider from "@react-native-community/slider";
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge";
 import EngagementToolbar from "../EngagementToolbar/EngagementToolbar";
@@ -84,26 +85,6 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
             marginBottom: 5,
             justifyContent: "center",
             alignItems: "center",
-        }
-    };
-
-    const handleShare = async () => {
-        try {
-            const result = await Share.share({
-                message: `BILL TITLE. Summary of bill- download AI advocate`,
-            });
-
-            if (result.action === Share.sharedAction) {
-                if(result.activityType){
-                    console.log(`Shared with activity: ${result.activityType}`);
-                } else {
-                    console.log('Shared successfully!');
-                }
-            } else if (result.action == Share.dismissedAction){
-                console.log('Share dialog dismissed');
-            }
-        } catch (error){
-            Alert.alert('Error', `Failed to share: ${error.message}`);
         }
     };
 
@@ -209,13 +190,11 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                             <Icon name="file-pdf-o" size={20} color={globalStyles.colors.black} />
                         </View>
                     </TouchableOpacity>
+                    
+                    <View style={getCircleStyle({ circleName: "circle4" })}>
+                        <ShareButton />
+                    </View>
 
-                    <TouchableOpacity onPress={handleShare}>
-                        {/*share circle*/}
-                        <View style={getCircleStyle({ circleName: "circle4" })}>
-                            <Feather name="share-2" size={24} color={globalStyles.colors.grey} />
-                        </View>
-                    </TouchableOpacity>
                 </View>
 
                 {/*summary in description box*/}
@@ -338,7 +317,6 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                     totalReactions={totalReactions}
                     setTotalReactions={setTotalReactions}
 
-                    showReactionStatsButton={false}
                     showShareButton={false}
                     showSavedButton={false}
                 />

@@ -5,6 +5,7 @@ import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import globalStyles from "@/assets/global_styles"
 import styles from "@/assets/components/EngagementToolbar/engagement_toolbar_styles"
+import ShareButton from "@/assets/components/ShareButton/ShareButton"
 import ReactionsBar from "@/assets/components/ReactionsBar/ReactionsBar"
 import ReactionStats from "@/assets/components/ReactionStats/ReactionStats"
 
@@ -151,7 +152,7 @@ function EngagementToolbar(
                     </TouchableOpacity>
                 }
 
-                {showShareButton && <Feather name="share-2" size={24} color={globalStyles.colors.grey} />}
+                {showShareButton && <ShareButton />}
             </View>
             
 

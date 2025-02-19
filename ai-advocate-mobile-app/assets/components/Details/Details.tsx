@@ -8,9 +8,12 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Slider from "@react-native-community/slider";
 import { Status } from "@/assets/types";
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge";
-import globalStyles from '../../global_styles';
+import ReactionsBar from "@/assets/components/ReactionsBar/ReactionsBar";
+import ReactionStats from "@/assets/components/ReactionStats/ReactionStats";
+import globalStyles from '@/assets/global_styles';
 import styles from "./details_styles";
 
+// TODO: Combine with bill component type and move to types.ts
 type BillInfo = {
     billTitle: string,
     billId: string,
@@ -25,67 +28,6 @@ type BillInfo = {
     numDownvotes?: number,
     numReactions?: number,
     saved?: boolean,
-}
-
-function ReactionBar(
-    {reactions, setReactions, selectedReaction, setSelectedReaction, setShowReactionsBar, totalReactions, setTotalReactions} :
-    {
-        reactions : Array<{id: number, emoji: string, numReactions: number}>
-        setReactions : React.Dispatch<React.SetStateAction<Array<{id: number, emoji: string, numReactions: number}>>>
-        selectedReaction : number
-        setSelectedReaction : React.Dispatch<React.SetStateAction<number>>
-        setShowReactionsBar : React.Dispatch<React.SetStateAction<boolean>>
-        totalReactions : number
-        setTotalReactions: React.Dispatch<React.SetStateAction<number>>
-    }
-) {
-    const handleReactionPress = (index: number) => {
-        if (selectedReaction !== -1){
-            const updatedReactions = reactions
-            updatedReactions[selectedReaction].numReactions -= 1
-            setReactions(updatedReactions)
-            setTotalReactions(totalReactions => totalReactions -1)
-        }
-
-        if(selectedReaction === index){
-            setSelectedReaction(-1)
-        }
-
-        else {
-            setSelectedReaction(index)
-            const updatedReactions = reactions
-            updatedReactions[index].numReactions += 1
-            setReactions(updatedReactions)
-            setTotalReactions(totalReactions => totalReactions + 1)
-        }
-        setShowReactionsBar(false)
-    }
-    return (
-        <View style={styles.reactionsContainer}>
-        {reactions.map((reaction, index) => (
-            <View key={index}>
-                <TouchableOpacity onPress={() => {handleReactionPress(index)}}>
-                    <Text style={styles.emoji}>{reaction.emoji}</Text>
-                </TouchableOpacity>
-            </View>
-        ))}
-        </View>
-    )
-}
-
-function ReactionStats({totalReactions, reactions} : {totalReactions: number, reactions: Array<{id: number, emoji: string, numReactions: number}>}){
-    return(
-        <View style={styles.reactionStatsContainer}>
-            <View style={styles.reactionStatsPairWrapper}>
-                <Text style={styles.reactionStatsText}>All {totalReactions}</Text>
-            </View>
-            {reactions.map((reaction, index) =>
-                <View style={styles.reactionStatsPairWrapper} key={index}>
-                    <Text style={styles.reactionStatsText}>{reaction.emoji} {reaction.numReactions}</Text>
-                </View>
-            )}
-        </View>
-    )
 }
 
 export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
@@ -408,7 +350,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                         <Text style={styles.emoji}>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
                     </TouchableOpacity>
                     {showReactionsBar &&
-                        <ReactionBar
+                        <ReactionsBar
                             reactions={reactions}
                             setReactions={setReactions}
                             selectedReaction={selectedReaction}

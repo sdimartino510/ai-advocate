@@ -6,6 +6,8 @@ import Feather from '@expo/vector-icons/Feather'
 import MaterialIcons from "@expo/vector-icons/MaterialIcons"
 import { Status } from "@/assets/types"
 import StatusBadge from "@/assets/components/StatusBadge/StatusBadge"
+import ReactionsBar from "@/assets/components/ReactionsBar/ReactionsBar"
+import ReactionStats from "@/assets/components/ReactionStats/ReactionStats"
 import globalStyles from "@/assets/global_styles"
 import styles from "@/assets/components/Bill/bill_styles"
 
@@ -20,77 +22,6 @@ type BillProps = {
     numReactions?: number,
     saved?: boolean,
     reactionID?: number, // TODO: Initialize with user's reaction.
-}
-
-function ReactionBar(
-    {reactions, setReactions, selectedReaction, setSelectedReaction, setShowReactionsBar, totalReactions, setTotalReactions} : 
-    {
-        reactions : Array<{id: number, emoji: string, numReactions: number}>
-        setReactions : React.Dispatch<React.SetStateAction<Array<{id: number, emoji: string, numReactions: number}>>>
-        selectedReaction : number
-        setSelectedReaction : React.Dispatch<React.SetStateAction<number>> 
-        setShowReactionsBar : React.Dispatch<React.SetStateAction<boolean>> 
-        totalReactions : number
-        setTotalReactions: React.Dispatch<React.SetStateAction<number>>  // Use SetStateAction<number> to type this correctly
-    }
-) {
-
-    const handleReactionPress = (index: number) => {
-        // Remove current selected reaction.
-        if (selectedReaction !== -1){
-            const updatedReactions = reactions
-            updatedReactions[selectedReaction].numReactions -= 1 // decrement unselected reaction's count
-            setReactions(updatedReactions)
-            setTotalReactions(totalReactions => totalReactions - 1)
-        }
-        // Reset to default reaction if pressed on already selected reaction.
-        if (selectedReaction === index){
-            setSelectedReaction(-1)
-        }
-        // Select new reaction if pressed on different reaction.
-        else {
-            setSelectedReaction(index)
-            const updatedReactions = reactions
-            updatedReactions[index].numReactions += 1
-            setReactions(updatedReactions)
-            setTotalReactions(totalReactions => totalReactions + 1)
-        }
-
-        // Close reaction bar after updating a reaction
-        setShowReactionsBar(false)
-    }
-
-    return (
-        <View style={styles.reactionsContainer}>
-            {reactions.map((reaction, index) => (
-                <View key={index}>
-                    <TouchableOpacity
-                        onPress = {() => {handleReactionPress(index)}}
-                    >
-                        <Text style={styles.emoji}>{reaction.emoji}</Text>
-                    </TouchableOpacity>
-                </View>
-            ))}
-        </View>
-    )
-}
-
-function ReactionStats({totalReactions, reactions} : {totalReactions: number, reactions: Array<{id: number, emoji: string, numReactions: number}>}) {
-    return(
-        <View style={styles.reactionStatsContainer}>
-            <View style={styles.reactionStatsPairWrapper}>
-                <Text style={styles.reactionStatsText}>All {totalReactions}</Text>
-            </View>
-            {reactions.map((reaction, index) => 
-                <View
-                    style={styles.reactionStatsPairWrapper}
-                    key={index}
-                >
-                    <Text style={styles.reactionStatsText}>{reaction.emoji} {reaction.numReactions}</Text>
-                </View>
-            )}
-        </View>
-    )
 }
 
 function Bill({title, id, status, description, topics, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillProps) {
@@ -251,7 +182,7 @@ function Bill({title, id, status, description, topics, numUpvotes=0, numDownvote
                             <Text style={styles.emoji}>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
                         </TouchableOpacity>
                         {showReactionsBar &&
-                            <ReactionBar
+                            <ReactionsBar
                                 reactions={reactions}
                                 setReactions={setReactions}
                                 selectedReaction={selectedReaction}

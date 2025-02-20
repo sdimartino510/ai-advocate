@@ -142,6 +142,22 @@ export default function TabLayout() {
       <Tabs.Screen name="details"
         options={{
             href: null,
+            headerTitle: () => (
+              <View style={{
+                flex: 1,
+                width: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                  <Text style={{ fontFamily: 'Montserrat_700Bold', fontSize: 20 }}>AI</Text>
+                  <Text style={{ fontFamily: 'Montserrat_400Regular', fontSize: 20 }}> advocate</Text>
+                </View>
+              </View>
+            ),
         }}
       />
     </Tabs>

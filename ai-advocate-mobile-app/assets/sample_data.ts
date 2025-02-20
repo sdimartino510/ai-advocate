@@ -4,7 +4,7 @@ const sample_data = [
         title: "HUMAN TRAFFICKING: VICTIM RIGHTS",
         id: "CA SB376",
         status: "Introduced",
-        description: "This bill gives trafficking survivors the right to have a support person and an advocate with them during interviews with police or lawyers.",
+        description: "This measure ensures trafficking survivors the right to a designated support person and a credentialed victim advocate during investigations and legal proceedings, safeguarding against retraumatization and promoting trauma-informed, survivor-centric justice.",
         topics: ["trafficking", "advocates", "rights"],
         numReactions: 143,
         

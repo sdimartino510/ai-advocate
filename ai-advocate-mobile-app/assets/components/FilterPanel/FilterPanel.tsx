@@ -1,7 +1,7 @@
-import React from 'react'
-import { View, Text, TouchableOpacity, Image } from 'react-native'
-import { Topic } from '@/assets/types'
-import styles from '@/assets/components/FilterPanel/FilterPanel_styles'
+import React from "react"
+import { View, Text, TouchableOpacity, Image } from "react-native"
+import { Topic } from "@/assets/types"
+import styles from "@/assets/components/FilterPanel/filter_panel_styles"
 
 export default function FilterPanel({selectedTopics, setSelectedTopics, setShowFilterPanel} : {selectedTopics: Set<Topic>, setSelectedTopics : Function, setShowFilterPanel : Function}){
   const topics : Array<Topic> = ["Violence", "Education", "Housing", "Protection", "Victim", "Gun Control", "Support", "Gender", "Harrassment"]

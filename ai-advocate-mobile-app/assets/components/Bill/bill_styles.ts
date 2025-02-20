@@ -1,11 +1,14 @@
-import {StyleSheet} from 'react-native'
-import globalStyles from '../../global_styles'
+import {StyleSheet} from "react-native"
+import globalStyles from "@/assets/global_styles"
 
 const styles = StyleSheet.create({
     billContainer: {
         alignItems: 'flex-start',
 
+        position: "relative",
         margin: 16,
+        marginBottom: 24,
+        marginTop: 0,
         padding: 16,
         borderWidth: 1,
         borderRadius: 8,
@@ -34,35 +37,6 @@ const styles = StyleSheet.create({
         lineHeight: 19.5,
         color: globalStyles.colors.black,
     },
-    status: {
-        paddingVertical: 3,
-        paddingHorizontal: 16,
-        borderRadius: 9,
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',  // #00000040
-
-        fontFamily: 'Montserrat_700Bold',
-        fontSize: 12,
-        lineHeight: 15,
-        color: globalStyles.colors.black,
-    },
-    statusDefinitionWrapper: {
-        position: 'absolute',
-        zIndex: 1,
-        top: 32,
-        padding: 4,
-        width: '175%',      // TODO: Fix the size to half the screen width, not dependent on status text width.
-
-        borderWidth: 1,
-        borderRadius: 7,
-        borderColor: globalStyles.colors.lightGrey,
-        backgroundColor: globalStyles.colors.white,
-    },
-    statusDefinition: {
-        fontFamily: 'Montserrat_400Regular',
-        fontSize: 8,
-        lineHeight: 12,
-        color: globalStyles.colors.black,
-    },
     description: {
         paddingBottom: 12,
 
@@ -87,30 +61,9 @@ const styles = StyleSheet.create({
         fontSize: 14,
         lineHeight: 17.07,
     },
-    engagementContainer: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-    },
-    engagementPairWrapper: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-    },
-    engagementValues: {
-        fontFamily: 'Montserrat_400Regular',
-        fontSize: 17,
-        lineHeight: 19,
-        color: globalStyles.colors.grey,
-    },
-    leftEngagements: {
-        flexDirection: 'row',
-        alignItems: 'flex-end',
-        gap: 8,
-    },
     topicDefinitionWrapper: {
         position: 'absolute',
-        zIndex: 1,
+        zIndex: 2,
         top: 16,
         padding: 4,
         width: 100,      // TODO: Make width responsive but not dependent on topic text width.
@@ -120,76 +73,11 @@ const styles = StyleSheet.create({
         borderColor: globalStyles.colors.lightGrey,
         backgroundColor: globalStyles.colors.white,
     },
-    topicDefinition: {
+    topicDefinitionText: {
         fontFamily: 'Montserrat_400Regular',
-        fontSize: 8,
+        fontSize: 10,
         lineHeight: 12,
         color: globalStyles.colors.black,
-    },
-    shadedBookmark: {
-        position: 'absolute',
-        zIndex: 1,
-        top: 2.5,
-        left: 3,
-    },
-    reactionsButton: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        paddingLeft: 2,  // Shifts the smiley face to the right to look more centered
-        height: 24,
-        width: 24,
-    },
-    reactionsContainer: {
-        position: "absolute",
-        left: 30,  // Size of one emoji or interaction Expo icon + 6px gap from smiley face
-        zIndex: 1,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        gap: 4,
-
-        paddingHorizontal: 4,
-        paddingVertical: 8,
-        borderRadius: 12,
-        backgroundColor: globalStyles.colors.blue2,
-    },
-    reactionStatsBase: {
-        position: "absolute",
-        top: 24,
-        zIndex: 1,
-    },
-    reactionStatsContainer:{
-        flexDirection: "row",
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        gap: 8,
-        
-        width: 156, // 2*(stats width) + 2*(container padding) + container's gap = 2 * 64 + 2 * 10 + 8  = 156
-        height: 132, // 3*(stats height) + 2*(container padding) + 2*(container's gap) = 3 * 32 + 2 * 10 + 2 * 8 = 132
-        padding: 10,
-        borderRadius: 7,
-        backgroundColor: globalStyles.colors.lightBlue,
-    },
-    reactionStatsPairWrapper: {
-        justifyContent: "center",
-        width: 64,
-        height: 32,
-        paddingHorizontal: 4,
-
-        borderRadius: 9,
-        backgroundColor: globalStyles.colors.blue2,
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',  // #00000040
-    },
-    reactionStatsText: {
-        fontFamily: 'Montserrat_400Regular',
-        fontSize: 17,
-        color: globalStyles.colors.grey,
-    },
-    emoji: {
-        fontSize: 17,
     },
 })
 

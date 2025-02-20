@@ -1,15 +1,7 @@
-import { Text, View } from "react-native";
+import HomeAndSavedPage from "@/assets/HomeAndSavedPage"
 
 export default function Saved() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Saved Screen</Text>
-    </View>
-  );
+    <HomeAndSavedPage pageName={"Saved"}/>
+  )
 }

@@ -1,148 +1,48 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity, Dimensions, ScrollView, Modal, TouchableWithoutFeedback, Share, Linking} from "react-native";
+import { Text, View, Image, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback, Share, Linking} from "react-native";
 import { useState, useEffect } from 'react';
-import { useRouter, useSegments } from "expo-router";
+import { useRouter } from "expo-router";
 import Icon from "react-native-vector-icons/FontAwesome";
-import styles from "./details_styles"
-import AntDesign from '@expo/vector-icons/AntDesign'
+import AntDesign from '@expo/vector-icons/AntDesign';
+import Entypo from '@expo/vector-icons/Entypo';
 import Feather from '@expo/vector-icons/Feather'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import globalStyles from '../../global_styles'
-const { width, height} = Dimensions.get("window");
+import { BillInfo } from "@/assets/types";
+import ShareButton from "@/assets/components/ShareButton/ShareButton";
+import SaveButton from "@/assets/components/SaveButton/SaveButton";
 import Slider from "@react-native-community/slider";
+import StatusBadge from "@/assets/components/StatusBadge/StatusBadge";
+import EngagementToolbar from "../EngagementToolbar/EngagementToolbar";
+import globalStyles from '@/assets/global_styles';
+import styles from "./details_styles";
 
-type Status = 'Passed' | 'Engrossed' | 'Introduced' | 'Enrolled' | 'Vetoed'
-
-type BillInfo = {
-    billTitle: string,
-    billId: string,
-    billStatus: Status,
-    billSummary: string,
-    billSummaryMid: string,
-    billSummaryCom: string,
-    pro: string,
-    con: string,
-    link: string,
-    numUpvotes?: number,
-    numDownvotes?: number,
-    numReactions?: number,
-    saved?: boolean,
+type DetailsProps = BillInfo & {
+    linkLIVE: string,
+    billSummarySimple: string,
+    billSummaryMedium: string,
+    billSummaryComplex: string,
+    pros: string,
+    cons: string,
 }
 
-function StatusBadge({status}: {status: Status}) {
-    let color = globalStyles.colors.lightGreen
-    let statusDefinition = ''
-
-    if (status === 'Introduced') {
-        color = globalStyles.colors.pink
-        statusDefinition = 'A lawmaker (a senator or assembly member) has officially presented the bill to the legislature for consideration. This is the first step in the process of making it a law.'
-    } else if (status === 'Engrossed') {
-        color = globalStyles.colors.purple
-        statusDefinition = 'The bill has been updated to include any changes made during the review process. It is then prepared in its final form before moving to the next stage of approval.'
-    } else if (status === 'Enrolled') {
-        color = globalStyles.colors.orange
-        statusDefinition = 'The bill has been passed and will now be proofread for accuracy and then delivered to the Governor to be approved or vetoed.'
-    } else if (status === 'Passed') {
-        color = globalStyles.colors.lightGreen
-        statusDefinition = 'A majority of lawmakers in both the State Assembly and the State Senate have voted to approve the bill. The bill then becomes “enrolled” and is then sent to the Governor to be approved or vetoed.'
-    } else if(status === 'Vetoed'){
-        color = globalStyles.colors.lightRed
-        statusDefinition = 'The governor has rejected the bill and decided not to make it a law. However, lawmakers can try to override the veto with a two-thirds vote in both the State Assembly and the State Senate.'
-    }
-
-    const [showStatusDefinition, setShowStatusDefinition] = useState(false)
-    const onStatusPress = () => {
-        setShowStatusDefinition(!showStatusDefinition)
-    }
-
-    return (
-        <View>
-            <TouchableOpacity onPress={onStatusPress}>
-                <Text
-                    style={[styles.status, {backgroundColor: color}]}
-                >
-                    {status}
-                </Text>
-            </TouchableOpacity>
-
-            {showStatusDefinition &&
-                <View style={styles.statusDefinitionWrapper}>
-                    <Text style={styles.statusDefinition}>{statusDefinition}</Text>
-                </View>
-            }
-        </View>
-    )
-}
-
-function ReactionBar(
-    {reactions, setReactions, selectedReaction, setSelectedReaction, setShowReactionsBar, totalReactions, setTotalReactions} :
-    {
-        reactions : Array<{id: number, emoji: string, numReactions: number}>
-        setReactions : React.Dispatch<React.SetStateAction<Array<{id: number, emoji: string, numReactions: number}>>>
-        selectedReaction : number
-        setSelectedReaction : React.Dispatch<React.SetStateAction<number>>
-        setShowReactionsBar : React.Dispatch<React.SetStateAction<boolean>>
-        totalReactions : number
-        setTotalReactions: React.Dispatch<React.SetStateAction<number>>
-    }
-) {
-    const handleReactionPress = (index: number) => {
-        if (selectedReaction !== -1){
-            const updatedReactions = reactions
-            updatedReactions[selectedReaction].numReactions -= 1
-            setReactions(updatedReactions)
-            setTotalReactions(totalReactions => totalReactions -1)
-        }
-
-        if(selectedReaction === index){
-            setSelectedReaction(-1)
-        }
-
-        else {
-            setSelectedReaction(index)
-            const updatedReactions = reactions
-            updatedReactions[index].numReactions += 1
-            setReactions(updatedReactions)
-            setTotalReactions(totalReactions => totalReactions + 1)
-        }
-        setShowReactionsBar(false)
-    }
-    return (
-        <View style={styles.reactionsContainer}>
-        {reactions.map((reaction, index) => (
-            <View key={index}>
-                <TouchableOpacity onPress={() => {handleReactionPress(index)}}>
-                    <Text style={styles.emoji}>{reaction.emoji}</Text>
-                </TouchableOpacity>
-            </View>
-        ))}
-        </View>
-    )
-}
-
-function ReactionStats({totalReactions, reactions} : {totalReactions: number, reactions: Array<{id: number, emoji: string, numReactions: number}>}){
-    return(
-        <View style={styles.reactionStatsContainer}>
-            <View style={styles.reactionStatsPairWrapper}>
-                <Text style={styles.reactionStatsText}>All {totalReactions}</Text>
-            </View>
-            {reactions.map((reaction, index) =>
-                <View style={styles.reactionStatsPairWrapper} key={index}>
-                    <Text style={styles.reactionStatsText}>{reaction.emoji} {reaction.numReactions}</Text>
-                </View>
-            )}
-        </View>
-    )
-}
-
-export default function Details({billTitle, billId, billStatus, billSummary, billSummaryMid, billSummaryCom, pro, con, link, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:BillInfo) {
+export default function Details({billTitle, billId, billStatus, billDescription, billSummarySimple, billSummaryMedium, billSummaryComplex, pros, cons, linkLIVE, numUpvotes=0, numDownvotes=0, numReactions=0, saved=false}:DetailsProps) {
+    {/** For engagement toolbar: */}
     const [upvotes, setUpvotes] = useState(numUpvotes)
     const [downvotes, setDownvotes] = useState(numDownvotes)
-
     const [isUpvoted, setIsUpvoted] = useState(false)
     const [isDownvoted, setIsDownvoted] = useState(false)
+    const [isSaved, setIsSaved] = useState<boolean>(saved);
+    const[selectedReaction, setSelectedReaction] = useState<number>(-1)
+    const [reactions, setReactions] = useState<Array<{id: number, emoji: string, numReactions: number}>>([
+        { id: 0, emoji: '😊', numReactions: 96 },
+        { id: 1, emoji: '🥰', numReactions: 27 },
+        { id: 2, emoji: '😯', numReactions: 13 },
+        { id: 3, emoji: '😢', numReactions: 5 },
+        { id: 4, emoji: '😡', numReactions: 2 },
+    ])
+    const[totalReactions, setTotalReactions] = useState<number>(numReactions)
+
+
     const [modalVisible, setModalVisible] = useState(false);
     const [activeCircle, setActiveCircle] = useState('circle1');
-    const [isBookmarked, setIsBookmarked] = useState(saved);
 
     const [openDropdown, setOpenDropdown] = useState(null);
     const [viewMode, setViewMode] = useState('default');
@@ -151,27 +51,11 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
     const [simplificationLevel, setSimplificationLevel] = useState(0);
     const [showLive, setShowLive] = useState(false);
 
-    const[showReactionsBar, setShowReactionsBar] = useState<boolean>(false)
-    const[selectedReaction, setSelectedReaction] = useState<number>(-1)
-
-    const [reactions, setReactions] = useState<Array<{id: number, emoji: string, numReactions: number}>>([
-        { id: 0, emoji: '😊', numReactions: 96 },
-        { id: 1, emoji: '🥰', numReactions: 27 },
-        { id: 2, emoji: '😯', numReactions: 13 },
-        { id: 3, emoji: '😢', numReactions: 5 },
-        { id: 4, emoji: '😡', numReactions: 2 },
-    ])
-
-    const[totalReactions, setTotalReactions] = useState<number>(numReactions)
-    const [showReactionStats, setShowReactionStats] = useState<boolean>(false)
-
     const toggleDropdown = (id) => {
         setOpenDropdown(openDropdown === id ? null : id);
     };
 
-
     const router = useRouter();
-    const segments = useSegments();
 
     const handleCirclePress = ({circleName}:{circleName: React.SetStateAction<String>}) => {
         setActiveCircle(circleName);
@@ -196,132 +80,65 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
         }
     };
 
-    const handleUpvote = () => {
-        {/*undo upvote*/}
-        if (isUpvoted){
-            setUpvotes(upvotes -1)
-            setIsUpvoted(false)
-        }
-        else{
-            if (isDownvoted){
-                setDownvotes(downvotes -1)
-                setIsDownvoted(false)
-            }
-            setUpvotes(upvotes + 1)
-            setIsUpvoted(true)
-        }
-    }
-
-    const handleDownvote = () => {
-        if (isDownvoted){
-            setDownvotes(downvotes -1)
-            setIsDownvoted(false)
-        }
-        else{
-            if (isUpvoted){
-                setUpvotes(upvotes - 1)
-                setIsUpvoted(false)
-            }
-            setDownvotes(downvotes +1)
-            setIsDownvoted(true)
-        }
-    }
-
-
-    const handleShare = async () => {
-        try {
-            const result = await Share.share({
-                message: `BILL TITLE. Summary of bill- download AI advocate`,
-            });
-
-            if (result.action === Share.sharedAction) {
-                if(result.activityType){
-                    console.log(`Shared with activity: ${result.activityType}`);
-                } else {
-                    console.log('Shared successfully!');
-                }
-            } else if (result.action == Share.dismissedAction){
-                console.log('Share dialog dismissed');
-            }
-        } catch (error){
-            Alert.alert('Error', `Failed to share: ${error.message}`);
-        }
-    };
-
     useEffect(() => {
-        if (link) {
+        if (linkLIVE) {
             setShowLive(true);
         } else {
             setShowLive(false);
         }
-    }, [link]);
+    }, [linkLIVE]);
 
-  return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.backgroundImages}>
+    return (
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <View style={styles.backgroundImages}>
                 <Image source={require('../../images/Vector 3.png')} style={styles.vector3Image} />
                 <Image source={require('../../images/Rectangle 105.png')} style={styles.rectangle105Image} />
-        </View>
-        <View style={styles.container}>
-            {/*back button*/}
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-                    <Text style={styles.backButtonText}> &larr;</Text>
-                </TouchableOpacity>
             </View>
 
+            <TouchableOpacity onPress={() => router.back()} style={styles.backButtonWrapper}>
+                <Text style={styles.backButtonText}> &larr;</Text>
+            </TouchableOpacity>
+            
             {/*bill title & live button*/}
-            <View style={styles.titleContainer}>
-                 <Text style= {styles.title}> {billTitle}</Text>
+            <View style={styles.titleAndLiveContainer}>
+                <Text style= {styles.title}>{billTitle}</Text>
                     {showLive && (
-                        <TouchableOpacity onPress={() => {Linking.openURL(link).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
-                            <Text style={styles.liveButtonText}>Live</Text>
+                        <TouchableOpacity onPress={() => {Linking.openURL(linkLIVE).catch(err => console.error('An error occurred', err));}} style={styles.liveButton}>
+                            <Text style={styles.liveButtonText}>&bull; LIVE</Text>
                         </TouchableOpacity>
                     )}
             </View>
-
+            
             {/*bill ID*/}
-            <View style={styles.billIdAndStatus}>
-                <Text style= {styles.id}> Bill ID: {billId}</Text>
-                <View style={{width: '32%'}}>
-                 <StatusBadge status={billStatus}/>
-                </View>
+            <Text style= {styles.id}>Bill ID: {billId}</Text>
+
+            {/*status badge*/}
+            <View style={styles.statusBadgeContainer}>
+                <StatusBadge status={billStatus}/>
             </View>
 
             {/*description box*/}
             <View style={styles.roundedBox}>
                 {/*bookmark*/}
-                <View style={styles.bookmarkOutline}>
-                    <MaterialIcons
-                        name="bookmark-outline"
-                        size={24}
-                        color={"#7D7676"}
-                        onPress={() => setIsBookmarked(!isBookmarked)}
-                    />
-                    {isBookmarked &&
-                        <MaterialIcons
-                            name="bookmark"
-                            size={18}
-                            style={styles.shadedBookmark}
-                            color={"#FFAF37"}
-                            onPress={() => setIsBookmarked(!isBookmarked)}
-                        />
-                    }
+                <View style={styles.bookmarkWrapper}>
+                    <SaveButton isSaved={isSaved} setIsSaved={setIsSaved}/>
                 </View>
 
                 <View style={styles.circleContainer}>
                     <TouchableOpacity onPress={() =>  {handleCirclePress('circle1'); setViewMode("default");}}>
                         {/*description circle (on the right)*/}
-                      <View style={getCircleStyle({ circleName: "circle1" })}>
-                        <Icon name="align-left" size={20} color={globalStyles.colors.black}/>
-                      </View>
+                        <View style={getCircleStyle({ circleName: "circle1" })}>
+                            <Icon name="align-left" size={20} color={globalStyles.colors.black}/>
+                        </View>
                     </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => {handleCirclePress('circle2'); setModalVisible(true);}}>
                         {/*sponsor, history, and status bubble*/}
-                      <View style={getCircleStyle({ circleName: "circle2" })}>
-                        <Icon name="info" size={20} color={globalStyles.colors.black} />
-                      </View>
+                        <View style={getCircleStyle({ circleName: "circle2" })}>
+                            <Feather name="info" size={24} color={globalStyles.colors.black} />
+                        </View>
                     </TouchableOpacity>
+
                     <Modal animationType="fade" transparent={true} visible={modalVisible} onRequestClose={() => setModalVisible(false)}>
                         <TouchableWithoutFeedback onPress={() => {setModalVisible(false);}}>
                             <View style={styles.modalOverlay}>
@@ -336,7 +153,7 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                                         </TouchableOpacity>
                                         <View style={styles.divider}/>
                                         <TouchableOpacity onPress={()=> {setViewMode("status"); setModalVisible(false);}}>
-                                        <Text style= {styles.item}> Status</Text>
+                                            <Text style= {styles.item}> Status</Text>
                                         </TouchableOpacity>
                                         <View style={styles.divider}/>
                                     </View>
@@ -344,138 +161,145 @@ export default function Details({billTitle, billId, billStatus, billSummary, bil
                             </View>
                         </TouchableWithoutFeedback>
                     </Modal>
+
                     <TouchableOpacity onPress={() => handleCirclePress('circle3')}>
                         {/*pdf circle*/}
-                      <View style={getCircleStyle({ circleName: "circle3" })}>
-                        <Icon name="file-pdf-o" size={20} color={globalStyles.colors.black} />
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleShare}>
-                        {/*share circle*/}
-                      <View style={getCircleStyle({ circleName: "circle4" })}>
-                        <Icon name="share-alt" size={20} color={globalStyles.colors.black} />
-                      </View>
-                    </TouchableOpacity>
-                </View>
-                {/*summary in description box*/}
-                    <Text style={styles.boxText}>
-                        {viewMode === "default" ?
-                            (simplificationLevel === 0 ? billSummary:
-                            simplificationLevel === 1 ? billSummaryMid :
-                            simplificationLevel === 2 ? billSummaryCom : "")
-                         :
-                         viewMode === "sponsor" ? "Sponsor details go here." :
-                         viewMode === "history" ? "Bill history details go here." :
-                         viewMode === "status" ? "Current bill status details go here." : ""}
-                    </Text>
-                {/*simplify button*/}
-                {showButton && (
-                    <TouchableOpacity onPress={() => setIsSimplified(!isSimplified)} style={styles.simplifyButton}>
-                        <Text style={styles.simplifyButtonText}>{isSimplified? "Simplify" : "Simplify"}</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
-            {/*simplify slide bar*/}
-                            {isSimplified && (
-                                <View style={styles.simplifiedBar}>
-                                    <Slider
-                                        style={{width: 250, height: 40}}
-                                        minimumValue={0}
-                                        maximumValue={2}
-                                        step={1}
-                                        value={simplificationLevel}
-                                        onSlidingComplete={(value) => setSimplificationLevel(value)}
-                                        minimumTrackTintColor= {globalStyles.colors.blue1}
-                                        maximumTrackTintColor= {globalStyles.colors.blue1}
-                                        thumbTintColor={globalStyles.colors.blue1}
-                                    />
-                                    <View style={styles.sliderLabels}>
-                                        <Text style={simplificationLevel === 0 ? styles.activeLabel : styles.label}>Simple</Text>
-                                        <Text style={simplificationLevel === 1 ? styles.activeLabel : styles.label}>Medium</Text>
-                                        <Text style={simplificationLevel === 2 ? styles.activeLabel : styles.label}>Complex</Text>
-                                    </View>
-                                </View>
-                            )}
-        </View>
-            {/*expert thoughts on bottom*/}
-            <Text style= {styles.expertTitleText}>Expert's Thoughts </Text>
-            <View style={{width: "80%"}}>
-                <Text>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.
-                <TouchableOpacity style={{marginTop: 42}} onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
-                    <Text style={{color:globalStyles.colors.darkBlue}}> See who they are </Text>
-                </TouchableOpacity>
-                </Text>
-            </View>
-            {/*pro box*/}
-            <TouchableOpacity onPress={() => toggleDropdown("dropdown1")} style={styles.dropDown}>
-                <Text style={styles.dropDownHeaderText}>
-                    {openDropdown === "dropdown1" ? "Pros" : "Pros"}
-                </Text>
-            </TouchableOpacity>
-            {openDropdown === "dropdown1" && (
-                <View style={styles.dropdownContent}>
-                    <Text style={styles.infoText}> {pro} </Text>
-                </View>
-            )}
-            {/*con box*/}
-            <TouchableOpacity onPress={() => toggleDropdown("dropdown2")} style={styles.dropDown}>
-               <Text style={styles.dropDownHeaderText}>
-                  {openDropdown === "dropdown2" ? "Cons" : "Cons"}
-               </Text>
-            </TouchableOpacity>
-            {openDropdown === "dropdown2" && (
-               <View style={styles.dropdownContent}>
-                   <Text style={styles.infoText}> {con} </Text>
-               </View>
-            )}
-        <View style={styles.leftEngagements}>
-            <View style={styles.engagementPairWrapper}>
-                <AntDesign
-                    name="arrowup"
-                    size={24}
-                    color={isUpvoted? globalStyles.colors.black : globalStyles.colors.grey}
-                    onPress={handleUpvote}
-                />
-                <Text style={styles.engagementValues}>{upvotes}</Text>
-            </View>
-
-            <View style={styles.engagementPairWrapper}>
-                <AntDesign
-                    name="arrowdown"
-                    size={24}
-                    color={isDownvoted ? globalStyles.colors.black : globalStyles.colors.grey}
-                    onPress={handleDownvote}
-                />
-                <Text style={styles.engagementValues}>{downvotes}</Text>
-            </View>
-
-                <View style={styles.reactionsButton}>
-                    <TouchableOpacity onPress={() => setShowReactionsBar(!showReactionsBar)}>
-                        <Text style={styles.emoji}>{selectedReaction === -1 ? '🙂' : reactions[selectedReaction].emoji}</Text>
-                    </TouchableOpacity>
-                    {showReactionsBar &&
-                        <ReactionBar
-                            reactions={reactions}
-                            setReactions={setReactions}
-                            selectedReaction={selectedReaction}
-                            setSelectedReaction={setSelectedReaction}
-                            setShowReactionsBar={setShowReactionsBar}
-                            totalReactions={totalReactions}
-                            setTotalReactions={setTotalReactions}
-                        />}
-                </View>
-
-                <TouchableOpacity style={styles.engagementPairWrapper} onPress={()=> setShowReactionStats(!showReactionStats)}>
-                    <Feather name="bar-chart-2" size={24} color={globalStyles.colors.grey} />
-                    <Text style={styles.engagementValues}>{totalReactions}</Text>
-                    {showReactionStats &&
-                        <View style={styles.reactionStatsBase}>
-                            <ReactionStats totalReactions={totalReactions} reactions={reactions} />
+                        <View style={getCircleStyle({ circleName: "circle3" })}>
+                            <Icon name="file-pdf-o" size={20} color={globalStyles.colors.black} />
                         </View>
-                    }
-                </TouchableOpacity>
-        </View>
-    </ScrollView>
-  );
-}
+                    </TouchableOpacity>
+                    
+                    <View style={getCircleStyle({ circleName: "circle4" })}>
+                        <ShareButton />
+                    </View>
 
+                </View>
+
+                {/*summary in description box*/}
+                <Text style={styles.boxText}>
+                    {viewMode === "default" ? 
+                        (simplificationLevel === 0 ? billDescription:
+                        simplificationLevel === 1 ? billSummarySimple:
+                        simplificationLevel === 2 ? billSummaryMedium :
+                        simplificationLevel === 3 ? billSummaryComplex : "")
+                    :
+                    viewMode === "sponsor" ? "Sponsor details go here." :
+                    viewMode === "history" ? "Bill history details go here." :
+                    viewMode === "status" ? "Current bill status details go here." : ""}
+                </Text>
+
+                {/*simplify button*/}
+                <TouchableOpacity onPress={() => {setIsSimplified(!isSimplified); setSimplificationLevel(0);}} style={styles.simplifyButton}>
+                    <Text style={styles.simplifyButtonText}>{isSimplified? "See Original" : "Simplify"}</Text>
+                    <Entypo name="chevron-right" size={20} color={globalStyles.colors.darkBlue} />
+                </TouchableOpacity>
+            </View>
+
+            {/*simplify slide bar*/}
+            {isSimplified && (
+                <View style={styles.simplifiedBar}>
+                    <Slider
+                        style={{width: 275, height: 40}}
+                        minimumValue={1}
+                        maximumValue={3}
+                        step={1}
+                        value={simplificationLevel}
+                        onSlidingComplete={(value) => setSimplificationLevel(value)}
+                        minimumTrackTintColor= {globalStyles.colors.blue1}
+                        maximumTrackTintColor= {globalStyles.colors.blue1}
+                        thumbTintColor={globalStyles.colors.blue1}
+                    />
+                    <View style={styles.sliderLabels}>
+                        <Text style={simplificationLevel === 1 ? styles.activeLabel : styles.label}>Simple</Text>
+                        <Text style={simplificationLevel === 2 ? styles.activeLabel : styles.label}>Medium</Text>
+                        <Text style={simplificationLevel === 3 ? styles.activeLabel : styles.label}>Complex</Text>
+                    </View>
+                </View>
+            )}
+                    
+            {/*expert thoughts on bottom*/}
+            <View style={styles.expertThoughtsTitleWrapper}>
+                <Text style= {styles.expertTitle}>Expert's Thoughts </Text>
+                <AntDesign name="Safety" size={24} color="black" />
+            </View>
+
+            {/*TODO: Align linked text with unlinked text. */}
+            <View style={{width: "95%"}}>
+                <Text style={styles.expertDescription}>This bill has been reviewed by our panel of experts. Below are their thoughts, based on lived experience.</Text>
+                <TouchableOpacity onPress={() => router.push({pathname: "../../../lnf", params: {activeButton: 'AI Advocate'}})}>
+                    <Text style={[styles.expertDescription, {color:globalStyles.colors.darkBlue}]}>See who they are.</Text>
+                </TouchableOpacity>
+            </View>
+
+            {/*pro box*/}
+            <TouchableOpacity
+                onPress={() => toggleDropdown("dropdown1")}
+                style={[
+                    styles.dropDownButton,
+                    openDropdown === "dropdown1" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+                ]}
+            >
+                <Text style={styles.dropDownButtonText}>Pros</Text>
+                {openDropdown === "dropdown1" ? 
+                    <Entypo name="chevron-thin-down" size={17} color={globalStyles.colors.black} />
+                    :
+                    <Entypo name="chevron-thin-right" size={17} color={globalStyles.colors.black} />
+                }
+            </TouchableOpacity>
+                
+            {openDropdown === "dropdown1" && (
+                <View style={styles.dropdownContentWrapper}>
+                    <Text style={styles.dropdownContentText}>{pros}</Text>
+                </View>
+            )}
+
+            {/*con box*/}
+            <TouchableOpacity
+                onPress={() => toggleDropdown("dropdown2")}
+                style={[
+                    styles.dropDownButton,
+                    openDropdown === "dropdown2" && {backgroundColor: globalStyles.colors.blue1, borderBottomLeftRadius: 0, borderBottomRightRadius: 0},
+                ]}
+            >
+                <Text style={styles.dropDownButtonText}>Cons</Text>
+                {openDropdown === "dropdown2" ? 
+                    <Entypo name="chevron-thin-down" size={17} color={globalStyles.colors.black} />
+                    :
+                    <Entypo name="chevron-thin-right" size={17} color={globalStyles.colors.black} />
+                }
+            </TouchableOpacity>
+
+            {openDropdown === "dropdown2" && (
+            <View style={styles.dropdownContentWrapper}>
+                <Text style={styles.dropdownContentText}>{cons}</Text>
+            </View>
+            )}
+            
+            {/*engagement toolbar*/}
+            <View style={{marginTop: 30}}>
+                <EngagementToolbar 
+                    upvotes={upvotes}
+                    setUpvotes={setUpvotes}
+                    downvotes={downvotes}
+                    setDownvotes={setDownvotes}
+                    isUpvoted={isUpvoted}
+                    setIsUpvoted={setIsUpvoted}
+                    isDownvoted={isDownvoted}
+                    setIsDownvoted={setIsDownvoted}
+                    isSaved={isSaved}
+                    setIsSaved={setIsSaved}
+
+                    reactions={reactions}
+                    setReactions={setReactions}
+                    selectedReaction={selectedReaction}
+                    setSelectedReaction={setSelectedReaction}
+                    totalReactions={totalReactions}
+                    setTotalReactions={setTotalReactions}
+
+                    showShareButton={false}
+                    showSavedButton={false}
+                />
+            </View>
+        </ScrollView>
+    );
+}

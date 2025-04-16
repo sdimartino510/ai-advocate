@@ -45,8 +45,8 @@ Before running the app, make sure you to follow these steps on your machine:
 1. **Clone the repository**:
 
     ```bash
-    git clone https://github.com/developforgood/love-never-fails.git
-    cd love-never-fails
+    git clone https://github.com/sdimartino510/ai-advocate
+    cd ai-advocate
     ```
 
 2. **Install Mise**
